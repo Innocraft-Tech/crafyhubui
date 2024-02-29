@@ -25,7 +25,7 @@ export default function Jobs() {
               <div className="sticky top-0 z-10">
               <div className="flex justify-between items-center border-b bg-stone-50">
                 <div className="topHeadings p-5">
-                  <h3 className="text-lg">Discover</h3>
+                  <h3 className="text-lg">Jobs</h3>
                 </div>
                 <div className="righ-nav flex items-center px-5">
                   <Button variant="ghost">

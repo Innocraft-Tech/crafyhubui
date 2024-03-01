@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button'
-import UserNav from '@/components/ui/usernav'
+import { Button } from '@/components/ui/button';
+import UserNav from '@/components/ui/usernav';
 import {
   Sheet,
   SheetClose,
@@ -9,9 +9,9 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@/components/ui/sheet'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+} from '@/components/ui/sheet';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 const filterList = [
   'All filters',
@@ -23,10 +23,10 @@ const filterList = [
   'Illustration',
   'UI/UX',
   'Web Design',
-]
-const Filter_Sheets = ['Filters', 'Location', 'Rate'] as const
+];
+const Filter_Sheets = ['Filters', 'Location', 'Rate'] as const;
 
-type FilterSheets = (typeof Filter_Sheets)[number]
+type FilterSheets = (typeof Filter_Sheets)[number];
 
 export const Filters = () => {
   return (
@@ -142,5 +142,5 @@ export const Filters = () => {
         </Sheet>
       ))}
     </div>
-  )
-}
+  );
+};

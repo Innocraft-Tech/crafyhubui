@@ -1,15 +1,15 @@
-import { Button } from '@/components/ui/button'
-import { Sidebar } from '@/components/ui/sidebar'
-import UserNav from '@/components/ui/usernav'
-import { playlists } from '@/data/playlists'
-import { Metadata } from 'next'
-import { Filters } from '../discover/components/filters'
-import { JobsCard } from './components/card'
+import { Button } from '@/components/ui/button';
+import { Sidebar } from '@/components/ui/sidebar';
+import UserNav from '@/components/ui/usernav';
+import { playlists } from '@/data/playlists';
+import { Metadata } from 'next';
+import { Filters } from '../discover/components/filters';
+import { JobsCard } from './components/card';
 
 export const metadata: Metadata = {
   title: 'Jobs',
   description: 'Example music app using the components.',
-}
+};
 
 export default function Jobs() {
   return (
@@ -65,5 +65,5 @@ export default function Jobs() {
         </div>
       </div>
     </div>
-  )
+  );
 }

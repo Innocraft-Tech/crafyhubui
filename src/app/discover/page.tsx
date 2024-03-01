@@ -1,10 +1,10 @@
-import { Metadata } from 'next'
-import Image from 'next/image'
+import { Metadata } from 'next';
+import Image from 'next/image';
 
-import { Sidebar } from '@/components/ui/sidebar'
-import { playlists } from '@/data/playlists'
-import { Button } from '@/components/ui/button'
-import UserNav from '@/components/ui/usernav'
+import { Sidebar } from '@/components/ui/sidebar';
+import { playlists } from '@/data/playlists';
+import { Button } from '@/components/ui/button';
+import UserNav from '@/components/ui/usernav';
 import {
   Sheet,
   SheetClose,
@@ -14,15 +14,15 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@/components/ui/sheet'
-import { Input } from '@/components/ui/input'
-import { Filters } from './components/filters'
-import { DiscoverCard } from './components/card'
+} from '@/components/ui/sheet';
+import { Input } from '@/components/ui/input';
+import { Filters } from './components/filters';
+import { DiscoverCard } from './components/card';
 
 export const metadata: Metadata = {
   title: 'Discover',
   description: 'Example music app using the components.',
-}
+};
 
 export default function Discover() {
   return (
@@ -80,5 +80,5 @@ export default function Discover() {
         </div>
       </div>
     </>
-  )
+  );
 }

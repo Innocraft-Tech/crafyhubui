@@ -1,15 +1,15 @@
-import * as React from 'react'
+import * as React from 'react';
 
-import { Card, CardContent } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card';
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from '@/components/ui/carousel'
-import Image from 'next/image'
-import { Human } from '@/assets'
+} from '@/components/ui/carousel';
+import Image from 'next/image';
+import { Human } from '@/assets';
 
 export function ProjectSlider() {
   return (
@@ -26,5 +26,5 @@ export function ProjectSlider() {
         </CarouselItem>
       </CarouselContent>
     </Carousel>
-  )
+  );
 }

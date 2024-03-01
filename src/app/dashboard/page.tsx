@@ -1,15 +1,15 @@
-import { Metadata } from 'next'
-import Image from 'next/image'
+import { Metadata } from 'next';
+import Image from 'next/image';
 
-import { Sidebar } from '@/components/ui/sidebar'
-import { playlists } from '@/data/playlists'
-import { Button } from '@/components/ui/button'
-import UserNav from '@/components/ui/usernav'
+import { Sidebar } from '@/components/ui/sidebar';
+import { playlists } from '@/data/playlists';
+import { Button } from '@/components/ui/button';
+import UserNav from '@/components/ui/usernav';
 
 export const metadata: Metadata = {
   title: 'Dashboard',
   description: 'Example music app using the components.',
-}
+};
 
 export default function Dashboard() {
   return (
@@ -64,5 +64,5 @@ export default function Dashboard() {
         </div>
       </div>
     </>
-  )
+  );
 }

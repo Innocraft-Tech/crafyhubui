@@ -1,5 +1,4 @@
-'use client';
-import React, { useEffect, useState } from 'react';
+import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -7,21 +6,9 @@ import { Label } from '@/components/ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-
 import { getAllJobs } from '@/app/api/auth/api-helper/index';
-export function JobsCard() {
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getAllJobs({});
-        console.log(response);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
 
-    fetchData();
-  }, []);
+export function JobsCard() {
   return (
     <div className="lg:grid px-5 py-1 discoverUsers">
       <div className="grid lg:grid-cols-3 sm:grid-cols-2 gap-3">

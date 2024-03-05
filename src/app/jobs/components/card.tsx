@@ -11,18 +11,18 @@ import { Separator } from "@/components/ui/separator";
 
 import { getAllJobs } from "@/app/api/auth/api-helper/index";
 export function JobsCard() {
-    useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const response = await getAllJobs({});
-            console.log(response);
-          } catch (error) {
-            console.error("Error fetching data:", error);
-          }
-        };
-      
-        fetchData();
-      }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getAllJobs({});
+        console.log(response);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
     <div className="lg:grid px-5 py-1 discoverUsers">
       <div className="grid lg:grid-cols-3 sm:grid-cols-2 gap-3">

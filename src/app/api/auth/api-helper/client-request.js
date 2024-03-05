@@ -1,4 +1,4 @@
-const { default: axios } = require("axios");
+const { default: axios } = require('axios');
 
 export const getClient = async (id) => {
   const client = await axios

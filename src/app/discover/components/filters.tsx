@@ -32,9 +32,9 @@ export const Filters = () => {
   return (
     <div className="crafy_filters px-5 py-5 bg-white">
       {Filter_Sheets.map((side,index) => (
-        <Sheet>
+        <Sheet key={index}>
           <SheetTrigger asChild>
-            <Button variant="outline" key={index} className="mx-2">
+            <Button variant="outline"  className="mx-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"

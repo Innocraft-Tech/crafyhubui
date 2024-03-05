@@ -31,10 +31,10 @@ type FilterSheets = (typeof Filter_Sheets)[number];
 export const Filters = () => {
   return (
     <div className="crafy_filters px-5 py-5 bg-white">
-      {Filter_Sheets.map((side) => (
+      {Filter_Sheets.map((side,index) => (
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="outline" className="mx-2">
+            <Button variant="outline" key={index} className="mx-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"

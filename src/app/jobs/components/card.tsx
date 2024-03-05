@@ -63,7 +63,7 @@ export function JobsCard() {
           <div className="project-description my-3">
             <span className="text-sm font-light">
               Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry&apos;s
+              industry. Lorem Ipsum has been the industrys
             </span>
           </div>
           <div className="shrink-0 bg-border h-[1px] w-full"></div>
@@ -118,7 +118,7 @@ export function JobsCard() {
           <div className="project-description my-3">
             <span className="text-sm font-light">
               Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry&apos;s
+              industry. Lorem Ipsum has been the industrys
             </span>
           </div>
           <div className="shrink-0 bg-border h-[1px] w-full"></div>
@@ -173,7 +173,7 @@ export function JobsCard() {
           <div className="project-description my-3">
             <span className="text-sm font-light">
               Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry&apos;s
+              industry. Lorem Ipsum has been the industrys
             </span>
           </div>
           <div className="shrink-0 bg-border h-[1px] w-full"></div>

@@ -58,8 +58,9 @@ export const Filters = () => {
                 <h4 className="text-md font-normal">Category (Select one)</h4>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                {filterList.map((item) => (
+                {filterList.map((item,index) => (
                   <Button
+                  key={index}
                     variant="outline"
                     className="mx-1 px-5 font-light rounded-xl"
                   >

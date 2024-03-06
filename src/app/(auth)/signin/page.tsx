@@ -4,6 +4,9 @@ import Link from 'next/link';
 
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import Signin from '@/components/forms/Signin';
 
 export const metadata: Metadata = {
   title: 'Authentication',
@@ -37,7 +40,7 @@ export default function AuthenticationPage() {
             'absolute right-4 top-4 md:right-8 md:top-8',
           )}
         >
-          Login
+          Sign Up
         </Link>
         <div className="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex dark:border-r">
           <div className="absolute inset-0 bg-zinc-900" />
@@ -77,6 +80,8 @@ export default function AuthenticationPage() {
                 Enter your email below to create your account
               </p>
             </div>
+
+            <Signin />
 
             <p className="px-8 text-center text-sm text-muted-foreground">
               By clicking continue, you agree to our{' '}

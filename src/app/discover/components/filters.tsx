@@ -31,10 +31,10 @@ type FilterSheets = (typeof Filter_Sheets)[number];
 export const Filters = () => {
   return (
     <div className="crafy_filters px-5 py-5 bg-white">
-      {Filter_Sheets.map((side) => (
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="outline" className="mx-2">
+      {Filter_Sheets.map((side,index) => (
+        <Sheet key={index}>
+          <SheetTrigger asChild key={index}>
+            <Button variant="outline"  className="mx-2" key={index}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -58,8 +58,9 @@ export const Filters = () => {
                 <h4 className="text-md font-normal">Category (Select one)</h4>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                {filterList.map((item) => (
+                {filterList.map((item,index) => (
                   <Button
+                  key={index}
                     variant="outline"
                     className="mx-1 px-5 font-light rounded-xl"
                   >

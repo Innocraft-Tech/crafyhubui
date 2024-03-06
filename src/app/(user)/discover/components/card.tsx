@@ -42,8 +42,8 @@ export function DiscoverCard() {
     <>
       <div className="lg:grid px-32 py-5 discoverUsers">
         <div className="grid lg:grid-cols-3 sm:grid-cols-2 gap-4">
-          {userData.map((user) => (
-            <Card className="rounded-2xl p-5 my-2">
+          {userData.map((user, index) => (
+            <Card key={index} className="rounded-2xl p-5 my-2">
               <div className="flex items-center">
                 <Avatar className="w-16 h-16">
                   <AvatarImage

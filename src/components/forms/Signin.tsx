@@ -13,7 +13,6 @@ import {
 } from '../ui/form';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { useAppDispatch } from '@/lib/hooks/appHooks';
 import { useLogInMutation } from '@/redux/api/authApi';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -22,7 +21,7 @@ import { setToken } from '@/lib/cookie';
 const Signin = () => {
   const router = useRouter();
   const [logIn, { isLoading }] = useLogInMutation();
-  const dispatch = useAppDispatch();
+
   const form = useForm<TypeSignUpSchema>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {

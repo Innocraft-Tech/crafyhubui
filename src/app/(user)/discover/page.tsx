@@ -1,4 +1,4 @@
-"use client"
+'use client';
 import { Metadata } from 'next';
 import Image from 'next/image';
 
@@ -20,7 +20,6 @@ import { Input } from '@/components/ui/input';
 import { Filters } from './components/filters';
 import { DiscoverCard } from './components/card';
 import { useEffect, useState } from 'react';
-import { getAllUsers } from '../api/auth/api-helper';
 
 // export const metadata: Metadata = {
 //   title: 'Discover',
@@ -28,7 +27,6 @@ import { getAllUsers } from '../api/auth/api-helper';
 // };
 
 export default function Discover() {
-
   return (
     <>
       <div className=" md:block">
@@ -36,9 +34,9 @@ export default function Discover() {
           <div className="bg-background">
             <div className="grid lg:grid-cols-5">
               <Sidebar playlists={playlists} />
-              <div className="col-span-3 lg:col-span-4 lg:border-l overflow-auto">
-                <div className="h-lvh">
-                  <div className="sticky top-0 z-10">
+              <div className="col-span-3 lg:col-span-4 lg:border-l overflow-auto   ">
+                <div className="h-lvh z-20">
+                  <div className="   z-30 ">
                     <div className="flex justify-between items-center border-b bg-stone-50">
                       <div className="topHeadings p-5">
                         <h3 className="text-lg">Discover</h3>

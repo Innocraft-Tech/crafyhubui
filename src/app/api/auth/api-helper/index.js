@@ -5,7 +5,7 @@ export const userSignupRequest = async (data) => {
     .post('https://crafy-server.onrender.com/auth', data)
     .catch((err) => console.log(err));
   console.log(user);
-  return user;
+  return user   ;
 };
 
 export const loginRequest = async (data) => {

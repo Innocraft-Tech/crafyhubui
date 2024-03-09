@@ -14,19 +14,26 @@ import { Label } from '@/components/ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { ProjectSlider } from './projectsslider';
+import { getAllUsers } from '@/app/api/auth/api-helper';
 
 export function DiscoverCard() {
+  const [users,setUsers] = React.useState<any[]>([])
+  React.useEffect(()=>{
+    getAllUsers().then((data)=>setUsers(data)).catch((err)=>console.log(err))
+    console.log(users)
+  },[])
   return (
     <div className="lg:grid px-5 py-5 discoverUsers">
       <div className="grid lg:grid-cols-3 sm:grid-cols-2 gap-4">
-        <Card className="rounded-2xl p-5 my-2">
+        {users.map((user:any)=>
+          <Card className="rounded-2xl p-5 my-2">
           <div className="flex items-center">
             <Avatar className="w-16 h-16">
-              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+              <AvatarImage src={user.profilePicture} alt="@shadcn" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <div className="mx-3">
-              <h4 className="font-medium">James C</h4>
+              <h4 className="font-medium">{user.firstName} {user.lastName}</h4>
               <span className="font-light">New Jersey</span>
             </div>
           </div>
@@ -71,7 +78,8 @@ export function DiscoverCard() {
             Get In Touch
           </Button>
         </Card>
-        <Card className="rounded-2xl p-5 my-2">
+        )}
+        {/* <Card className="rounded-2xl p-5 my-2">
           <div className="flex items-center">
             <Avatar className="w-16 h-16">
               <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
@@ -278,7 +286,7 @@ export function DiscoverCard() {
             </svg>{' '}
             Get In Touch
           </Button>
-        </Card>
+        </Card> */}
       </div>
     </div>
   );

@@ -77,6 +77,7 @@ export const getAllUsers = async () => {
   const users = await axios
     .get('https://crafy-server.onrender.com/allusers')
     .catch((err) => console.log(err));
+    console.log(users)
   const responseData = await users.data.users;
   return responseData;
 };

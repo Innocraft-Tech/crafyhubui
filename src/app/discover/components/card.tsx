@@ -36,6 +36,8 @@ export function DiscoverCard() {
     };
     fetchData();
   }, []);
+  // console.log(userData);
+
   console.log(userData);
 
   return (
@@ -71,13 +73,13 @@ export function DiscoverCard() {
               </div>
               <div className="grid">
                 <div className="grid grid-cols-4 items-center gap-4">
-                  {user.tools.map((tool: any, index: number) => (
+                  {user.tools.map((tool: String[], index: number) => (
                     <Badge
                       key={index}
                       variant="secondary"
                       className="p-2 font-normal text-center rounded-md justify-center"
                     >
-                      {tool[index]}
+                      {tool}
                     </Badge>
                   ))}
                 </div>

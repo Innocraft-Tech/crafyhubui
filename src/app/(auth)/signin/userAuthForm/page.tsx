@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-function Page({ className, ...props }: UserAuthFormProps) {
+export function Page({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   async function onSubmit(event: React.SyntheticEvent) {
@@ -69,4 +69,3 @@ function Page({ className, ...props }: UserAuthFormProps) {
   );
 }
 
-export default Page

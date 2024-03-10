@@ -17,6 +17,9 @@ import { Badge } from '@/components/ui/badge';
 import { ProjectSlider } from './projectsslider';
 import { getAllUsers } from '@/app/api/auth/api-helper';
 import { ReactNode } from 'react';
+import { useGetAllUsersQuery } from '@/redux/api/usersApi';
+// import { useGetUsersQuery } from '@/redux/api/usersApi';
+// import { useGetAllUserQuery } from '@/redux/api/usersApi';
 interface User {
   profilePicture: string | undefined;
   firstName: ReactNode;
@@ -24,25 +27,30 @@ interface User {
 }
 
 export function DiscoverCard() {
-  const [userData, setUser] = React.useState<User[]>([]);
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getAllUsers();
-        setUser(response);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchData();
-  }, []);
-  console.log(userData);
+  // const [userData, setUser] = React.useState<User[]>([]);
+
+  const { data, isError, isLoading } = useGetAllUsersQuery();
+  const { users: userData } = data || {};
+  // React.useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await getAllUsers();
+  //       setUser(response);
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
+  // console.log(userData);
+
+  console.log(data, 'data');
 
   return (
     <>
       <div className="lg:grid px-32 py-5 discoverUsers">
         <div className="grid lg:grid-cols-3 sm:grid-cols-2 gap-4">
-          {userData.map((user, index) => (
+          {userData?.map((user, index) => (
             <Card key={index} className="rounded-2xl p-5 my-2">
               <div className="flex items-center">
                 <Avatar className="w-16 h-16">

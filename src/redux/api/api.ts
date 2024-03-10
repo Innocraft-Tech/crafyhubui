@@ -31,7 +31,7 @@ const baseQueryWithReauth: BaseQueryFn<
   const resultStatus = result?.error?.status;
   if (resultStatus === 403) {
     api.dispatch(clearAuth());
-    redirect('/signin');
+    redirect('/login');
   }
 
   return result;

@@ -27,8 +27,8 @@ const usersApiSlice = apiSlice.injectEndpoints({
       query: () => `allusers`,
       providesTags: [{ type: 'User', id: 'LIST' }],
     }),
-    getUser: builder.query<IUserResponse, undefined>({
-      query: (id) => `users/${id}`,
+    getUser: builder.query<IUserResponse, string>({
+      query: (id) => `user/${id}`,
       transformResponse: (response: any) => {
         return response;
       },

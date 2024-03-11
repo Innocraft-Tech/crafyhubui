@@ -132,22 +132,27 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 
 import { getAllJobs } from '@/app/api/auth/api-helper/index';
+import { useGetUserQuery } from '@/redux/api/usersApi';
+import Cookies from 'js-cookie';
+import jwtDecode from 'jwt-decode';
 
 export function JobsCard() {
   const [jobs, setJobs] = useState({});
 
-  useEffect(() => {
-    const fetchData = async () => {
+  // useEffect(() => {
+    // const fetchData = async () => {
       try {
-        const response = await getAllJobs();
-        setJobs(response);
+        let user_token = Cookies.get('access_token')
+        console.log("user_token", typeof(user_token))
+        const { data:Userdata } = useGetUserQuery(user_token ? user_token : '');
+        console.log("Userdata", Userdata)
       } catch (error) {
         console.error('Error fetching data:', error);
       }
-    };
+    // };
 
-    fetchData();
-  }, []);
+    // fetchData();
+  // }, []);
 
   return (
     <>

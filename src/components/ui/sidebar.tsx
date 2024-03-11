@@ -1,3 +1,4 @@
+"use client"
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -5,12 +6,18 @@ import Link from 'next/link';
 import { Playlist } from '@/data/playlists';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { House } from '@phosphor-icons/react';
+import Cookies from 'js-cookie'
+import { useGetUserQuery } from '@/redux/api/usersApi';
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   playlists: Playlist[];
 }
 
 export function Sidebar({ className, playlists }: SidebarProps) {
+  const user_token = Cookies.get('access_token')
+  console.log("user_token", typeof(user_token))
+  const dataOfUser = useGetUserQuery(user_token ? user_token : '').data?.user
+  console.log("Userdata",dataOfUser)
   return (
     <div className={cn('pb-12', 'h-lvh', className)}>
       <div className="space-y-4 py-4">
@@ -61,13 +68,13 @@ export function Sidebar({ className, playlists }: SidebarProps) {
           <div className="w-full flex mx-3 items-center justify-start mb-8">
             <div className="flex items-center space-x-4">
               <Avatar>
-                <AvatarImage src="/avatars/01.png" />
+                <AvatarImage src={dataOfUser && dataOfUser.profilePicture} />
                 <AvatarFallback>OM</AvatarFallback>
               </Avatar>
               <div>
-                <p className="text-sm font-medium leading-none">Nikki James</p>
+                <p className="text-sm font-medium leading-none">{dataOfUser && dataOfUser.firstName +' '+dataOfUser.lastName}</p>
                 <p className="text-sm text-muted-foreground">
-                  Independent Designer
+                  {dataOfUser && dataOfUser.tools[0]}
                 </p>
               </div>
             </div>

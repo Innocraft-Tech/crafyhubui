@@ -14,6 +14,7 @@ interface InputFieldProps {
   label?: string;
   type?: string;
   placeholder?: string;
+  accept?: string;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -22,6 +23,7 @@ const InputField: React.FC<InputFieldProps> = ({
   label,
   type = 'text',
   placeholder = '',
+  accept = '',
 }) => {
   return (
     <FormField
@@ -31,7 +33,12 @@ const InputField: React.FC<InputFieldProps> = ({
         <FormItem className="w-full">
           {label && <FormLabel>{label}</FormLabel>}
           <FormControl>
-            <Input type={type} placeholder={placeholder} {...field} />
+            <Input
+              type={type}
+              placeholder={placeholder}
+              accept={accept}
+              {...field}
+            />
           </FormControl>
           <FormMessage />
         </FormItem>

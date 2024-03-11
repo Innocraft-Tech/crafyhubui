@@ -24,7 +24,7 @@ export default function SignupPage() {
           className="hidden dark:block"
         />
       </div>
-      <div className="container relative hidden h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+      <div className="container relative hidden h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0 bg-gradient-to-r from-fuchsia-50 to-pink-50">
         <Link
           href="/login"
           className={cn(

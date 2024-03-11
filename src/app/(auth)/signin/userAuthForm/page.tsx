@@ -68,3 +68,4 @@ export function Page({ className, ...props }: UserAuthFormProps) {
     </div>
   );
 }
+

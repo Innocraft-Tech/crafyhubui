@@ -1,4 +1,4 @@
-"use client"
+'use client';
 import { Metadata } from 'next';
 import Image from 'next/image';
 
@@ -20,7 +20,6 @@ import { Input } from '@/components/ui/input';
 import { Filters } from './components/filters';
 import { DiscoverCard } from './components/card';
 import { useEffect, useState } from 'react';
-import { getAllUsers } from '../api/auth/api-helper';
 
 // export const metadata: Metadata = {
 //   title: 'Discover',
@@ -28,7 +27,6 @@ import { getAllUsers } from '../api/auth/api-helper';
 // };
 
 export default function Discover() {
-
   return (
     <>
       <div className=" md:block">

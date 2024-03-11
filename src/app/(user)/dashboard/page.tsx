@@ -1,3 +1,4 @@
+"use client"
 import { Metadata } from 'next';
 import Image from 'next/image';
 
@@ -5,13 +6,19 @@ import { Sidebar } from '@/components/ui/sidebar';
 import { playlists } from '@/data/playlists';
 import { Button } from '@/components/ui/button';
 import UserNav from '@/components/ui/usernav';
+import Cookies from 'js-cookie'
+import { useGetUserQuery } from '@/redux/api/usersApi';
 
-export const metadata: Metadata = {
-  title: 'Dashboard',
-  description: 'Example music app using the components.',
-};
+// export const metadata: Metadata = {
+//   title: 'Dashboard',
+//   description: 'Example music app using the components.',
+// };
 
 export default function Dashboard() {
+  const user_token = Cookies.get('access_token')
+  console.log("user_token", typeof(user_token))
+  const dataOfUser = useGetUserQuery(user_token ? user_token : '').data?.user
+  console.log("Userdata",dataOfUser)
   return (
     <>
       <div className=" md:block">
@@ -53,7 +60,7 @@ export default function Dashboard() {
                   </div>
                   <div className="coverImage bg-slate-100 h-64 relative">
                     <h4 className="absolute bottom-0 px-5 py-5">
-                      Welcome, Nikki 👋
+                      Welcome, {dataOfUser && dataOfUser.firstName} 👋
                     </h4>
                   </div>
                   <div className="flex"></div>

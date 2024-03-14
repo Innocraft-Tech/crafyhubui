@@ -46,6 +46,13 @@ const authApi = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    addSkill: builder.mutation<any, any>({
+      query: (data) => ({
+        url: 'crafy/add/skill',
+        method: 'POST',
+        body: data,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -57,4 +64,5 @@ export const {
   useLogOutMutation,
   useRegisterMutation,
   useUpdatePasswordMutation,
+  useAddSkillMutation,
 } = authApi;

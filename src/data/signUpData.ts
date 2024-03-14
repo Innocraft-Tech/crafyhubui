@@ -7,7 +7,7 @@ export const signUpSchema = z.object({
   email: z.string().min(1, 'Input is not valid').email(),
   firstName: z.string(),
   lastName: z.string(),
-  // profilePicture: z.string(),
+  profilePicture: z.string(),
   // userName: z.string(),
   password: z.string().min(3).max(20),
   tools: z.array(z.string()).min(3),

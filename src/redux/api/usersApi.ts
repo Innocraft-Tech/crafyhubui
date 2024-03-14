@@ -35,6 +35,7 @@ const usersApiSlice = apiSlice.injectEndpoints({
       providesTags: (result, error, id) =>
         result ? [{ type: 'User', id }] : ['User'],
     }),
+
     // updateUser:
     // deleteUser:
   }),

@@ -27,6 +27,9 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import clsx from 'clsx';
+import axios from 'axios';
+import { useAddSkillMutation } from '@/redux/api/authApi';
+import ImageUpload from '@/components/ui/image-upload';
 
 const OPTIONS: Option[] = [
   { label: 'nextjs', value: 'Nextjs' },
@@ -43,19 +46,31 @@ const OPTIONS: Option[] = [
 ];
 
 const mockSearch = async (value: string): Promise<Option[]> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const res = OPTIONS.filter((option) => option.value.includes(value));
+  const client = await axios
+    .get(`https://crafy-server.onrender.com/crafy/skills`)
+    .catch((err) => console.log(err));
+  console.log(client);
+  const responseData = await client;
 
-      resolve(res);
-    }, 1000);
-  });
+  return [];
+  //
+
+  // return new Promise((resolve) => {
+  //   setTimeout(() => {
+  //     const res = OPTIONS.filter((option) => option.value.includes(value));
+
+  //     resolve(res);
+  //   }, 1000);
+  // });
 };
 
 const stepClassNames = ['px-6', 'sm:w-[350px] mx-auto'];
 
 const SignupForm = () => {
-  const [currentStep, setCurrentStep] = useState<number>(0);
+  const [currentStep, setCurrentStep] = useState<number>(5);
+
+  const [addSkillMutation, { isLoading, isError, error, ...props }] =
+    useAddSkillMutation();
 
   const form = useForm<TypeSignUpSchema>({
     resolver: zodResolver(signUpSchema),
@@ -67,6 +82,7 @@ const SignupForm = () => {
       lastName: '',
       tools: [],
       userLocation: '',
+      profilePicture: '',
     },
   });
 
@@ -76,9 +92,10 @@ const SignupForm = () => {
     formState: { errors },
     control,
     getValues,
+    setValue,
   } = form;
 
-  const { firstName, lastName } = getValues();
+  const { firstName, lastName, profilePicture } = getValues();
 
   const onSubmit = (data: TypeSignUpSchema) => {
     console.log(data);
@@ -116,7 +133,7 @@ const SignupForm = () => {
         !errors.lastName,
       getValues().tools?.length > 3 && !errors.tools,
       getValues().userLocation && !errors.userLocation,
-      getValues().userLocation && !errors.userLocation,
+      getValues().profilePicture && !errors.profilePicture,
     ];
 
     return (
@@ -151,6 +168,8 @@ const SignupForm = () => {
     );
   };
 
+  console.log(profilePicture, 'profilePicture');
+
   return (
     <>
       <div className="relative hidden h-full flex-col p-10 text-primary lg:flex dark:border-r">
@@ -177,20 +196,22 @@ const SignupForm = () => {
           </h3>
           <div className="mt-4 text-left">
             <Avatar className="m-auto w-[129px] h-[129px]">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="129"
-                height="129"
-                viewBox="0 0 340 340"
-              >
-                <path
-                  fill="#e9eaed"
-                  d="m169,.5a169,169 0 1,0 2,0zm0,86a76,76 0 1 1-2,0zM57,287q27-35 67-35h92q40,0 67,35a164,164 0 0,1-226,0"
-                />
-              </svg>
-
-              {/* <AvatarImage src="https://github.com/shadcn.png" /> */}
-              {/* <AvatarFallback>CN</AvatarFallback> */}
+              {getValues().profilePicture ? (
+                <AvatarImage src={getValues().profilePicture} />
+              ) : (
+                // {/* <AvatarFallback>CN</AvatarFallback> */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="129"
+                  height="129"
+                  viewBox="0 0 340 340"
+                >
+                  <path
+                    fill="#e9eaed"
+                    d="m169,.5a169,169 0 1,0 2,0zm0,86a76,76 0 1 1-2,0zM57,287q27-35 67-35h92q40,0 67,35a164,164 0 0,1-226,0"
+                  />
+                </svg>
+              )}
             </Avatar>
 
             <p className="leading-7 text-left my-5">Skills</p>
@@ -356,9 +377,9 @@ const SignupForm = () => {
                                   <FormControl>
                                     <MultipleSelector
                                       onSearch={async (value) => {
-                                        setIsTriggered(true);
+                                        // setIsTriggered(true);
                                         const res = await mockSearch(value);
-                                        setIsTriggered(false);
+                                        // setIsTriggered(false);
                                         return res;
                                       }}
                                       defaultOptions={[]}
@@ -374,6 +395,10 @@ const SignupForm = () => {
                                           no results found.
                                         </p>
                                       }
+                                      onSelectCreate={(value: string) => {
+                                        const data = { skill: value };
+                                        addSkillMutation(data);
+                                      }}
                                       {...field}
                                     />
                                   </FormControl>
@@ -416,15 +441,32 @@ const SignupForm = () => {
                         <div className="mx-auto w-full">
                           <div className="space-y-6">
                             <h1 className="text-2xl font-semibold tracking-tight text-left">
-                              Where are you located?
+                              Upload a photo
                             </h1>
                             <div className="flex items-center space-x-4">
-                              <InputField
+                              {/* <InputField
                                 name="userLocation"
                                 control={form.control}
                                 placeholder="Avatar Upload"
                                 type="file"
                                 accept="image/*"
+                              /> */}
+
+                              <FormField
+                                control={form.control}
+                                name="profilePicture"
+                                render={({ field: { onChange } }) => (
+                                  <FormItem className="w-full">
+                                    <FormControl>
+                                      <ImageUpload
+                                        onUpload={(fileUrl: string) =>
+                                          onChange(fileUrl)
+                                        }
+                                      />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
                               />
                             </div>
                             {/* {renderContinueButton(

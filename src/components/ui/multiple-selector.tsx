@@ -74,6 +74,8 @@ interface MultipleSelectorProps {
     React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>,
     'value' | 'placeholder' | 'disabled'
   >;
+
+  onSelectCreate?: (value: string) => void;
 }
 
 export interface MultipleSelectorRef {
@@ -181,6 +183,7 @@ const MultipleSelector = React.forwardRef<
       triggerSearchOnFocus = false,
       commandProps,
       inputProps,
+      onSelectCreate,
     }: MultipleSelectorProps,
     ref: React.Ref<MultipleSelectorRef>,
   ) => {
@@ -291,6 +294,7 @@ const MultipleSelector = React.forwardRef<
             const newOptions = [...selected, { value, label: value }];
             setSelected(newOptions);
             onChange?.(newOptions);
+            onSelectCreate?.(value);
           }}
         >{`Create "${inputValue}"`}</CommandItem>
       );

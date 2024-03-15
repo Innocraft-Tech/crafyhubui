@@ -12,11 +12,13 @@ const Wrapper = ({ withAuth, children }: IProtectedRouteProps) => {
   const cookieStore = cookies();
   const token = cookieStore.get('access_token')?.value;
 
+  console.log(token);
+
   if (!withAuth && token) {
-    redirect('/');
+    redirect('/dashboard');
   }
   if (withAuth && !token) {
-    redirect('/signin');
+    redirect('/login');
   }
 
   return <>{children}</>;

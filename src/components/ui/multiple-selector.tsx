@@ -28,7 +28,7 @@ interface GroupOption {
 }
 
 interface MultipleSelectorProps {
-  value?: Option[];
+  value?: String[];
   defaultOptions?: Option[];
   /** manually controlled options */
   options?: Option[];
@@ -46,7 +46,7 @@ interface MultipleSelectorProps {
   triggerSearchOnFocus?: boolean;
   /** async search */
   onSearch?: (value: string) => Promise<Option[]>;
-  onChange?: (options: Option[]) => void;
+  onChange?: (options: String[]) => void;
   /** Limit the maximum number of selected options. */
   maxSelected?: number;
   /** When the number of selected options exceeds the limit, the onMaxSelected will be called. */
@@ -79,7 +79,7 @@ interface MultipleSelectorProps {
 }
 
 export interface MultipleSelectorRef {
-  selectedValue: Option[];
+  selectedValue: String[];
   input: HTMLInputElement;
 }
 
@@ -118,12 +118,12 @@ function transToGroupOption(options: Option[], groupBy?: string) {
   return groupOption;
 }
 
-function removePickedOption(groupOption: GroupOption, picked: Option[]) {
+function removePickedOption(groupOption: GroupOption, picked: String[]) {
   const cloneOption = JSON.parse(JSON.stringify(groupOption)) as GroupOption;
 
   for (const [key, value] of Object.entries(cloneOption)) {
     cloneOption[key] = value.filter(
-      (val) => !picked.find((p) => p.value === val.value),
+      (val) => !picked.find((p) => p === val.value),
     );
   }
   return cloneOption;
@@ -191,7 +191,7 @@ const MultipleSelector = React.forwardRef<
     const [open, setOpen] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
 
-    const [selected, setSelected] = React.useState<Option[]>(value || []);
+    const [selected, setSelected] = React.useState<String[]>(value || []);
     const [options, setOptions] = React.useState<GroupOption>(
       transToGroupOption(arrayDefaultOptions, groupBy),
     );
@@ -208,8 +208,8 @@ const MultipleSelector = React.forwardRef<
     );
 
     const handleUnselect = React.useCallback(
-      (option: Option) => {
-        const newOptions = selected.filter((s) => s.value !== option.value);
+      (option: String) => {
+        const newOptions = selected.filter((s) => s !== option);
         setSelected(newOptions);
         onChange?.(newOptions);
       },
@@ -291,7 +291,10 @@ const MultipleSelector = React.forwardRef<
               return;
             }
             setInputValue('');
-            const newOptions = [...selected, { value, label: value }];
+            // const newOptions = [...selected, { value, label: value }];
+
+            const newOptions = [...selected, value];
+
             setSelected(newOptions);
             onChange?.(newOptions);
             onSelectCreate?.(value);
@@ -367,28 +370,33 @@ const MultipleSelector = React.forwardRef<
       >
         <div
           className={cn(
-            'group rounded-md border border-input px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2',
+            'group rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2',
             className,
           )}
         >
           <div className="flex flex-wrap gap-1">
-            {selected.map((option) => {
+            {selected.map((option: String) => {
+              const selectedOption = arrayOptions?.find(
+                (item) => item.value === option,
+              );
+
+              if (!selectedOption) return;
               return (
                 <Badge
-                  key={option.value}
+                  key={selectedOption.value}
                   className={cn(
                     'data-[disabled]:bg-muted-foreground data-[disabled]:text-muted data-[disabled]:hover:bg-muted-foreground',
                     'data-[fixed]:bg-muted-foreground data-[fixed]:text-muted data-[fixed]:hover:bg-muted-foreground',
                     badgeClassName,
                   )}
-                  data-fixed={option.fixed}
+                  data-fixed={selectedOption.fixed}
                   data-disabled={disabled}
                 >
-                  {option.label}
+                  {selectedOption.label}
                   <button
                     className={cn(
                       'ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2',
-                      (disabled || option.fixed) && 'hidden',
+                      (disabled || selectedOption.fixed) && 'hidden',
                     )}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter') {
@@ -472,7 +480,9 @@ const MultipleSelector = React.forwardRef<
                                   return;
                                 }
                                 setInputValue('');
-                                const newOptions = [...selected, option];
+                                // const newOptions = [...selected, option];
+
+                                const newOptions = [...selected, option.value];
                                 setSelected(newOptions);
                                 onChange?.(newOptions);
                               }}

@@ -12,11 +12,16 @@ export const signUpSchema = z.object({
   password: z.string().min(3).max(20),
   tools: z.array(z.string()).min(3),
 
+  // .refine((data) => data.length >= 3, {
+  //   message: 'Array must contain at least 3 items',
+  // }),
+
   // //   proofofWork: z.array(z.string()).nullable(),
   // //   appliedJobs: z.array(z.string()).nullable(),
   // userLocation: z.array(z.string()),
   userLocation: z.string(),
-  type: NullableUserType,
+  // type: NullableUserType,
+  isClient: z.boolean(),
 });
 
 export type TypeSignUpSchema = z.infer<typeof signUpSchema>;

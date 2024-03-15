@@ -28,49 +28,32 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import clsx from 'clsx';
 import axios from 'axios';
-import { useAddSkillMutation } from '@/redux/api/authApi';
+import {
+  useAddSkillMutation,
+  useGetSkillsQuery,
+  useRegisterMutation,
+} from '@/redux/api/authApi';
 import ImageUpload from '@/components/ui/image-upload';
-
-const OPTIONS: Option[] = [
-  { label: 'nextjs', value: 'Nextjs' },
-  { label: 'React', value: 'react' },
-  { label: 'Remix', value: 'remix' },
-  { label: 'Vite', value: 'vite' },
-  { label: 'Nuxt', value: 'nuxt' },
-  { label: 'Vue', value: 'vue' },
-  { label: 'Svelte', value: 'svelte' },
-  { label: 'Angular', value: 'angular' },
-  { label: 'Ember', value: 'ember' },
-  { label: 'Gatsby', value: 'gatsby' },
-  { label: 'Astro', value: 'astro' },
-];
-
-const mockSearch = async (value: string): Promise<Option[]> => {
-  const client = await axios
-    .get(`https://crafy-server.onrender.com/crafy/skills`)
-    .catch((err) => console.log(err));
-  console.log(client);
-  const responseData = await client;
-
-  return [];
-  //
-
-  // return new Promise((resolve) => {
-  //   setTimeout(() => {
-  //     const res = OPTIONS.filter((option) => option.value.includes(value));
-
-  //     resolve(res);
-  //   }, 1000);
-  // });
-};
+import HandleResponse from '@/components/common/HandleResponse';
+import { useAppDispatch } from '@/lib/hooks/appHooks';
+import { setToken } from '@/lib/cookie';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { SOMETHING_WENT_WRONG, isMyKnownError } from '@/lib/api';
 
 const stepClassNames = ['px-6', 'sm:w-[350px] mx-auto'];
 
 const SignupForm = () => {
-  const [currentStep, setCurrentStep] = useState<number>(5);
+  const { replace } = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get('redirectTo');
 
-  const [addSkillMutation, { isLoading, isError, error, ...props }] =
-    useAddSkillMutation();
+  const [currentStep, setCurrentStep] = useState<number>(0);
+  const [selectedType, setSelectedType] = useState('');
+
+  const { data: skillsOptions = [] } = useGetSkillsQuery(); // Use the hook to
+  const [addSkillMutation, {}] = useAddSkillMutation();
+
+  const [register, { isError, isSuccess, error, data }] = useRegisterMutation();
 
   const form = useForm<TypeSignUpSchema>({
     resolver: zodResolver(signUpSchema),
@@ -83,33 +66,45 @@ const SignupForm = () => {
       tools: [],
       userLocation: '',
       profilePicture: '',
+      isClient: undefined,
     },
   });
 
+  const { handleSubmit, reset, formState, getValues } = form;
+
+  const { errors } = formState;
+
   const {
-    handleSubmit,
-    reset,
-    formState: { errors },
-    control,
-    getValues,
-    setValue,
-  } = form;
+    email,
+    password,
+    firstName,
+    lastName,
+    profilePicture,
+    tools,
+    userLocation,
+  } = getValues();
 
-  const { firstName, lastName, profilePicture } = getValues();
+  const onSubmit = async (data: TypeSignUpSchema) => {
+    const { userLocation, ...body } = data;
 
-  const onSubmit = (data: TypeSignUpSchema) => {
-    console.log(data);
-    reset(); // Reset the form after submission
+    await register({ ...body, userLocation: [userLocation] }).unwrap();
+
+    // reset(); // Reset the form after submission
   };
 
-  const type = form.watch('type');
+  const type = form.watch('isClient');
 
   useEffect(() => {
-    if (type) setCurrentStep((step) => step + 1);
+    if (type !== undefined) setCurrentStep((step) => step + 1);
   }, [type]);
 
   const goToNext = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+
+    if (currentStep === 5) {
+      handleSubmit(onSubmit)();
+      return;
+    }
 
     setCurrentStep((step) => step + 1);
   };
@@ -121,19 +116,14 @@ const SignupForm = () => {
   };
 
   const renderContinueButton = () => {
+    // next button validation by index
     const disabled = [
-      type,
-      getValues().email &&
-        getValues().password &&
-        !errors.email &&
-        !errors.password,
-      getValues().firstName &&
-        getValues().lastName &&
-        !errors.firstName &&
-        !errors.lastName,
-      getValues().tools?.length > 3 && !errors.tools,
-      getValues().userLocation && !errors.userLocation,
-      getValues().profilePicture && !errors.profilePicture,
+      selectedType,
+      email && password && !errors.email && !errors.password,
+      firstName && lastName && !errors.firstName && !errors.lastName,
+      tools?.length >= 3 && !errors.tools,
+      userLocation && !errors.userLocation,
+      profilePicture && !errors.profilePicture,
     ];
 
     return (
@@ -168,10 +158,27 @@ const SignupForm = () => {
     );
   };
 
-  console.log(profilePicture, 'profilePicture');
+  const onSuccess = () => {
+    setToken(data.token);
+
+    reset();
+    replace(redirectTo || '/dashboard');
+  };
 
   return (
     <>
+      {(isSuccess || isError) && (
+        <HandleResponse
+          isError={isError}
+          isSuccess={isSuccess}
+          error={
+            isMyKnownError(error) ? error.data.message : SOMETHING_WENT_WRONG
+          }
+          message={data?.message}
+          onSuccess={onSuccess}
+        />
+      )}
+
       <div className="relative hidden h-full flex-col p-10 text-primary lg:flex dark:border-r">
         <div className="relative z-20 flex items-center text-lg font-medium">
           {/* <svg
@@ -190,14 +197,14 @@ const SignupForm = () => {
           <Image src="/logo.svg" alt="logo" width={191} height={42} />
         </div>
 
-        <Card className="p-6 text-center lg:py-8 m-auto w-[450px] bg-[#ebd9e7] border-none shadow-none">
+        <Card className="p-6 text-center lg:py-8 m-auto w-[450px] bg-[#F7EFF1] border-none shadow-none">
           <h3 className="mb-1.5 text-2xl font-medium ">
             {firstName || lastName ? `${firstName}  ${lastName}` : 'Name'}
           </h3>
           <div className="mt-4 text-left">
             <Avatar className="m-auto w-[129px] h-[129px]">
-              {getValues().profilePicture ? (
-                <AvatarImage src={getValues().profilePicture} />
+              {profilePicture ? (
+                <AvatarImage src={profilePicture} />
               ) : (
                 // {/* <AvatarFallback>CN</AvatarFallback> */}
                 <svg
@@ -207,7 +214,7 @@ const SignupForm = () => {
                   viewBox="0 0 340 340"
                 >
                   <path
-                    fill="#e9eaed"
+                    fill="#fff"
                     d="m169,.5a169,169 0 1,0 2,0zm0,86a76,76 0 1 1-2,0zM57,287q27-35 67-35h92q40,0 67,35a164,164 0 0,1-226,0"
                   />
                 </svg>
@@ -215,13 +222,39 @@ const SignupForm = () => {
             </Avatar>
 
             <p className="leading-7 text-left my-5">Skills</p>
-            <Badge className="border-dashed px-4 py-3" variant={'outline'}>
-              Badge
-            </Badge>
 
-            <Separator className="my-4" />
+            {tools?.length > 0 ? (
+              <div className="space-x-1.5">
+                {tools.map((tool) => (
+                  <Badge
+                    key={tool}
+                    className="border-dashed border-badge text-badge px-4 py-3"
+                    variant={'outline'}
+                  >
+                    {tool}
+                  </Badge>
+                ))}
+              </div>
+            ) : (
+              <Badge
+                className="border-dashed border-badge text-badge px-6 py-3"
+                variant={'outline'}
+              ></Badge>
+            )}
+
+            <Separator className="my-4 bg-separator" />
             <p className="leading-7 text-left my-5">Location</p>
-            <Separator className="my-4" />
+
+            <div className="flex items-center gap-2 min-h-6">
+              <Image
+                src={'/auth/location.svg'}
+                alt="location"
+                width={18}
+                height={18}
+              />
+              <p className="">{userLocation}</p>
+            </div>
+            <Separator className="my-4 bg-separator" />
             <p className="leading-7 text-left my-5">Links</p>
           </div>
         </Card>
@@ -237,7 +270,7 @@ const SignupForm = () => {
                       return (
                         <FormField
                           control={form.control}
-                          name="type"
+                          name="isClient"
                           render={({ field }) => (
                             <>
                               <h1 className="text-2xl font-semibold tracking-tight pb-8 text-center">
@@ -246,8 +279,12 @@ const SignupForm = () => {
                               <CardContent className="pb-0 grid gap-6">
                                 <FormControl>
                                   <RadioGroup
-                                    onValueChange={field.onChange}
-                                    defaultValue={field.value}
+                                    // onValueChange={field.onChange}
+                                    onValueChange={(value) => {
+                                      field.onChange(value === 'CLIENT');
+                                      setSelectedType(value);
+                                    }}
+                                    defaultValue={selectedType}
                                     className="space-x-2y flex"
                                   >
                                     <FormItem className="flex items-center space-x-2">
@@ -255,7 +292,7 @@ const SignupForm = () => {
                                         <div>
                                           <RadioGroupItem
                                             id="freelancer"
-                                            value="FREELANCER"
+                                            value={'FREELANCER'}
                                             className="peer sr-only"
                                           />
                                           <Label
@@ -303,7 +340,6 @@ const SignupForm = () => {
                                     </FormItem>
                                   </RadioGroup>
                                 </FormControl>
-                                {/* {renderContinueButton(field.value)} */}
                               </CardContent>
                             </>
                           )}
@@ -323,13 +359,6 @@ const SignupForm = () => {
                             </div>
 
                             <EmailPasswordFormField control={form.control} />
-
-                            {/* {renderContinueButton(
-                              getValues().email &&
-                                getValues().password &&
-                                !errors.email &&
-                                !errors.password,
-                            )} */}
                           </div>
                         </div>
                       );
@@ -352,12 +381,6 @@ const SignupForm = () => {
                                 placeholder="Last Name"
                               />
                             </div>
-                            {/* {renderContinueButton(
-                              getValues().firstName &&
-                                getValues().lastName &&
-                                !errors.firstName &&
-                                !errors.lastName,
-                            )} */}
                           </div>
                         </div>
                       );
@@ -376,13 +399,14 @@ const SignupForm = () => {
                                 <FormItem>
                                   <FormControl>
                                     <MultipleSelector
-                                      onSearch={async (value) => {
-                                        // setIsTriggered(true);
-                                        const res = await mockSearch(value);
-                                        // setIsTriggered(false);
-                                        return res;
-                                      }}
-                                      defaultOptions={[]}
+                                      // onSearch={async (value) => {
+                                      //   // setIsTriggered(true);
+                                      //   const res = await mockSearch(value);
+                                      //   // setIsTriggered(false);
+                                      //   return res;
+                                      // }}
+                                      // defaultOptions={skillsOptions}
+                                      options={skillsOptions}
                                       creatable
                                       placeholder="Add upto three skills"
                                       loadingIndicator={
@@ -409,10 +433,6 @@ const SignupForm = () => {
                                 </FormItem>
                               )}
                             />
-
-                            {/* {renderContinueButton(
-                              getValues().tools?.length > 3 && !errors.tools,
-                            )} */}
                           </div>
                         </div>
                       );
@@ -430,9 +450,6 @@ const SignupForm = () => {
                                 placeholder="Location"
                               />
                             </div>
-                            {/* {renderContinueButton(
-                              getValues().userLocation && !errors.userLocation,
-                            )} */}
                           </div>
                         </div>
                       );
@@ -469,9 +486,6 @@ const SignupForm = () => {
                                 )}
                               />
                             </div>
-                            {/* {renderContinueButton(
-                              getValues().userLocation && !errors.userLocation,
-                            )} */}
                           </div>
                         </div>
                       );

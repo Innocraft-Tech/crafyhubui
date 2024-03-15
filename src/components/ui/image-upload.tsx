@@ -3,6 +3,7 @@ import { useDropzone } from 'react-dropzone';
 import RadialProgress from './progress';
 import Image from 'next/image';
 import { Input } from './input';
+import { fetchProgress } from '@/lib/api';
 
 interface ImageUploadProps {
   onUpload: (fileUrl: string) => void;
@@ -18,6 +19,7 @@ const ImageUpload = ({ onUpload }: ImageUploadProps) => {
     const percentage = Math.round(
       (progressEvent.loaded * 100) / progressEvent.total,
     );
+
     setProgress(percentage);
   };
 
@@ -33,35 +35,25 @@ const ImageUpload = ({ onUpload }: ImageUploadProps) => {
     const formData = new FormData();
     formData.append('filename', image);
 
-    const xhr = new XMLHttpRequest();
-
-    xhr.upload.addEventListener('progress', (event) => {
-      if (event.lengthComputable) {
-        onUploadProgress(event.lengthComputable);
-      }
-    });
-
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === XMLHttpRequest.DONE) {
-        // File upload completed
-        // You can handle the response here
-        if (xhr.status === 200) {
-          const response = JSON.parse(xhr.responseText);
-          setSelectedImagePath(response.downloadURL);
-          console.log(response.downloadURL);
-          onUpload(response.downloadURL);
-          setLoading(false); // Update loading state
-        } else {
-          // Handle error here
-          console.error('File upload failed:', xhr.status);
-          setLoading(false); // Update loading state
-        }
-      }
+    const url = `${process.env.NEXT_PUBLIC_SERVER_URI}upload`;
+    const ops = {
+      method: 'POST',
+      body: formData,
     };
 
-    xhr.open('POST', `${process.env.NEXT_PUBLIC_SERVER_URI}upload`);
+    fetchProgress(url, ops, onUploadProgress)
+      .then((res) => {
+        const response = JSON.parse(res);
 
-    xhr.send(formData);
+        setSelectedImagePath(response.downloadURL);
+
+        onUpload(response.downloadURL);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+
+    return;
   };
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
@@ -140,7 +132,7 @@ const ImageUpload = ({ onUpload }: ImageUploadProps) => {
               <span className="font-semibold">Drag an image</span>
             </p>
             <p className="text-xs text-gray-400 dark:text-gray-400">
-              Click to upload &#40; image should be 500x500 px & under 10 MB
+              Click to upload &#40; image should be 300x300 px & under 5 MB
               &#41;
             </p>
           </div>

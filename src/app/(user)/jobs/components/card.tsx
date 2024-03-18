@@ -140,18 +140,18 @@ export function JobsCard() {
   const [jobs, setJobs] = useState({});
 
   // useEffect(() => {
-    // const fetchData = async () => {
-      try {
-        let user_token = Cookies.get('access_token')
-        console.log("user_token", typeof(user_token))
-        const { data:Userdata } = useGetUserQuery(user_token ? user_token : '');
-        console.log("Userdata", Userdata)
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    // };
+  // const fetchData = async () => {
+  // try {
+  let user_token = Cookies.get('access_token');
+  // console.log('user_token', typeof user_token);
+  const { data: Userdata } = useGetUserQuery(user_token ? user_token : '');
+  // console.log('Userdata', Userdata);
+  // } catch (error) {
+  //   console.error('Error fetching data:', error);
+  // }
+  // };
 
-    // fetchData();
+  // fetchData();
   // }, []);
 
   return (

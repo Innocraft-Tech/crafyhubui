@@ -38,6 +38,7 @@
     "react-hook-form": "^7.51.0",
     "react-redux": "^9.1.0",
     "react-resizable-panels": "^2.0.9",
+    "react-toast": "^1.0.3",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.4"

@@ -7,6 +7,7 @@ import {
   FormMessage,
 } from '../ui/form';
 import { Input } from '../ui/input';
+import { LucideIcon } from 'lucide-react';
 
 interface InputFieldProps {
   control: any;
@@ -15,6 +16,8 @@ interface InputFieldProps {
   type?: string;
   placeholder?: string;
   accept?: string;
+  disabled?: boolean;
+  startIcon?: LucideIcon;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -24,6 +27,8 @@ const InputField: React.FC<InputFieldProps> = ({
   type = 'text',
   placeholder = '',
   accept = '',
+  disabled,
+  startIcon,
 }) => {
   return (
     <FormField
@@ -37,6 +42,8 @@ const InputField: React.FC<InputFieldProps> = ({
               type={type}
               placeholder={placeholder}
               accept={accept}
+              disabled={disabled}
+              startIcon={startIcon}
               {...field}
             />
           </FormControl>

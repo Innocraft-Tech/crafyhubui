@@ -7,9 +7,10 @@ import { fetchProgress } from '@/lib/api';
 
 interface ImageUploadProps {
   onUpload: (fileUrl: string) => void;
+  placeholder?: string;
 }
 
-const ImageUpload = ({ onUpload }: ImageUploadProps) => {
+const ImageUpload = ({ onUpload, placeholder }: ImageUploadProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [progress, setProgress] = useState(0);
 
@@ -129,7 +130,7 @@ const ImageUpload = ({ onUpload }: ImageUploadProps) => {
             </div>
 
             <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-              <span className="font-semibold">Drag an image</span>
+              <span className="font-semibold">{placeholder}</span>
             </p>
             <p className="text-xs text-gray-400 dark:text-gray-400">
               Click to upload &#40; image should be 300x300 px & under 5 MB

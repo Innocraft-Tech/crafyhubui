@@ -1,44 +1,40 @@
 'use client';
-import Image from 'next/image';
-import { Card, CardContent } from '../../ui/card';
-import { Label } from '../../ui/label';
-import { RadioGroup, RadioGroupItem } from '../../ui/radio-group';
+import HandleResponse from '@/components/common/HandleResponse';
+import EmailPasswordFormField from '@/components/forms/email-password-form';
+import InputField from '@/components/forms/input-field';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import ImageUpload from '@/components/ui/image-upload';
+import MultipleSelector from '@/components/ui/multiple-selector';
+import { Separator } from '@/components/ui/separator';
 import { TypeSignUpSchema, signUpSchema } from '@/data/signUpData';
-import { useForm } from 'react-hook-form';
+import { SOMETHING_WENT_WRONG, isMyKnownError } from '@/lib/api';
+import { setToken } from '@/lib/cookie';
+import {
+  useAddSkillMutation,
+  useGetSkillsQuery,
+  useRegisterMutation,
+} from '@/redux/api/authApi';
 import { zodResolver } from '@hookform/resolvers/zod';
+import clsx from 'clsx';
+import { ChevronLeftIcon, Link } from 'lucide-react';
+import Image from 'next/image';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { Card, CardContent } from '../../ui/card';
 import {
   Form,
   FormControl,
   FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '../../ui/form';
-import EmailPasswordFormField from '@/components/forms/email-password-form';
-import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { ChevronLeftIcon } from 'lucide-react';
-import InputField from '@/components/forms/input-field';
-import MultipleSelector, { Option } from '@/components/ui/multiple-selector';
-import { AvatarUpload } from '@/components/ui/avatar-upload';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import clsx from 'clsx';
-import axios from 'axios';
-import {
-  useAddSkillMutation,
-  useGetSkillsQuery,
-  useRegisterMutation,
-} from '@/redux/api/authApi';
-import ImageUpload from '@/components/ui/image-upload';
-import HandleResponse from '@/components/common/HandleResponse';
-import { useAppDispatch } from '@/lib/hooks/appHooks';
-import { setToken } from '@/lib/cookie';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { SOMETHING_WENT_WRONG, isMyKnownError } from '@/lib/api';
+import { Label } from '../../ui/label';
+import { RadioGroup, RadioGroupItem } from '../../ui/radio-group';
 
 const stepClassNames = ['px-6', 'sm:w-[350px] mx-auto'];
 
@@ -67,10 +63,13 @@ const SignupForm = () => {
       userLocation: '',
       profilePicture: '',
       isClient: undefined,
+      companyName: '',
+      isIndividual: false,
+      role: '',
     },
   });
 
-  const { handleSubmit, reset, formState, getValues } = form;
+  const { handleSubmit, reset, formState, getValues, setValue } = form;
 
   const { errors } = formState;
 
@@ -82,21 +81,30 @@ const SignupForm = () => {
     profilePicture,
     tools,
     userLocation,
+    companyName,
+    isIndividual,
+    isClient,
+    role,
   } = getValues();
 
   const onSubmit = async (data: TypeSignUpSchema) => {
     const { userLocation, ...body } = data;
 
-    await register({ ...body, userLocation: [userLocation] }).unwrap();
+    console.log(body);
+    // await register({ ...body, userLocation: [userLocation] }).unwrap();
 
     // reset(); // Reset the form after submission
   };
 
-  const type = form.watch('isClient');
+  useEffect(() => {
+    if (isClient !== undefined) setCurrentStep((step) => step + 1);
+  }, [isClient]);
 
   useEffect(() => {
-    if (type !== undefined) setCurrentStep((step) => step + 1);
-  }, [type]);
+    if (isIndividual) {
+      setValue('companyName', '');
+    }
+  }, [isIndividual, setValue]);
 
   const goToNext = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -120,8 +128,22 @@ const SignupForm = () => {
     const disabled = [
       selectedType,
       email && password && !errors.email && !errors.password,
-      firstName && lastName && !errors.firstName && !errors.lastName,
-      tools?.length >= 3 && !errors.tools,
+      isClient
+        ? !isIndividual
+          ? companyName && !errors.companyName
+          : true
+        : firstName && lastName && !errors.firstName && !errors.lastName,
+
+      isClient
+        ? firstName &&
+          lastName &&
+          !errors.firstName &&
+          !errors.lastName &&
+          userLocation &&
+          !errors.userLocation &&
+          profilePicture &&
+          !errors.profilePicture
+        : tools?.length >= 3 && !errors.tools,
       userLocation && !errors.userLocation,
       profilePicture && !errors.profilePicture,
     ];
@@ -220,10 +242,20 @@ const SignupForm = () => {
                 </svg>
               )}
             </Avatar>
-
-            <p className="leading-7 text-left my-5">Skills</p>
-
-            {tools?.length > 0 ? (
+            <p className="leading-7 text-left my-5">
+              {isClient ? 'Professional Title' : 'Skills'}
+            </p>
+            {isClient ? (
+              <div className="flex items-center gap-2 min-h-6">
+                <Image
+                  src={'/auth/location.svg'}
+                  alt="location"
+                  width={18}
+                  height={18}
+                />
+                <p className="">{role}</p>
+              </div>
+            ) : tools?.length > 0 ? (
               <div className="space-x-1.5">
                 {tools.map((tool) => (
                   <Badge
@@ -241,10 +273,8 @@ const SignupForm = () => {
                 variant={'outline'}
               ></Badge>
             )}
-
             <Separator className="my-4 bg-separator" />
             <p className="leading-7 text-left my-5">Location</p>
-
             <div className="flex items-center gap-2 min-h-6">
               <Image
                 src={'/auth/location.svg'}
@@ -367,19 +397,53 @@ const SignupForm = () => {
                         <div className="mx-auto w-full">
                           <div className="space-y-6">
                             <h1 className="text-2xl font-semibold tracking-tight text-left">
-                              What&apos;s your name?
+                              {isClient
+                                ? `What's the name of your company?`
+                                : `What's your name?`}
                             </h1>
                             <div className="flex items-center space-x-4">
-                              <InputField
-                                name="firstName"
-                                control={form.control}
-                                placeholder="First Name"
-                              />
-                              <InputField
-                                name="lastName"
-                                control={form.control}
-                                placeholder="Last Name"
-                              />
+                              {isClient ? (
+                                <div className="w-full space-y-4">
+                                  <InputField
+                                    name="companyName"
+                                    control={form.control}
+                                    placeholder="Company Name"
+                                    disabled={isIndividual}
+                                  />
+                                  <FormField
+                                    control={form.control}
+                                    name="isIndividual"
+                                    render={({ field }) => (
+                                      <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                                        <FormControl>
+                                          <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                          />
+                                        </FormControl>
+                                        <div className="space-y-1 leading-none">
+                                          <FormDescription>
+                                            I&apos;m hiring as an individual
+                                          </FormDescription>
+                                        </div>
+                                      </FormItem>
+                                    )}
+                                  />
+                                </div>
+                              ) : (
+                                <>
+                                  <InputField
+                                    name="firstName"
+                                    control={form.control}
+                                    placeholder="First Name"
+                                  />
+                                  <InputField
+                                    name="lastName"
+                                    control={form.control}
+                                    placeholder="Last Name"
+                                  />
+                                </>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -391,48 +455,98 @@ const SignupForm = () => {
                             <h1 className="text-2xl font-semibold tracking-tight text-left">
                               What do you do?
                             </h1>
+                            {isClient ? (
+                              <>
+                                <div className="flex items-center space-x-4">
+                                  <InputField
+                                    name="firstName"
+                                    control={form.control}
+                                    placeholder="First Name"
+                                  />
+                                  <InputField
+                                    name="lastName"
+                                    control={form.control}
+                                    placeholder="Last Name"
+                                  />
+                                </div>
+                                <InputField
+                                  name="role"
+                                  control={form.control}
+                                  placeholder="Professional title"
+                                />
+                                <InputField
+                                  name="userLocation"
+                                  control={form.control}
+                                  placeholder="Location"
+                                />
+                                <InputField
+                                  name="link"
+                                  control={form.control}
+                                  placeholder="Linkedin URL"
+                                  startIcon={Link}
+                                />
 
-                            <FormField
-                              control={form.control}
-                              name="tools"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormControl>
-                                    <MultipleSelector
-                                      // onSearch={async (value) => {
-                                      //   // setIsTriggered(true);
-                                      //   const res = await mockSearch(value);
-                                      //   // setIsTriggered(false);
-                                      //   return res;
-                                      // }}
-                                      // defaultOptions={skillsOptions}
-                                      options={skillsOptions}
-                                      creatable
-                                      placeholder="Add upto three skills"
-                                      loadingIndicator={
-                                        <p className="py-2 text-center text-lg leading-10 text-muted-foreground">
-                                          loading...
-                                        </p>
-                                      }
-                                      emptyIndicator={
-                                        <p className="w-full text-center text-lg leading-10 text-muted-foreground">
-                                          no results found.
-                                        </p>
-                                      }
-                                      onSelectCreate={(value: string) => {
-                                        const data = { skill: value };
-                                        addSkillMutation(data);
-                                      }}
-                                      {...field}
-                                    />
-                                  </FormControl>
-                                  <FormDescription>
-                                    Product Designer, UX Designer, UI Designer
-                                  </FormDescription>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
+                                <FormField
+                                  control={form.control}
+                                  name="profilePicture"
+                                  render={({ field: { onChange } }) => (
+                                    <FormItem className="w-full">
+                                      <FormControl>
+                                        <ImageUpload
+                                          onUpload={(fileUrl: string) =>
+                                            onChange(fileUrl)
+                                          }
+                                          placeholder="Upload profile photo"
+                                        />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                              </>
+                            ) : (
+                              <FormField
+                                control={form.control}
+                                name="tools"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormControl>
+                                      <MultipleSelector
+                                        // onSearch={async (value) => {
+                                        //   // setIsTriggered(true);
+                                        //   const res = await mockSearch(value);
+                                        //   // setIsTriggered(false);
+                                        //   return res;
+                                        // }}
+                                        // defaultOptions={skillsOptions}
+                                        options={skillsOptions}
+                                        creatable
+                                        placeholder="Add upto three skills"
+                                        loadingIndicator={
+                                          <p className="py-2 text-center text-lg leading-10 text-muted-foreground">
+                                            loading...
+                                          </p>
+                                        }
+                                        emptyIndicator={
+                                          <p className="w-full text-center text-lg leading-10 text-muted-foreground">
+                                            no results found.
+                                          </p>
+                                        }
+                                        onSelectCreate={(value: string) => {
+                                          const data = { skill: value };
+                                          addSkillMutation(data);
+                                        }}
+                                        {...field}
+                                      />
+                                    </FormControl>
+                                    <FormDescription>
+                                      Product Designer, UX Designer, UI Designer
+                                    </FormDescription>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                            )}
                           </div>
                         </div>
                       );
@@ -458,17 +572,9 @@ const SignupForm = () => {
                         <div className="mx-auto w-full">
                           <div className="space-y-6">
                             <h1 className="text-2xl font-semibold tracking-tight text-left">
-                              Upload a photo
+                              Upload profile photo
                             </h1>
                             <div className="flex items-center space-x-4">
-                              {/* <InputField
-                                name="userLocation"
-                                control={form.control}
-                                placeholder="Avatar Upload"
-                                type="file"
-                                accept="image/*"
-                              /> */}
-
                               <FormField
                                 control={form.control}
                                 name="profilePicture"
@@ -479,6 +585,7 @@ const SignupForm = () => {
                                         onUpload={(fileUrl: string) =>
                                           onChange(fileUrl)
                                         }
+                                        placeholder="Upload a photo"
                                       />
                                     </FormControl>
                                     <FormMessage />

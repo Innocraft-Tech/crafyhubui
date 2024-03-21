@@ -1,5 +1,15 @@
 import apiSlice from './api';
 
+interface Skill {
+  skillName: string;
+}
+
+interface TransformedSkill {
+  label: string;
+  value: string;
+  [key: string]: string | boolean | undefined;
+}
+
 const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     logIn: builder.mutation<any, any>({
@@ -19,7 +29,7 @@ const authApi = apiSlice.injectEndpoints({
     }),
     register: builder.mutation<any, any>({
       query: (data) => ({
-        url: 'auth/register',
+        url: 'auth',
         method: 'POST',
         body: data,
       }),
@@ -46,6 +56,25 @@ const authApi = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    getSkills: builder.query<TransformedSkill[], void>({
+      query: () => 'crafy/skills',
+
+      transformResponse: (response: Skill[]): TransformedSkill[] => {
+        return response.map((skill) => ({
+          label: skill.skillName,
+          value: skill.skillName,
+        }));
+      },
+      providesTags: ['Skills'],
+    }),
+    addSkill: builder.mutation<any, any>({
+      query: (data) => ({
+        url: 'crafy/add/skill',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['Skills'],
+    }),
   }),
   overrideExisting: false,
 });
@@ -57,4 +86,6 @@ export const {
   useLogOutMutation,
   useRegisterMutation,
   useUpdatePasswordMutation,
+  useAddSkillMutation,
+  useGetSkillsQuery,
 } = authApi;

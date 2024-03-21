@@ -1,5 +1,5 @@
 'use client';
-import { TypeSignUpSchema, signUpSchema } from '@/data/signInData';
+import { TypeSignInSchema, signInSchema } from '@/data/signInData';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import {
@@ -22,8 +22,8 @@ const Signin = () => {
   const router = useRouter();
   const [logIn, { isLoading }] = useLogInMutation();
 
-  const form = useForm<TypeSignUpSchema>({
-    resolver: zodResolver(signUpSchema),
+  const form = useForm<TypeSignInSchema>({
+    resolver: zodResolver(signInSchema),
     defaultValues: {
       email: '',
       password: '',
@@ -32,13 +32,14 @@ const Signin = () => {
 
   const { handleSubmit, reset, control } = form;
 
-  const onSubmit = async (data: TypeSignUpSchema) => {
+  const onSubmit = async (data: TypeSignInSchema) => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     try {
       const result = await logIn(data).unwrap();
 
-      // notifySuccess('Login successfully');
+      console.log(result);
+      // // notifySuccess('Login successfully');
       setToken(result.token);
       router.push('/dashboard');
       reset();

@@ -38,7 +38,6 @@ export const authSlice = createSlice({
     clearAuth: (state: Draft<typeof initialState>) => {
       state.token = '';
       state.user = null;
-      removeToken();
     },
   },
 });

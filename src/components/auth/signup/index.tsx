@@ -90,15 +90,15 @@ const SignupForm = () => {
   const onSubmit = async (data: TypeSignUpSchema) => {
     const { userLocation, ...body } = data;
 
-    console.log(body);
-    // await register({ ...body, userLocation: [userLocation] }).unwrap();
+    await register({ ...body, userLocation: [userLocation] }).unwrap();
 
-    // reset(); // Reset the form after submission
+    reset(); // Reset the form after submission
   };
 
   useEffect(() => {
     if (isClient !== undefined) setCurrentStep((step) => step + 1);
-  }, [isClient]);
+    if (isClient) setValue('tools', []);
+  }, [isClient, setValue]);
 
   useEffect(() => {
     if (isIndividual) {
@@ -109,7 +109,7 @@ const SignupForm = () => {
   const goToNext = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
-    if (currentStep === 5) {
+    if ((isClient && currentStep === 3) || currentStep === 5) {
       handleSubmit(onSubmit)();
       return;
     }
@@ -141,6 +141,8 @@ const SignupForm = () => {
           !errors.lastName &&
           userLocation &&
           !errors.userLocation &&
+          role &&
+          !errors.role &&
           profilePicture &&
           !errors.profilePicture
         : tools?.length >= 3 && !errors.tools,
@@ -166,16 +168,18 @@ const SignupForm = () => {
             <ChevronLeftIcon />
           </Button>
         )}
-        {currentStep !== 8 && (
-          <Button
-            disabled={!disabled[currentStep]}
-            onClick={goToNext}
-            className="rounded-full"
-            type="submit"
-          >
-            Continue
-          </Button>
-        )}
+        {/* {currentStep !== 8 && ( */}
+        <Button
+          disabled={!disabled[currentStep]}
+          onClick={goToNext}
+          className="rounded-full"
+          type="submit"
+        >
+          {(isClient && currentStep === 3) || currentStep === 5
+            ? 'Submit'
+            : 'Continue'}
+        </Button>
+        {/* )} */}
       </div>
     );
   };
@@ -479,12 +483,12 @@ const SignupForm = () => {
                                   control={form.control}
                                   placeholder="Location"
                                 />
-                                <InputField
+                                {/* <InputField
                                   name="link"
                                   control={form.control}
                                   placeholder="Linkedin URL"
                                   startIcon={Link}
-                                />
+                                /> */}
 
                                 <FormField
                                   control={form.control}

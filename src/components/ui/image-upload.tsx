@@ -87,7 +87,7 @@ const ImageUpload = ({ onUpload, placeholder }: ImageUploadProps) => {
     >
       <label
         htmlFor="dropzone-file"
-        className="relative flex flex-col items-center justify-center w-full py-6 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+        className="relative flex flex-col flex-none items-center justify-center w-full py-6 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
       >
         {loading && (
           <div className=" text-center max-w-md  ">
@@ -160,8 +160,6 @@ const ImageUpload = ({ onUpload, placeholder }: ImageUploadProps) => {
       <Input
         {...getInputProps()}
         id="dropzone-file"
-        // accept="image/png, image/jpeg"
-        accept="image/*"
         type="file"
         className="hidden"
         disabled={loading || selectedImagePath !== null}

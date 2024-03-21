@@ -23,8 +23,8 @@ const sidebarNavItems = [
     href: "/settings/payment-methods",
   },
   {
-    title: "Notifications",
-    href: "/examples/forms/notifications",
+    title: "logout",
+    href: "/settings/log-out",
   },
   {
     title: "Display",

@@ -19,8 +19,8 @@ const sidebarNavItems = [
     href: "/settings/email-preferences",
   },
   {
-    title: "help",
-    href: "/settings/help",
+    title: "payment-methods",
+    href: "/settings/payment-methods",
   },
   {
     title: "Notifications",

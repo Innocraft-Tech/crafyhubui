@@ -1,4 +1,4 @@
-"use client"
+'use client';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -6,18 +6,28 @@ import Link from 'next/link';
 import { Playlist } from '@/data/playlists';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { House } from '@phosphor-icons/react';
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
 import { useGetUserQuery } from '@/redux/api/usersApi';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   playlists: Playlist[];
 }
 
 export function Sidebar({ className, playlists }: SidebarProps) {
-  const user_token = Cookies.get('access_token')
-  console.log("user_token", typeof(user_token))
-  const dataOfUser = useGetUserQuery(user_token ? user_token : '').data?.user
-  console.log("Userdata",dataOfUser)
+  const user_token = Cookies.get('access_token');
+  console.log('user_token', typeof user_token);
+  const dataOfUser = useGetUserQuery(user_token ? user_token : '').data?.user;
+  console.log('Userdata', dataOfUser);
   return (
     <div className={cn('pb-12', 'h-lvh', className)}>
       <div className="space-y-4 py-4">
@@ -66,13 +76,55 @@ export function Sidebar({ className, playlists }: SidebarProps) {
             </span>
           </div>
           <div className="w-full flex mx-3 items-center justify-start mb-8">
-            <div className="flex items-center space-x-4">
-              <Avatar>
-                <AvatarImage src={dataOfUser && dataOfUser.profilePicture} />
-                <AvatarFallback>OM</AvatarFallback>
-              </Avatar>
+            <div className="flex items-center space-x-4 ">
+           
+              <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+          <Avatar className="h-8 w-8">
+            <AvatarImage src={dataOfUser && dataOfUser.profilePicture} alt="@shadcn" />
+            <AvatarFallback>SC</AvatarFallback>
+          </Avatar>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56 mx-2" align="end" forceMount>
+        <DropdownMenuLabel className="font-normal">
+          <div className="flex flex-col space-y-1">
+            <p className="text-sm font-medium leading-none">{dataOfUser && dataOfUser.firstName +' '+ dataOfUser.lastName}</p>
+            <p className="text-xs leading-none text-muted-foreground">
+              {/* {console.log(Userdata,"data in design")} */}
+              {dataOfUser ? dataOfUser?.email : '@example.com'}
+            </p>
+          </div>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            Profile
+            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Billing
+            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Settings
+            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>New Team</DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          Log out
+          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
               <div>
-                <p className="text-sm font-medium leading-none">{dataOfUser && dataOfUser.firstName +' '+dataOfUser.lastName}</p>
+                <p className="text-sm font-medium leading-none">
+                  {dataOfUser &&
+                    dataOfUser.firstName + ' ' + dataOfUser.lastName}
+                </p>
                 <p className="text-sm text-muted-foreground">
                   {dataOfUser && dataOfUser.tools[0]}
                 </p>

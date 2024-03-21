@@ -36,7 +36,7 @@ export function DiscoverCard() {
     };
     fetchData();
   }, []);
-  // console.log(userData);
+
 
   console.log(userData);
 
@@ -107,3 +107,4 @@ export function DiscoverCard() {
     </>
   );
 }
+

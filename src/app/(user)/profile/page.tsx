@@ -25,7 +25,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import ImagePng from '@/assets/hummans-1.gif';
-const page = () => {
+const Profile = () => {
   const router = useRouter();
 
   const user_token = Cookies.get('access_token');
@@ -35,7 +35,7 @@ const page = () => {
 
   const [firstName, setName] = useState('suresh');
   const [lastName, setLastName] = useState('kumar');
-  const [updateName, setUpdateName] = useState(firstName);
+  const [updateName, setUpdateName] = useState<string | JSX.Element>(firstName);
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
@@ -44,8 +44,9 @@ const page = () => {
     setUpdateName(
       firstName ? (
         <Edit firstName={firstName} lastName={lastName} />
-      ) : 
+      ) : (
         firstName
+      ),
     );
   }
   return (
@@ -115,9 +116,14 @@ const page = () => {
   );
 };
 
-export default page;
+export default Profile;
 
-const Edit = ({ firstName, lastName }) => {
+type EditProps = {
+  firstName: string;
+  lastName: string;
+};
+
+const Edit = ({ firstName, lastName }: EditProps) => {
   return (
     <>
       <div className="grid grid-cols-2  w-[300px] items-center  ">

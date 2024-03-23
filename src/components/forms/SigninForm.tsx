@@ -41,7 +41,7 @@ const Signin = () => {
       console.log(result);
       // // notifySuccess('Login successfully');
       setToken(result.token);
-      router.push('/');
+      router.push('/dashboard');
       reset();
     } catch (err) {
       // notifyError(data?.error?.data?.error);

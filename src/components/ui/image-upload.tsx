@@ -63,6 +63,7 @@ const ImageUpload = ({ onUpload, placeholder }: ImageUploadProps) => {
 
       handleImageUpload(selectedImage);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {

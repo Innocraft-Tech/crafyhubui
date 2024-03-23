@@ -1,9 +1,9 @@
 'use client';
 import { useGetUserQuery } from '@/redux/api/usersApi';
-import React, { useState } from 'react';
+import React, { SetStateAction, useState } from 'react';
 import Cookies from 'js-cookie';
 import { HiOutlinePencilSquare } from 'react-icons/hi2';
-import {RiDeleteBin6Fill } from "react-icons/ri";
+import { RiDeleteBin6Fill } from 'react-icons/ri';
 type AccountInformationData = {
   email: string;
   birthdate: string;
@@ -23,16 +23,15 @@ interface EditEmailProps {
     [x: string]: any;
     email: string;
   };
-  setAccountInformation: React.Dispatch<
-    React.SetStateAction<{ email: string }>
-  >;
-  initialAccountInformation: { email: string };
+  setAccountInformation: React.Dispatch<SetStateAction<AccountInformationData>>;
+
+  initialAccountInformation: AccountInformationData;
+  editFunc?: any;
 }
 
 const AccountInformation: React.FC = () => {
-  const [accountInformation, setAccountInformation] = useState(
-    initialAccountInformation,
-  );
+  const [accountInformation, setAccountInformation] =
+    useState<AccountInformationData>(initialAccountInformation);
   const [activeEmail, setActiveEmail] = useState(false);
   const [activeDate, setActiveDate] = useState(false);
   const [activeCalendar, setActiveCalendar] = useState(false);
@@ -103,30 +102,39 @@ const AccountInformation: React.FC = () => {
       <div className="category mx-5 my-5  ">
         <label className="block my-2 font-bold text-md">Calendar Link</label>
         <div className=" grid grid-cols-2 hover:bg-gray-100 items-center gap-20">
-        {activeCalendar ? (
-          <EditCalendar
-            accountInformation={accountInformation}
-            setAccountInformation={setAccountInformation}
-            initialAccountInformation={initialAccountInformation}
-            editFunc={editFunc}
-          />
-        ) : (
-          <><p className="px-2 py-2">{accountInformation.calendarLink}</p>
-          <HiOutlinePencilSquare
+          {activeCalendar ? (
+            <EditCalendar
+              accountInformation={accountInformation}
+              setAccountInformation={setAccountInformation}
+              initialAccountInformation={initialAccountInformation}
+              editFunc={editFunc}
+            />
+          ) : (
+            <>
+              <p className="px-2 py-2">{accountInformation.calendarLink}</p>
+              <HiOutlinePencilSquare
                 className=" inline w-[25px] h-[25px] mx-2 cursor-pointer "
-                onClick={() => editFunc('calendar')}/></>)}
+                onClick={() => editFunc('calendar')}
+              />
+            </>
+          )}
         </div>
       </div>
       <div className="category mx-5 my-5">
-        <label className='my-2 font-bold text-md block'>Domains</label>
-        <span className=' text-sm font-bold my-3'>Contra Profile Domain</span>
-        <p className='px-2 py-2 hover:bg-gray-100 items-center gap-20 my-3 text-sm'>{accountInformation.profileDomain}</p>
+        <label className="my-2 font-bold text-md block">Domains</label>
+        <span className=" text-sm font-bold my-3">Contra Profile Domain</span>
+        <p className="px-2 py-2 hover:bg-gray-100 items-center gap-20 my-3 text-sm">
+          {accountInformation.profileDomain}
+        </p>
       </div>
-      <hr className=' mx-4 my-5' />
-     <div className=" mx-5 my-3">
-     <span className=' '> <RiDeleteBin6Fill className='  bg-pink-50 w-[25px] h-[25px] inline  text-pink-900'/> Delete Account </span>
-     </div>
-      
+      <hr className=" mx-4 my-5" />
+      <div className=" mx-5 my-3">
+        <span className=" ">
+          {' '}
+          <RiDeleteBin6Fill className="  bg-pink-50 w-[25px] h-[25px] inline  text-pink-900" />{' '}
+          Delete Account{' '}
+        </span>
+      </div>
     </div>
   );
 };
@@ -191,9 +199,7 @@ const EditEmail: React.FC<EditEmailProps> = ({
           </div>
         </div>
       )}
-      
     </>
-    
   );
 };
 const EditDate: React.FC<EditEmailProps> = ({
@@ -202,7 +208,7 @@ const EditDate: React.FC<EditEmailProps> = ({
   initialAccountInformation,
 }) => {
   const [activeSave, setActiveSave] = useState(false);
- 
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setAccountInformation((prevState) => ({
@@ -215,7 +221,7 @@ const EditDate: React.FC<EditEmailProps> = ({
     console.log('Saved email:', accountInformation.birthdate);
     setActiveSave(true);
   };
- 
+
   const handleCancel = () => {
     // Reset the email to its initial value and exit edit mode
     setAccountInformation(initialAccountInformation);
@@ -264,7 +270,7 @@ const EditCalendar: React.FC<EditEmailProps> = ({
   initialAccountInformation,
 }) => {
   const [activeSave, setActiveSave] = useState(false);
- 
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setAccountInformation((prevState) => ({
@@ -277,7 +283,7 @@ const EditCalendar: React.FC<EditEmailProps> = ({
     console.log('Saved email:', accountInformation.birthdate);
     setActiveSave(true);
   };
- 
+
   const handleCancel = () => {
     // Reset the email to its initial value and exit edit mode
     setAccountInformation(initialAccountInformation);

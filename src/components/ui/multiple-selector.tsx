@@ -213,7 +213,7 @@ const MultipleSelector = React.forwardRef<
         setSelected(newOptions);
         onChange?.(newOptions);
       },
-      [selected],
+      [onChange, selected],
     );
 
     const handleKeyDown = React.useCallback(
@@ -231,7 +231,7 @@ const MultipleSelector = React.forwardRef<
           }
         }
       },
-      [selected],
+      [handleUnselect, selected],
     );
 
     useEffect(() => {
@@ -272,6 +272,7 @@ const MultipleSelector = React.forwardRef<
       };
 
       void exec();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debouncedSearchTerm, open]);
 
     const CreatableItem = () => {

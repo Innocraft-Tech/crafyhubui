@@ -8,24 +8,27 @@ import { Button } from '@/components/ui/button';
 import UserNav from '@/components/ui/usernav';
 import Cookies from 'js-cookie'
 import { useGetUserQuery } from '@/redux/api/usersApi';
+import { SetStateAction, useState } from 'react';
 
 // export const metadata: Metadata = {
 //   title: 'Dashboard',
 //   description: 'Example music app using the components.',
 // };
-
+import SettingsComponent from '@/app/(user)/settings/email-preferences/page'
 export default function Dashboard() {
   const user_token = Cookies.get('access_token')
   console.log("user_token", typeof(user_token))
   const dataOfUser = useGetUserQuery(user_token ? user_token : '').data?.user
   console.log("Userdata",dataOfUser)
+  const [showSettings, setShowSettings] = useState(false);
   return (
     <>
       <div className=" md:block">
         <div className="border-t">
           <div className="bg-background">
             <div className="grid lg:grid-cols-5">
-              <Sidebar playlists={playlists} />
+              <Sidebar playlists={playlists} setShowSettings={ setShowSettings} />
+              { showSettings ?<SettingsComponent setShowSettings={setShowSettings} /> :
               <div className="col-span-3 lg:col-span-4 lg:border-l">
                 <div className="h-full">
                   <div className="flex justify-between items-center border-b">
@@ -66,6 +69,7 @@ export default function Dashboard() {
                   <div className="flex"></div>
                 </div>
               </div>
+              }
             </div>
           </div>
         </div>

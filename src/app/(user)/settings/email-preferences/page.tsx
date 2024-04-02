@@ -13,6 +13,11 @@ type FormData = {
   suggestion: CheckboxOption[];
   newsletter: CheckboxOption[];
 };
+interface SettingsProps {
+  setShowSettings: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+
 
 const initialFormData: FormData = {
   marketing: [
@@ -48,7 +53,7 @@ const initialFormData: FormData = {
   ],
 };
 
-const EmailPreferences: React.FC = () => {
+const EmailPreferences: React.FC<SettingsProps> = ({ setShowSettings }) => {
   const [formData, setFormData] = useState(initialFormData);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const handleCheckboxChange = (category: keyof FormData, id: string) => {
@@ -68,10 +73,15 @@ const EmailPreferences: React.FC = () => {
     });
    
   };
-
+  const handleClose = () => {
+    setShowSettings(false);
+  };
   return (
     <>
       <div className=" border">
+      <span className="close cursor-pointer p-5  font-bold" onClick={handleClose}>
+          &times;
+        </span>
         <h2 className="text-start mx-10 text-2xl font-bold mt-12 mb-6 ">
           Email Preferences
         </h2>

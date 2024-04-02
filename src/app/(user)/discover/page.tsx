@@ -20,20 +20,23 @@ import { Input } from '@/components/ui/input';
 import { Filters } from './components/filters';
 import { DiscoverCard } from './components/card';
 import { useEffect, useState } from 'react';
-
+import SettingsComponent from '@/app/(user)/settings/email-preferences/page'
 // export const metadata: Metadata = {
 //   title: 'Discover',
 //   description: 'Example music app using the components.',
 // };
 
 export default function Discover() {
+  const [showSettings, setShowSettings] = useState<boolean>(false);
   return (
     <>
+    
       <div className=" md:block">
         <div className="border-t">
           <div className="bg-background">
             <div className="grid lg:grid-cols-5">
-              <Sidebar playlists={playlists} />
+              <Sidebar playlists={playlists} setShowSettings={setShowSettings}/>
+              {showSettings  ? <SettingsComponent setShowSettings={setShowSettings}/> :
               <div className="col-span-3 lg:col-span-4 lg:border-l overflow-auto   ">
                 <div className="h-lvh z-20">
                   <div className="   z-30 ">
@@ -77,10 +80,12 @@ export default function Discover() {
                   <DiscoverCard />
                 </div>
               </div>
+            }
             </div>
           </div>
         </div>
       </div>
+     
     </>
   );
 }

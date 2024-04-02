@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { House } from '@phosphor-icons/react';
 import Cookies from 'js-cookie';
 import { useGetUserQuery } from '@/redux/api/usersApi';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,16 +19,22 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useState } from 'react';
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   playlists: Playlist[];
+  setShowSettings: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function Sidebar({ className, playlists }: SidebarProps) {
+export function Sidebar({ className, playlists ,setShowSettings }: SidebarProps ,) {
   const user_token = Cookies.get('access_token');
   console.log('user_token', typeof user_token);
   const dataOfUser = useGetUserQuery(user_token ? user_token : '').data?.user;
   console.log('Userdata', dataOfUser);
+ 
+  const handleSettingsClick = () => {
+    setShowSettings(true); 
+  };
   return (
     <div className={cn('pb-12', 'h-lvh', className)}>
       <div className="space-y-4 py-4">
@@ -107,7 +114,7 @@ export function Sidebar({ className, playlists }: SidebarProps) {
             Billing
             <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem  onClick={handleSettingsClick}>
             Settings
             <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>

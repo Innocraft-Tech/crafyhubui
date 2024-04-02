@@ -27,20 +27,24 @@ interface User {
 }
 
 export function DiscoverCard() {
-  const [userData, setUser] = React.useState<User[]>([]);
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getAllUsers();
-        setUser(response);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchData();
-  }, []);
+  // const [userData, setUser] = React.useState<User[]>([]);
 
-  console.log('userData' + userData);
+  const { data, isError, isLoading } = useGetAllUsersQuery();
+  const { users: userData } = data || {};
+  // React.useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await getAllUsers();
+  //       setUser(response);
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
+  // console.log(userData);
+
+  console.log(data, 'data');
 
   return (
     <>

@@ -50,7 +50,7 @@ import { FaPen } from 'react-icons/fa6';
 import { TfiMoney } from 'react-icons/tfi';
 import { RiSubtractFill } from 'react-icons/ri';
 
-const jobNewPost = () => {
+const JobNewPost = () => {
   const { data: skillsOptions = [] } = useGetSkillsQuery(); // Use the hook to
   const [addSkillMutation, {}] = useAddSkillMutation();
 
@@ -494,4 +494,4 @@ const jobNewPost = () => {
   );
 };
 
-export default jobNewPost;
+export default JobNewPost;

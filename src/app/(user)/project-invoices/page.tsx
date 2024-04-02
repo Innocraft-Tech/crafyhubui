@@ -170,13 +170,13 @@ const Page = () => {
                     <td className="py-1">
                       <div className="font-medium text-slate-700 flex items-center ">
                         {" "}
-                        <Image
+                        {/* <Image
                           src={TrashIcon}
                           alt="addBtn"
                           className=" inline my-6 sm:my-4"
                           width={20}
                           height={20}
-                        />
+                        /> */}
                         <input
                           type="text"
                           placeholder="Item / Service"

@@ -61,7 +61,7 @@ const JobNewPost = () => {
       skills: [],
     },
   });
-  const onSubmitSkills = async (data: TypeToolsSchema) => {
+  const onSubmitSkills = async (data: {skills:string[]}) => {
     console.log('hello');
   };
   const tools = useForm<TypeToolsSchema>({

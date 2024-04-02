@@ -4,7 +4,7 @@ import * as React from 'react';
 import Link from 'next/link';
 
 import { cn } from '@/lib/utils';
-import { Icons } from '@/components/icons';
+// import { Icons } from '@/components/icons';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -14,6 +14,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
+import { Icons } from '@/components/ui/icon';
 
 const components: { title: string; href: string; description: string }[] = [
   {

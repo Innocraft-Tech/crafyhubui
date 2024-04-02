@@ -52,6 +52,7 @@ export default function HandleResponse(props: HandleResponseProps) {
       //   }),
       // );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return null;

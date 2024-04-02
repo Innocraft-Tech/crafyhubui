@@ -75,7 +75,7 @@ export function DiscoverCard() {
               </div>
               <div className="grid">
                 <div className="grid grid-cols-4 items-center gap-4">
-                  {user.tools.map((tool: String[], index: number) => (
+                  {user.tools.map((tool: String, index: number) => (
                     <Badge
                       key={index}
                       variant="secondary"

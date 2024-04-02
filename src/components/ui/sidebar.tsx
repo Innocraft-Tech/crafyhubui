@@ -92,7 +92,7 @@ export function Sidebar({ className, playlists }: SidebarProps) {
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">{dataOfUser && dataOfUser.firstName +' '+ dataOfUser.lastName}</p>
             <p className="text-xs leading-none text-muted-foreground">
-              {/* {console.log(Userdata,"data in design")} */}
+         
               {dataOfUser ? dataOfUser?.email : '@example.com'}
             </p>
           </div>
@@ -178,6 +178,7 @@ export function Sidebar({ className, playlists }: SidebarProps) {
                 Jobs
               </Button>
             </Link>
+            <Link href='/project-invoices'>
             <Button variant="ghost" className="w-full justify-start">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -191,6 +192,7 @@ export function Sidebar({ className, playlists }: SidebarProps) {
               </svg>
               Projects & Invoices
             </Button>
+            </Link>
             <div className="shrink-0 bg-border h-[1px] w-full"></div>
             <Button variant="ghost" className="w-full justify-start">
               <svg

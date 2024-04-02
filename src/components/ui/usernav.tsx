@@ -26,28 +26,17 @@ export default function UserNav() {
     router.push('/login');
   };
 
-  // const getUserById = async () => {
-  // try {
-  // setTimeout(()=>{
   const user_token = Cookies.get('access_token');
   console.log('user_token', typeof user_token);
   const dataOfUser = useGetUserQuery(user_token ? user_token : '').data?.user;
   console.log('Userdata', dataOfUser);
-  // }, 5000)
-  // } catch (error) {
-  // console.error('Error fetching data:', error);
-  // }
 
-  // }
-  //  setTimeout(()=>{
-  // useEffect(()=>{
-  //   if (Userdata){
-  //     Userdata ? setUser(Userdata?.user) : ''
-  //   } else {
-  //     console.log("Userdata is null")
-  //   }
-  // },[])
-  // }, 5000)
+  if (dataOfUser) {
+    console.log('profile pic', dataOfUser);
+  } else {
+    console.log('User data is not available');
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -57,7 +46,12 @@ export default function UserNav() {
               src={dataOfUser && dataOfUser.profilePicture}
               alt="@shadcn"
             />
-            <AvatarFallback>SC</AvatarFallback>
+            <AvatarFallback>
+              <AvatarImage
+                src={dataOfUser && dataOfUser.profilePicture}
+                alt="@shadcn"
+              />
+            </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>

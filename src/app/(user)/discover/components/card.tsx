@@ -27,7 +27,6 @@ interface User {
 }
 
 export function DiscoverCard() {
-<<<<<<< HEAD
   const [userData, setUser] = React.useState<User[]>([]);
   React.useEffect(() => {
     const fetchData = async () => {
@@ -41,28 +40,7 @@ export function DiscoverCard() {
     fetchData();
   }, []);
 
-
-  console.log(userData);
-=======
-  // const [userData, setUser] = React.useState<User[]>([]);
-
-  const { data, isError, isLoading } = useGetAllUsersQuery();
-  const { users: userData } = data || {};
-  // React.useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await getAllUsers();
-  //       setUser(response);
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
-  // console.log(userData);
-
-  console.log(data, 'data');
->>>>>>> c6b2f89c315a44b5bf5849005f4634a265cba356
+  console.log('userData' + userData);
 
   return (
     <>
@@ -131,4 +109,3 @@ export function DiscoverCard() {
     </>
   );
 }
-

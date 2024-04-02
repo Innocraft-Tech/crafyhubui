@@ -5,6 +5,8 @@ import { playlists } from '@/data/playlists';
 import { Metadata } from 'next';
 import { Filters } from '../discover/components/filters';
 import { JobsCard } from './components/card';
+import JobPost from './newpost/page';
+
 
 export const metadata: Metadata = {
   title: 'Jobs',
@@ -58,6 +60,7 @@ export default function Jobs() {
                   </div>
                   <Filters />
                   <JobsCard />
+                {/* <JobPost/> */}
                 </div>
               </div>
             </div>

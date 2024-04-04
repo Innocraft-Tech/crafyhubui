@@ -19,7 +19,14 @@ import {
 } from '@/redux/api/authApi';
 import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
-import { ChevronLeftIcon, Link } from 'lucide-react';
+import {
+  ChevronLeftIcon,
+  Facebook,
+  Instagram,
+  Linkedin,
+  Paperclip,
+  Twitter,
+} from 'lucide-react';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -66,10 +73,14 @@ const SignupForm = () => {
       companyName: '',
       isIndividual: false,
       role: '',
+      socialLinks: [''],
     },
   });
 
-  const { handleSubmit, reset, formState, getValues, setValue } = form;
+  const { handleSubmit, reset, formState, getValues, setValue, watch } = form;
+  const {
+    formState: { isValid },
+  } = useForm();
 
   const { errors } = formState;
 
@@ -86,6 +97,8 @@ const SignupForm = () => {
     isClient,
     role,
   } = getValues();
+
+  const socialLinks = watch('socialLinks');
 
   const onSubmit = async (data: TypeSignUpSchema) => {
     const { userLocation, ...body } = data;
@@ -109,7 +122,7 @@ const SignupForm = () => {
   const goToNext = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
-    if ((isClient && currentStep === 3) || currentStep === 5) {
+    if ((isClient && currentStep === 3) || currentStep === 6) {
       handleSubmit(onSubmit)();
       return;
     }
@@ -175,7 +188,7 @@ const SignupForm = () => {
           className="rounded-full"
           type="submit"
         >
-          {(isClient && currentStep === 3) || currentStep === 5
+          {(isClient && currentStep === 3) || currentStep === 6
             ? 'Submit'
             : 'Continue'}
         </Button>
@@ -289,7 +302,60 @@ const SignupForm = () => {
               <p className="">{userLocation}</p>
             </div>
             <Separator className="my-4 bg-separator" />
-            <p className="leading-7 text-left my-5">Links</p>
+            <div className="flex flex-row gap-3">
+              {Array.isArray(socialLinks) &&
+                socialLinks.map((link, index) => (
+                  <div
+                    className={`${
+                      link && link?.length > 0
+                        ? 'bg-white p-1 rounded-[8px]'
+                        : ''
+                    }`}
+                    key={index}
+                  >
+                    {link?.includes('linkedin.com') ? (
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={`http://${link}`}
+                      >
+                        <Linkedin size={20} />
+                      </a>
+                    ) : link?.includes('facebook.com') ? (
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={`http://${link}`}
+                      >
+                        <Facebook size={20} />
+                      </a>
+                    ) : link?.includes('twitter.com') ? (
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={`http://${link}`}
+                      >
+                        <Twitter size={20} />
+                      </a>
+                    ) : link?.includes('instagram.com') ? (
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={`http://${link}`}
+                      >
+                        <Instagram size={20} />
+                      </a>
+                    ) : (
+                      link &&
+                      link?.length > 0 && (
+                        <a href={`http://${link}`}>
+                          <Paperclip size={20} />
+                        </a>
+                      )
+                    )}
+                  </div>
+                ))}
+            </div>
           </div>
         </Card>
       </div>
@@ -596,6 +662,51 @@ const SignupForm = () => {
                                   </FormItem>
                                 )}
                               />
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    case 6:
+                      return (
+                        <div className="mx-auto w-full">
+                          <div className="space-y-6">
+                            <h1 className="text-2xl font-semibold tracking-tight text-left">
+                              Add social links.
+                            </h1>
+                            <p>
+                              Confirm your identity by adding one or more social
+                              links.
+                            </p>
+                            <div className="flex flex-col gap-4">
+                              {socialLinks?.map((_, index) => (
+                                <InputField
+                                  key={index}
+                                  name={`socialLinks[${index}]`}
+                                  control={form.control}
+                                  placeholder="Link"
+                                />
+                              ))}
+                              <div className="">
+                                {isValid &&
+                                  socialLinks.every(
+                                    (link) => link?.trim() !== '',
+                                  ) && (
+                                    <Button
+                                      type="button"
+                                      variant="outline"
+                                      size="sm"
+                                      className="mt-2 rounded-full"
+                                      onClick={() =>
+                                        setValue('socialLinks', [
+                                          ...socialLinks,
+                                          '',
+                                        ])
+                                      }
+                                    >
+                                      Add URL
+                                    </Button>
+                                  )}
+                              </div>
                             </div>
                           </div>
                         </div>

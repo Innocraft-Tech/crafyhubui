@@ -27,8 +27,8 @@ export default function Dashboard() {
         <div className="border-t">
           <div className="bg-background">
             <div className="grid lg:grid-cols-5">
-              <Sidebar playlists={playlists} setShowSettings={ setShowSettings} />
-              { showSettings ?<SettingsComponent setShowSettings={setShowSettings} /> :
+              <Sidebar playlists={playlists} />
+            
               <div className="col-span-3 lg:col-span-4 lg:border-l">
                 <div className="h-full">
                   <div className="flex justify-between items-center border-b">
@@ -69,7 +69,7 @@ export default function Dashboard() {
                   <div className="flex"></div>
                 </div>
               </div>
-              }
+       
             </div>
           </div>
         </div>

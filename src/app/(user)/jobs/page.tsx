@@ -22,10 +22,8 @@ export default function Jobs() {
       <div className="border-t">
         <div className="bg-background">
           <div className="grid lg:grid-cols-5">
-            <Sidebar playlists={playlists} setShowSettings={setShowSettings} />
-            {showSettings ? (
-              <SettingsComponent setShowSettings={setShowSettings} />
-            ) : (
+            <Sidebar playlists={playlists}  />
+           
               <div className="col-span-3 lg:col-span-4 lg:border-l overflow-auto">
                 <div className="h-lvh">
                   <div className="sticky top-0 z-10">
@@ -70,7 +68,7 @@ export default function Jobs() {
                   </div>
                 </div>
               </div>
-            )}
+         
           </div>
         </div>
       </div>

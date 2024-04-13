@@ -4,9 +4,9 @@ const UserType = z.enum(['CLIENT', 'FREELANCER']);
 const NullableUserType = UserType.optional();
 
 export const toolsSchema = z.object({
- 
   tools: z.array(z.string()).min(3),
-  skills:z.array(z.string()).min(3),
+  skills: z.array(z.string()).min(3),
+  title: z.string(),
 
   // .refine((data) => data.length >= 3, {
   //   message: 'Array must contain at least 3 items',
@@ -17,7 +17,6 @@ export const toolsSchema = z.object({
   // userLocation: z.array(z.string()),
 
   // type: NullableUserType,
-
 });
 
 export type TypeToolsSchema = z.infer<typeof toolsSchema>;

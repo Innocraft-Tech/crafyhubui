@@ -107,8 +107,6 @@ const JobNewPost = () => {
     }
   }
 
-  
-
   return (
     <>
       <NavigationMenuDemo />
@@ -160,8 +158,6 @@ const JobNewPost = () => {
                             const data = { skill: value };
                             addSkillMutation(data);
                           }}
-                         
-
                           {...field}
                         />
                       </FormControl>

@@ -131,7 +131,7 @@ const SignupForm = () => {
       isClient
         ? !isIndividual
           ? companyName && !errors.companyName
-          : true
+          : true 
         : firstName && lastName && !errors.firstName && !errors.lastName,
 
       isClient

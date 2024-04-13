@@ -6,6 +6,7 @@ const NullableUserType = UserType.optional();
 export const toolsSchema = z.object({
  
   tools: z.array(z.string()).min(3),
+  skills:z.array(z.string()).min(3),
 
   // .refine((data) => data.length >= 3, {
   //   message: 'Array must contain at least 3 items',

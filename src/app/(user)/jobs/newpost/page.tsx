@@ -1,7 +1,6 @@
 'use client';
 
 import { toolsSchema, TypeToolsSchema } from '../components/toolsData';
-import { skillsSchema, TypeSkillsSchema } from '../components/skillsData';
 import { IoMdAdd } from 'react-icons/io';
 import {
   AlertDialog,
@@ -49,32 +48,36 @@ import { FaRegClock } from 'react-icons/fa';
 import { FaPen } from 'react-icons/fa6';
 import { TfiMoney } from 'react-icons/tfi';
 import { RiSubtractFill } from 'react-icons/ri';
-
+import { NavigationMenuDemo } from '@/app/(user)/jobs/newpost/components/navbar';
+import { date } from 'zod';
 const JobNewPost = () => {
   const { data: skillsOptions = [] } = useGetSkillsQuery(); // Use the hook to
   const [addSkillMutation, {}] = useAddSkillMutation();
-
-  const skills = useForm<TypeSkillsSchema>({
-    resolver: zodResolver(skillsSchema),
-    mode: 'onChange',
-    defaultValues: {
-      skills: [],
-    },
+  const [newPost, setNewpost] = useState({
+    jobTitle: '',
+    skills: [],
+    tools: [],
+    minRateMaxRate: '',
   });
-  const onSubmitSkills = async (data: {skills:string[]}) => {
-    console.log('hello');
-  };
+  console.log(newPost);
+
   const tools = useForm<TypeToolsSchema>({
     resolver: zodResolver(toolsSchema),
     mode: 'onChange',
     defaultValues: {
       tools: [],
+      skills: [],
     },
   });
   const onSubmitTools = async (data: TypeToolsSchema) => {
     console.log('hello');
   };
-
+  const addSkillToNewPost = (selectedSkills: any) => {
+    setNewpost((prevPost) => ({
+      ...prevPost,
+      skills: selectedSkills,
+    }));
+  };
   const [display, setDisplay] = useState(false);
   const [oneTimeRate, setOneTimeRate] = useState<{
     minRate: number;
@@ -99,11 +102,17 @@ const JobNewPost = () => {
     setCount(count + 1);
   }
   function decrement() {
-    setCount(count - 1);
+    if (count > 0) {
+      setCount(count - 1);
+    }
   }
+
+  
 
   return (
     <>
+      <NavigationMenuDemo />
+
       <div className="  grid grid-cols-1 gap-1  place-content-center  place-items-center p-5    my-5 mx-5   ">
         <div className=" mx-10  mt-10 sm:w-[500px] w-auto ">
           <Label className=" block   font-bold text-sm">Job Title</Label>
@@ -111,31 +120,29 @@ const JobNewPost = () => {
             type="text"
             placeholder=" Add a Descriptive Title"
             className=" text-2xl my-4 border-none outline-none px-5 "
+            name="jobTitle"
+            value={newPost.jobTitle}
+            onChange={(e) =>
+              setNewpost({ ...newPost, jobTitle: e.target.value })
+            }
           />
         </div>
         <div className=" my-5 mx-5   flex-col p-2 border  rounded-[10px]  ">
           <div className=" mx-10  mt-5 sm:w-[500px]   px-[15px] ">
             <Label className="   font-bold text-sm">Skills</Label>
 
-            <Form {...skills}>
+            <Form {...tools}>
               <form
-                onSubmit={skills.handleSubmit(onSubmitSkills)}
+                onSubmit={tools.handleSubmit(onSubmitTools)}
                 className="w-2/3 space-y-6"
               >
                 <FormField
-                  control={skills.control}
+                  control={tools.control}
                   name="skills"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
                         <MultipleSelector
-                          // onSearch={async (value) => {
-                          //   // setIsTriggered(true);
-                          //   const res = await mockSearch(value);
-                          //   // setIsTriggered(false);
-                          //   return res;
-                          // }}
-                          // defaultOptions={skillsOptions}
                           options={skillsOptions}
                           creatable
                           placeholder="Add upto three skills"
@@ -153,6 +160,8 @@ const JobNewPost = () => {
                             const data = { skill: value };
                             addSkillMutation(data);
                           }}
+                         
+
                           {...field}
                         />
                       </FormControl>
@@ -181,13 +190,6 @@ const JobNewPost = () => {
                     <FormItem>
                       <FormControl>
                         <MultipleSelector
-                          // onSearch={async (value) => {
-                          //   // setIsTriggered(true);
-                          //   const res = await mockSearch(value);
-                          //   // setIsTriggered(false);
-                          //   return res;
-                          // }}
-                          // defaultOptions={skillsOptions}
                           options={skillsOptions}
                           creatable
                           placeholder="Add upto three tools"
@@ -486,8 +488,27 @@ const JobNewPost = () => {
             ></textarea>
           </p>
         </div>
-        <div className="  mx-10  mt-5 sm:w-[500px]   px-[15px] grid grid-cols-1 gap-1 my-5">
+        <div className="  mx-10  mt-3  sm:w-[628px] py-5 border w-full  px-[15px] grid grid-cols-1 gap-1 my-5">
           <p>How many contractors are you hiring?</p>
+          <div className="'mx-5 grid grid-cols-5 border  gap-1 w-[200px] ">
+            <input
+              type="text"
+              className=" mx-3 py-2 px-2 m-auto  outline-none col-span-3"
+              value={count}
+            />
+            <IoMdAdd
+              size={20}
+              color="black"
+              className=" mx-2 my-2 cursor-pointer"
+              onClick={increment}
+            />
+            <RiSubtractFill
+              size={20}
+              color="black"
+              className=" my-2 cursor-pointer"
+              onClick={decrement}
+            />
+          </div>
         </div>
       </div>
     </>

@@ -274,7 +274,7 @@ const SignupForm = () => {
                 <p className="">{role}</p>
               </div>
             ) : tools?.length > 0 ? (
-              <div className="space-x-1.5">
+              <div className="space-x-1.5 inline-flex flex-wrap gap-2">
                 {tools.map((tool) => (
                   <Badge
                     key={tool}
@@ -304,6 +304,7 @@ const SignupForm = () => {
             </div>
             <Separator className="my-4 bg-separator" />
             <div className="flex flex-row gap-3">
+              <p className="leading-7 text-left my-5">Links</p>
               {Array.isArray(socialLinks) &&
                 socialLinks.map((link, index) => (
                   <div

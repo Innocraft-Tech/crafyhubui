@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 function isValidUrl(value: string) {
   const urlRegex = /^(?:(?:https?|ftp):\/\/)?(?:www\.)?[^\s.]+\.[^\s]{2,}$/i;
-  return !value.trim() || urlRegex.test(value);
+  return urlRegex.test(value);
 }
 
 export const signUpSchema = z

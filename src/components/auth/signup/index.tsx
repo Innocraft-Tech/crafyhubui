@@ -161,7 +161,6 @@ const SignupForm = () => {
         : tools?.length >= 3 && !errors.tools,
       userLocation && !errors.userLocation,
       profilePicture && !errors.profilePicture,
-      true,
     ];
 
     return (
@@ -237,7 +236,7 @@ const SignupForm = () => {
           <Image src="/logo.svg" alt="logo" width={191} height={42} />
         </div>
 
-        <Card className="p-6 text-center lg:py-8 m-auto w-[450px]  bg-[#F7EFF1] border-none shadow-none">
+        <Card className="p-6 text-center lg:py-8 m-auto w-[450px] bg-[#F7EFF1] border-none shadow-none">
           <h3 className="mb-1.5 text-2xl font-medium ">
             {firstName || lastName ? `${firstName}  ${lastName}` : 'Name'}
           </h3>
@@ -304,7 +303,6 @@ const SignupForm = () => {
             </div>
             <Separator className="my-4 bg-separator" />
             <div className="flex flex-row gap-3">
-              <p className="leading-7 text-left my-5">Links</p>
               {Array.isArray(socialLinks) &&
                 socialLinks.map((link, index) => (
                   <div

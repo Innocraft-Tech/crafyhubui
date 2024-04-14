@@ -50,7 +50,7 @@ const SignupForm = () => {
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get('redirectTo');
 
-  const [currentStep, setCurrentStep] = useState<number>(3);
+  const [currentStep, setCurrentStep] = useState<number>(0);
   const [selectedType, setSelectedType] = useState('');
 
   const { data: skillsOptions = [] } = useGetSkillsQuery(); // Use the hook to

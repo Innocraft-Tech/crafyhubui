@@ -161,6 +161,7 @@ const SignupForm = () => {
         : tools?.length >= 3 && !errors.tools,
       userLocation && !errors.userLocation,
       profilePicture && !errors.profilePicture,
+      true,
     ];
 
     return (

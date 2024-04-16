@@ -41,7 +41,7 @@ import {
   useRegisterMutation,
 } from '@/redux/api/authApi';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
+
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaRegClock } from 'react-icons/fa';
@@ -53,13 +53,6 @@ import { date } from 'zod';
 const JobNewPost = () => {
   const { data: skillsOptions = [] } = useGetSkillsQuery(); // Use the hook to
   const [addSkillMutation, {}] = useAddSkillMutation();
-  // const [newPost, setNewpost] = useState({
-  //   jobTitle: '',
-  //   skills: [],
-  //   tools: [],
-  //   minRateMaxRate: '',
-  // });
-  // console.log(newPost);
 
   const form = useForm<TypeToolsSchema>({
     resolver: zodResolver(toolsSchema),
@@ -68,38 +61,18 @@ const JobNewPost = () => {
       title: '',
       tools: [],
       skills: [],
+      minRate: '',
+      maxRate: '',
+      jobDetails: '',
+      timeZone: '',
     },
   });
-
   const { handleSubmit, control, getValues } = form;
-
-  const { title, tools, skills } = getValues();
-
+  const { title, tools, skills, minRate, maxRate, jobDetails } = getValues();
   const onSubmitTools = async (data: TypeToolsSchema) => {
     console.log('hello');
   };
-  // const addSkillToNewPost = (selectedSkills: any) => {
-  //   setNewpost((prevPost) => ({
-  //     ...prevPost,
-  //     skills: selectedSkills,
-  //   }));
-  // };
   const [display, setDisplay] = useState(false);
-  const [oneTimeRate, setOneTimeRate] = useState<{
-    minRate: number;
-    maxRate: number;
-  }>({ minRate: 0, maxRate: 0 });
-
-  const handleOneTimeRate = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    const { name, value } = e.target;
-    setOneTimeRate((prevState) => ({
-      ...prevState,
-      [name]: value, // Ensure to parse value to float or integer if needed
-    }));
-  };
-  console.log(oneTimeRate);
-
   function handleSave() {
     setDisplay(!display);
   }
@@ -117,25 +90,16 @@ const JobNewPost = () => {
 
   return (
     <>
-      <NavigationMenuDemo />
+      <NavigationMenuDemo values={getValues()} />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmitTools)}
-          className="w-2/3 space-y-6"
+          className=" space-y-6"
         >
-          <div className="  grid grid-cols-1 gap-1  place-content-center  place-items-center p-5    my-5 mx-5   ">
-            <div className=" mx-10  mt-10 sm:w-[500px] w-auto ">
-              <Label className=" block   font-bold text-sm">Job Title</Label>
-              {/* <input
-                type="text"
-                placeholder=" Add a Descriptive Title"
-                className=" text-2xl my-4 border-none outline-none px-5 "
-                name="jobTitle"
-                value={newPost.jobTitle}
-                onChange={(e) =>
-                  setNewpost({ ...newPost, jobTitle: e.target.value })
-                }
-              /> */}
+          <div className="  grid grid-cols-1 gap-1  place-content-center  place-items-center p-5    my-5 sm:mx-5   ">
+            <div className="  my-5 mx-5 w-full sm:w-[40%] flex-col p-2 border  rounded-[10px]   ">
+              <Label className="  font-bold text-sm">Job Title</Label>
+
               <FormField
                 control={control}
                 name={`title`}
@@ -146,7 +110,7 @@ const JobNewPost = () => {
                       <input
                         type="text"
                         placeholder=" Add a Descriptive Title"
-                        className=" text-2xl my-4 border-none outline-none px-5 "
+                        className=" text-2xl my-4 border-none outline-none px-0 sm:px-4 "
                         {...field}
                       />
                       {/* <Input type="text" placeholder="" {...field} /> */}
@@ -195,7 +159,7 @@ const JobNewPost = () => {
                   )}
                 />
 
-                <Label className="   font-bold text-sm">Tools</Label>
+                <Label className="font-bold text-sm">Tools</Label>
 
                 <FormField
                   control={form.control}
@@ -232,19 +196,15 @@ const JobNewPost = () => {
                   )}
                 />
 
-                <div className=" mx-10  mt-5 sm:w-[500px]   px-[15px] ">
-                  <Label className="   font-bold text-sm">
+                <div className="   mt-5 sm:w-[500px]   px-[5px] ">
+                  <Label className="    font-bold text-sm">
                     Budget & duration
                   </Label>{' '}
                   <br />
                   {display ? (
                     <li className=" mx-1 text-xs font-medium flex justify-start my-2">
                       {' '}
-                      {'$' +
-                        oneTimeRate.maxRate +
-                        ' - ' +
-                        '$' +
-                        oneTimeRate.minRate}
+                      {'$' + maxRate + ' - ' + '$' + minRate}
                     </li>
                   ) : (
                     ''
@@ -289,33 +249,53 @@ const JobNewPost = () => {
                             <TabsContent value="one-time">
                               <div className="category grid grid-cols-2  place-content-center w-[400px] my-1 ">
                                 <div className=" w-[200px]">
-                                  {' '}
-                                  <Label htmlFor="Min.rate" className=" mx-3">
-                                    Min. rate
-                                  </Label>
-                                  <Input
-                                    type="number"
-                                    id="number"
-                                    placeholder="$ 2,500"
-                                    className=" my-1 mx-3"
-                                    onChange={handleOneTimeRate}
-                                    value={oneTimeRate.minRate}
+                                  <FormField
+                                    control={form.control}
                                     name="minRate"
+                                    render={({ field }) => (
+                                      <FormControl>
+                                        <FormItem>
+                                          <Label
+                                            htmlFor="Min.rate"
+                                            className=" mx-3"
+                                          >
+                                            Min. rate
+                                          </Label>
+                                          <Input
+                                            type="number"
+                                            id="number"
+                                            placeholder="$ 2,500"
+                                            className=" my-1 mx-3"
+                                            {...field}
+                                          />
+                                        </FormItem>
+                                      </FormControl>
+                                    )}
                                   />
                                 </div>
                                 <div className=" mx-3 w-[200px]">
-                                  {' '}
-                                  <Label htmlFor="Min.rate" className=" mx-3">
-                                    Max. rate
-                                  </Label>
-                                  <Input
-                                    type="number"
-                                    id="text"
-                                    placeholder="$ 5,000"
-                                    className=" my-1 mx-3"
-                                    onChange={handleOneTimeRate}
-                                    value={oneTimeRate.maxRate}
+                                  <FormField
+                                    control={form.control}
                                     name="maxRate"
+                                    render={({ field }) => (
+                                      <FormControl>
+                                        <FormItem>
+                                          <Label
+                                            htmlFor="Min.rate"
+                                            className=" mx-3"
+                                          >
+                                            Max. rate
+                                          </Label>
+                                          <Input
+                                            type="number"
+                                            id="text"
+                                            placeholder="$ 5,000"
+                                            className=" my-1 mx-3"
+                                            {...field}
+                                          />
+                                        </FormItem>
+                                      </FormControl>
+                                    )}
                                   />
                                 </div>
                               </div>
@@ -509,17 +489,24 @@ const JobNewPost = () => {
               <div className="  sm:w-[630px]  sm:h-[200px]  px-[15px] grid grid-cols-1 gap-1 my-5 ">
                 <Label className=" block mx-6 ">Job details</Label>
                 <p className=" rounded-[10px] border px-3 py-3 sm:w-[600px] sm:h-[150px] ">
-                  {/* <input type="text" placeholder=' A description helps contractors better understand the scope and
-          requirements of your job. This is also a great place to include key
-
-          deliverables, links or examples.'  className=' border-none outline-none  w-full overflow-scroll'/> */}
-                  <textarea
-                    placeholder="A description helps contractors better understand the scope and
+                  <FormField
+                    control={form.control}
+                    name="jobDetails"
+                    render={({ field }) => (
+                      <FormControl>
+                        <FormItem>
+                          <textarea
+                            placeholder="A description helps contractors better understand the scope and
           requirements of your job. This is also a great place to include key
 
           deliverables, links or examples."
-                    className=" border-none outline-none  overflow-hidden w-full"
-                  ></textarea>
+                            className=" border-none outline-none  overflow-hidden w-full"
+                            {...field}
+                          ></textarea>
+                        </FormItem>
+                      </FormControl>
+                    )}
+                  />
                 </p>
               </div>
               <div className="  mx-10  mt-3  sm:w-[628px] py-5 border w-full  px-[15px] grid grid-cols-1 gap-1 my-5">
@@ -543,6 +530,134 @@ const JobNewPost = () => {
                     onClick={decrement}
                   />
                 </div>
+              </div>
+              <div className=" mx-5 p-5 border grid grid-cols-2">
+                <FormField
+                  name="timeZone"
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Select>
+                          <SelectTrigger className="w-[280px]">
+                            <SelectValue placeholder="Select a timezone" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectLabel>North America</SelectLabel>
+                              <SelectItem value="est">
+                                Eastern Standard Time (EST)
+                              </SelectItem>
+                              <SelectItem value="cst">
+                                Central Standard Time (CST)
+                              </SelectItem>
+                              <SelectItem value="mst">
+                                Mountain Standard Time (MST)
+                              </SelectItem>
+                              <SelectItem value="pst">
+                                Pacific Standard Time (PST)
+                              </SelectItem>
+                              <SelectItem value="akst">
+                                Alaska Standard Time (AKST)
+                              </SelectItem>
+                              <SelectItem value="hst">
+                                Hawaii Standard Time (HST)
+                              </SelectItem>
+                            </SelectGroup>
+                            <SelectGroup>
+                              <SelectLabel>Europe & Africa</SelectLabel>
+                              <SelectItem value="gmt">
+                                Greenwich Mean Time (GMT)
+                              </SelectItem>
+                              <SelectItem value="cet">
+                                Central European Time (CET)
+                              </SelectItem>
+                              <SelectItem value="eet">
+                                Eastern European Time (EET)
+                              </SelectItem>
+                              <SelectItem value="west">
+                                Western European Summer Time (WEST)
+                              </SelectItem>
+                              <SelectItem value="cat">
+                                Central Africa Time (CAT)
+                              </SelectItem>
+                              <SelectItem value="eat">
+                                East Africa Time (EAT)
+                              </SelectItem>
+                            </SelectGroup>
+                            <SelectGroup>
+                              <SelectLabel>Asia</SelectLabel>
+                              <SelectItem value="msk">
+                                Moscow Time (MSK)
+                              </SelectItem>
+                              <SelectItem value="ist">
+                                India Standard Time (IST)
+                              </SelectItem>
+                              <SelectItem value="cst_china">
+                                China Standard Time (CST)
+                              </SelectItem>
+                              <SelectItem value="jst">
+                                Japan Standard Time (JST)
+                              </SelectItem>
+                              <SelectItem value="kst">
+                                Korea Standard Time (KST)
+                              </SelectItem>
+                              <SelectItem value="ist_indonesia">
+                                Indonesia Central Standard Time (WITA)
+                              </SelectItem>
+                            </SelectGroup>
+                            <SelectGroup>
+                              <SelectLabel>Australia & Pacific</SelectLabel>
+                              <SelectItem value="awst">
+                                Australian Western Standard Time (AWST)
+                              </SelectItem>
+                              <SelectItem value="acst">
+                                Australian Central Standard Time (ACST)
+                              </SelectItem>
+                              <SelectItem value="aest">
+                                Australian Eastern Standard Time (AEST)
+                              </SelectItem>
+                              <SelectItem value="nzst">
+                                New Zealand Standard Time (NZST)
+                              </SelectItem>
+                              <SelectItem value="fjt">
+                                Fiji Time (FJT)
+                              </SelectItem>
+                            </SelectGroup>
+                            <SelectGroup>
+                              <SelectLabel>South America</SelectLabel>
+                              <SelectItem value="art">
+                                Argentina Time (ART)
+                              </SelectItem>
+                              <SelectItem value="bot">
+                                Bolivia Time (BOT)
+                              </SelectItem>
+                              <SelectItem value="brt">
+                                Brasilia Time (BRT)
+                              </SelectItem>
+                              <SelectItem value="clt">
+                                Chile Standard Time (CLT)
+                              </SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <Select>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select Ofset" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="1 hours">± 1 Hour</SelectItem>
+                    <SelectItem value="2 hours">± 2 Hours</SelectItem>
+                    <SelectItem value="3 hours">± 3 Hours</SelectItem>
+                    <SelectItem value="4 hours">± 4 Hours</SelectItem>
+                    <SelectItem value="5 hours">± 5 Hours</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
           </div>

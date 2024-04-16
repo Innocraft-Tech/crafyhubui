@@ -4,6 +4,7 @@ import * as React from 'react';
 import Link from 'next/link';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
 // import { Icons } from '@/components/icons';
 import {
   NavigationMenu,
@@ -73,7 +74,18 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-export function NavigationMenuDemo() {
+interface props {
+  values: {
+    title: string;
+    minRate: string;
+    maxRate: string;
+    skills: string[];
+    tools: string[];
+    jobDetails: string;
+    timeZone:string;
+  };
+}
+export function NavigationMenuDemo({ values }: props) {
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -116,13 +128,24 @@ export function NavigationMenuDemo() {
             <li>
               <AlertDialog>
                 <AlertDialogTrigger asChild>
+          
                   <button className=" text-xs px-5 py-2 border-2 rounded-[50px]">
                     cancel
                   </button>
+                 
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
-                    <AlertDialogTitle>Exit job creation?</AlertDialogTitle>
+                
+                    <AlertDialogTitle>
+                      
+                    <Link href='/jobs'>
+                      <button>
+                      Exit job creation?
+                      </button>
+                      </Link>
+                      </AlertDialogTitle>
+                   
                     <AlertDialogDescription>
                       Your job will be saved privately to your account. You can
                       continue editing at any time.
@@ -149,15 +172,45 @@ export function NavigationMenuDemo() {
                     preview
                   </button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
+                <DialogContent className="sm:max-w-[525px] ">
                   <DialogHeader className="my-2">
                     <DialogTitle>
                       This is a preview of what candidates will see.
                     </DialogTitle>
                     <DialogDescription>Ongoing.</DialogDescription>
                   </DialogHeader>
-                  <div className="grid gap-4 py-4">
-                    <span> hello world</span>
+                  <div className=" py-4">
+                    <p className="w-full text-2xl font-bold ">{values.title}</p>
+                    <p className=' my-3 text-sm font-medium border px-4 rounded-[50px] py-2 inline-block'> $ {values.maxRate} - {values.minRate}</p>
+                    <div className=" grid grid-cols-3 my-5 place-content-center items-center ">
+                {
+                  values.skills.map((skill, index) =>(
+                    <Badge
+                          key={index}
+                          className=" border rounded-[5px]  text-xs text-center mx-1 my-2"
+                        >
+                          {skill}
+                        </Badge>
+                  ))
+                }
+                      {values.tools&&values.tools.map((skill, index) => (
+                        // <li key={index} className='text-xs list-none my-2 text-center  font-medium  border-2 rounded-[50px]'> {skill}</li>
+                        <Badge
+                          key={index}
+                          className=" border rounded-[5px]  text-xs text-center mx-1 my-2"
+                        >
+                          {skill}
+                        </Badge>
+                      ))}
+                    </div>
+                    <div className=" grid grid-cols-1 ">
+                      <p className=' font-bold my-4'> Job Details </p>
+                    <p className=' w-auto  text-xs overflow-clip'>{values.jobDetails}</p>
+                    <p className=' font-bold  my-4'> Time Zone</p>
+              
+                    <p>{values.timeZone}</p>
+                    </div>
+                  
                   </div>
                   <DialogFooter></DialogFooter>
                 </DialogContent>

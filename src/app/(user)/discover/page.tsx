@@ -1,19 +1,32 @@
 'use client';
 import { Stack } from '@chakra-ui/layout';
+import Conversation from 'components/chat/Conversation';
 import UserCard from 'components/user/discover/UserCard';
-import React from 'react';
+import React, { useState } from 'react';
+import { BsArrowBarUp } from 'react-icons/bs';
 import { useGetAllUsersQuery } from 'store/api/usersApi';
 
 const Discover = () => {
   const { data, isError, isLoading } = useGetAllUsersQuery();
 
+  const [conversationModal, setConversationModal] = useState<User | null>(null);
+
+  const openConversationModal = (user: User) => {
+    setConversationModal(user);
+  };
+
+  const closeConversationModal = () => {
+    setConversationModal(null);
+  };
+
   return (
     <>
+      <Conversation
+        user={conversationModal}
+        closeConversationModal={closeConversationModal}
+      />
       <Stack direction="row" spacing={12} className="mt-2">
-        {/* <button className="mt-2 inline-flex items-center rounded-lg px-5 py-2.5 text-center text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-700 dark:bg-navy-700 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-600">
-          Github
-        </button> */}
-        <button className="linear mt-1 flex items-center justify-center gap-2 rounded-lg bg-gray-100 p-2 text-brand-700 transition duration-200 hover:cursor-pointer hover:bg-gray-200 active:bg-gray-200 dark:!bg-navy-800 dark:text-white dark:hover:opacity-90 dark:active:opacity-80">
+        <button className="linear mt-1 flex items-center justify-center gap-2 rounded-lg bg-gray-100 p-2 text-navy-700 transition duration-200 hover:cursor-pointer hover:bg-gray-200 active:bg-gray-200 dark:!bg-navy-800 dark:text-white dark:hover:opacity-90 dark:active:opacity-80">
           <svg
             stroke="currentColor"
             fill="currentColor"
@@ -30,7 +43,7 @@ const Discover = () => {
             Filters
           </span>
         </button>
-        <button className="linear mt-1 flex items-center justify-center gap-2 rounded-lg bg-gray-100 p-2 text-brand-500 transition duration-200 hover:cursor-pointer hover:bg-gray-200 active:bg-gray-200 dark:!bg-navy-800 dark:text-white dark:hover:opacity-90 dark:active:opacity-80">
+        <button className="linear mt-1 flex items-center justify-center gap-2 rounded-lg bg-gray-100 p-2 text-navy-700 transition duration-200 hover:cursor-pointer hover:bg-gray-200 active:bg-gray-200 dark:!bg-navy-800 dark:text-white dark:hover:opacity-90 dark:active:opacity-80">
           <svg
             stroke="currentColor"
             fill="currentColor"
@@ -50,7 +63,11 @@ const Discover = () => {
       </Stack>
       <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 3xl:grid-cols-6">
         {data?.users.map((user) => (
-          <UserCard key={user._id} user={user} />
+          <UserCard
+            key={user._id}
+            user={user}
+            openConversationModal={openConversationModal}
+          />
         ))}
       </div>
     </>

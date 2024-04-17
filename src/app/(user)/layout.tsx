@@ -13,12 +13,16 @@ import { Portal } from '@chakra-ui/portal';
 import Navbar from 'components/navbar';
 import Sidebar from 'components/sidebar';
 import Footer from 'components/footer/Footer';
+import useUserInfo from '../../../hooks/useUserInfo';
 
-export default function Admin({ children }: { children: React.ReactNode }) {
+export default function User({ children }: { children: React.ReactNode }) {
   // states and functions
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   if (isWindowAvailable()) document.documentElement.dir = 'ltr';
+
+  useUserInfo();
+
   return (
     <div className="flex h-full w-full bg-background-100 dark:bg-background-900">
       <Sidebar routes={routes} open={open} setOpen={setOpen} variant="admin" />

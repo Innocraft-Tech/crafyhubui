@@ -5,8 +5,15 @@ import { PiTelegramLogoFill } from 'react-icons/pi';
 import { Avatar, Tag } from '@chakra-ui/react';
 import AvatarFallback from './AvatarFallback';
 
-const UserCard = (user, index) => {
-  const { user: userData } = user;
+type UserCardProps = {
+  user: any;
+  openConversationModal: (user: User) => void;
+};
+
+const UserCard = ({ user: userData, openConversationModal }: UserCardProps) => {
+  const onClickChat = () => {
+    openConversationModal(userData);
+  };
 
   return (
     <Card extra="!px-[20px] text-center py-[16px] bg-cover">
@@ -20,7 +27,7 @@ const UserCard = (user, index) => {
       {/* Name and position */}
       <div className="mt-4 flex flex-col items-center">
         <h4 className="text-xl font-bold text-navy-700 dark:text-white">
-          {userData.firstName} {userData.lastName}
+          {userData.firstName} {userData.lastName} {userData._id}
         </h4>
         <h5 className="text-base font-normal text-gray-600">
           {userData.userLocation || ' '}
@@ -41,7 +48,10 @@ const UserCard = (user, index) => {
       </div>
 
       <div className="mb-3 mt-4 flex gap-4 text-center md:!gap-14">
-        <button className="linear w-full rounded-[20px] bg-brand-600 px-4 py-2 text-base font-medium text-white transition duration-200 hover:bg-brand-700 active:bg-brand-700 dark:bg-brand-400 dark:hover:bg-brand-300 dark:active:opacity-90">
+        <button
+          onClick={onClickChat}
+          className="linear w-full rounded-[20px] bg-brand-500 px-4 py-2 text-base font-medium text-white transition duration-200 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:hover:bg-brand-300 dark:active:opacity-90"
+        >
           <PiTelegramLogoFill size={'22'} className="inline" /> Get In Touch
         </button>
       </div>

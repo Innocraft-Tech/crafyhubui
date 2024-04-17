@@ -1,3 +1,16 @@
 form {
-	width: 100%;
+  width: 100%;
+}
+
+.selectable-text {
+  -webkit-user-select: text;
+}
+
+[placeholder]:empty::before {
+  content: attr(placeholder);
+  color: #555;
+}
+
+[placeholder]:empty:focus::before {
+  content: '';
 }

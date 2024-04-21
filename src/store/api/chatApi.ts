@@ -15,6 +15,11 @@ const chatApiSlice = apiSlice.injectEndpoints({
       query: (id) => `message/${id}`,
       providesTags: [{ type: 'Chat' }],
     }),
+    getUserChats: builder.query<MessageResponse, GetChatPayload>({
+      query: (id) => `chat/${id}`,
+      // providesTags: [{ type: 'UserChats' }],
+      providesTags: (result, error, arg) => [{ type: 'User', id: arg }],
+    }),
     sendMessage: builder.mutation<SendMessageResponse, MessagePayload>({
       query: (data) => ({
         url: 'message/add',
@@ -22,7 +27,7 @@ const chatApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
 
-      invalidatesTags: () => [{ type: 'Chat' }],
+      // invalidatesTags: () => [{ type: 'Chat' }],
     }),
   }),
   overrideExisting: false,
@@ -32,5 +37,5 @@ export const {
   useChatStartMutation,
   useGetChatsQuery,
   useSendMessageMutation,
-  useLazyGetChatsQuery,
+  useGetUserChatsQuery,
 } = chatApiSlice;

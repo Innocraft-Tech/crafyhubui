@@ -2,6 +2,7 @@ import React from 'react';
 // Icon Imports
 import { MdHome, MdLock, MdPerson } from 'react-icons/md';
 import { PiBinocularsFill } from 'react-icons/pi';
+import { TbMessageCircle2Filled } from 'react-icons/tb';
 
 const routes = [
   {
@@ -15,6 +16,12 @@ const routes = [
     layout: '/user',
     path: 'discover',
     icon: <PiBinocularsFill className="h-6 w-6" />,
+  },
+  {
+    name: 'Messages',
+    layout: '/user',
+    path: 'messages',
+    icon: <TbMessageCircle2Filled className="h-6 w-6" />,
   },
   {
     name: 'Profile',

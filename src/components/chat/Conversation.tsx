@@ -1,31 +1,26 @@
-import { Flex } from '@chakra-ui/layout';
-import { useColorMode, useColorModeValue } from '@chakra-ui/system';
+'use client';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
-import {
-  BsArrowBarUp,
-  BsDot,
-  BsEmojiLaughing,
-  BsThreeDots,
-} from 'react-icons/bs';
-import { FiSearch } from 'react-icons/fi';
-import { GoDotFill } from 'react-icons/go';
+import React, { KeyboardEvent, useEffect, useRef, useState } from 'react';
+import { BsEmojiLaughing } from 'react-icons/bs';
+import { skipToken } from '@reduxjs/toolkit/query';
 import { IoMdClose } from 'react-icons/io';
 import { IoSend } from 'react-icons/io5';
 import { MdOutlineAttachFile } from 'react-icons/md';
-import useUserInfo from '../../../hooks/useUserInfo';
-import useSocket from '../../../hooks/useSocket';
 import {
   useChatStartMutation,
   useGetChatsQuery,
-  useLazyGetChatsQuery,
+  useGetUserChatsQuery,
   useSendMessageMutation,
 } from 'store/api/chatApi';
-import { skipToken } from '@reduxjs/toolkit/query';
+import useSocket from '../../../hooks/useSocket';
+import useUserInfo from '../../../hooks/useUserInfo';
+import { AnimatePresence, motion } from 'framer-motion';
+import { cn } from 'utils/cookie';
+import Card from 'components/card';
 
 type ConversationProps = {
-  user: User;
-  closeConversationModal: () => void;
+  user?: User;
+  closeConversationModal?: () => void;
 };
 
 const Conversation = ({
@@ -36,40 +31,50 @@ const Conversation = ({
   const { userInfo } = useUserInfo();
 
   const [onlineUsers, setOnlineUsers] = useState<OnlineUsers[]>([]);
-  const [text, setText] = useState<string>('');
+  // const [text, setText] = useState<string>('');
   const [socketSendMessage, setSocketSendMessage] = useState(null);
-  const [conversation, setConversation] = useState<MessageResponse[]>([]);
+  const [conversation, setConversation] = useState<Message[]>([]);
 
   const [chatStart, { isError: chatError, isSuccess, error, data: chatData }] =
     useChatStartMutation();
 
   const [sendMessage, { isSuccess: msgSuccess }] = useSendMessageMutation();
 
-  console.log(msgSuccess, 'msgSuccess');
-  console.log(chatData, chatError);
-  // const { data, isError, isLoading } = useGetChatsQuery(chatData?.id);
-
   const { data, isLoading, isFetching } = useGetChatsQuery(
     chatData?._id ? chatData._id : skipToken,
   );
 
-  const [Chat, result] = useLazyGetChatsQuery();
+  const { data: userChats } = useGetUserChatsQuery(
+    userInfo?._id ? userInfo._id : skipToken,
+  );
 
-  console.log(data, result);
-
-  console.log(userInfo, selectedUser);
-
-  const [chats, setChats] = useState<MessageResponse | []>([]);
+  const divRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (result) {
-      setChats(result.data);
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop =
+        messagesContainerRef.current.scrollHeight;
     }
-  }, [result]);
+  }, [conversation]);
+
+  // console.log(data, result);
+
+  // console.log(userInfo, selectedUser);
+
+  // const [chats, setChats] = useState<Message[] | []>([]);
+
+  // console.log(chats, 'chats');
+
+  // useEffect(() => {
+  //   if (result) {
+  //     setChats(result.data);
+  //   }
+  // }, [result]);
 
   useEffect(() => {
     if (data) {
-      setChats(data);
+      setConversation(data.messages);
     }
   }, [data]);
 
@@ -88,57 +93,71 @@ const Conversation = ({
       socket?.emit('new-user-add', userInfo?._id);
       socket?.on('get-users', (users) => {
         setOnlineUsers(users);
-        console.log(users, 'users');
       });
       socket?.on('recieve-message', (data) => {
-        console.log(data, 'recieve-message  ');
-        Chat(data.chatId);
+        setConversation((prevState) => [...prevState, data]);
       });
     }
   }, [userInfo]);
 
   // Send Message to socket server
   useEffect(() => {
-    console.log(socketSendMessage, 'socketSendMessage');
     if (socketSendMessage !== null) {
-      console.log('socket send-message');
       socket?.emit('send-message', socketSendMessage);
     }
   }, [socketSendMessage]);
 
-  // Get the message from socket server
-  useEffect(() => {
-    socket?.on('recieve-message', (data) => {
-      console.log(data, 'recieve-message  ');
-      Chat(data.chatId);
-    });
-  }, []);
-
-  const handleChange = (event) => {
-    setText(event.currentTarget.textContent);
-  };
-
   const onClickSendMessage = () => {
-    const message = { chatId: chatData._id, senderId: userInfo?._id, text };
-    console.log(message);
+    const text = divRef.current.textContent;
 
-    sendMessage(message).then(() => {
-      setSocketSendMessage({
-        ...message,
-        receiverId: selectedUser._id,
-        // receiverId: userInfo._id,
-        // senderId: selectedUser._id,
-      });
+    if (!text.trim()) return;
+    divRef.current.textContent = '';
+
+    const message = {
+      chatId: chatData._id,
+      senderId: userInfo?._id,
+      text,
+    };
+
+    sendMessage(message).then((res) => {
+      if ('data' in res) {
+        const conversationCopy = [...conversation];
+        conversationCopy.push(res.data.message);
+        setConversation(conversationCopy);
+        setSocketSendMessage({
+          ...res.data.message,
+          receiverId: selectedUser._id,
+        });
+      }
+
+      // setSocketSendMessage({
+      //   ...message,
+      //   receiverId: selectedUser._id,
+      // });
     });
   };
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.code === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      onClickSendMessage();
+    }
+  };
+
+  console.log(conversation, 'conversation');
 
   return (
-    <div
-      className={`fixed bottom-0 right-[12px] z-10 
-      h-4/6 w-max origin-bottom-right  py-2 py-2 pb-0 shadow-xl shadow-shadow-500 transition-all duration-300 ease-in-out dark:shadow-none md:pr-4 
-    ${selectedUser ? 'scale-100' : 'scale-0'}`}
+    // <div
+    //   className={`fixed bottom-0 right-[12px] z-10  h-4/6
+    //   w-[270px] w-max origin-bottom-right py-2 py-2 pb-0 transition-all duration-300 ease-in-out dark:shadow-none sm:w-[460px] md:pr-4
+    // ${selectedUser ? 'scale-100' : 'scale-0'}`}
+    // >
+    <Card
+      extra={`!fixed bottom-0 right-[0px] sm:right-[20px] md:right-[12px] z-10  h-4/6 w-[270px] w-full origin-bottom-right transition-all duration-300 ease-in-out  sm:w-[460px] md:mr-4 dark:!bg-navy-700 ${
+        selectedUser ? 'scale-100' : 'scale-0'
+      }`}
     >
-      <div className="flex h-full w-[270px] flex-col gap-3 rounded-[20px] bg-white py-4 shadow-xl shadow-shadow-500 dark:!bg-navy-700 dark:text-white dark:shadow-none sm:w-[460px]">
+      <div className="flex h-full flex-col gap-3 rounded-[20px] bg-white py-4 shadow-xl shadow-shadow-500 dark:!bg-navy-700">
         <div className="flex items-center justify-between gap-2 px-6">
           <div className="!z-5 relative flex flex-grow !flex-row flex-col items-center rounded-[20px] rounded-[20px]  dark:text-white dark:shadow-none">
             <div className="flex w-auto flex-row items-center">
@@ -184,31 +203,59 @@ const Conversation = ({
         </div>
         <div className="mt-3 h-px w-full bg-gray-200 dark:bg-white/20 " />
         {/* <div className="flex-basis-0 h-1 flex-shrink-0 flex-grow px-6 py-3"> */}
-        <div className="no-scrollbar py-7.5 max-h-full flex-1 space-y-3.5 overflow-auto px-6 text-navy-700 dark:text-white">
-          {data?.messages?.map((message) => (
-            <>
-              {message.senderId === userInfo?._id ? (
-                <div className="ml-auto max-w-sm text-end">
-                  <div className="mb-2.5 inline-block rounded-2xl rounded-br-none bg-brand-500 px-5 py-3 dark:bg-brand-400">
-                    <p className="font-medium text-white">{message.text}</p>
+        <div
+          ref={messagesContainerRef}
+          className="no-scrollbar py-7.5 max-h-full flex-1 space-y-3.5 overflow-auto px-6 text-navy-700 dark:text-white"
+        >
+          <AnimatePresence>
+            {conversation.map((message, index) => (
+              <motion.div
+                key={message._id}
+                layout
+                initial={{ opacity: 0, scale: 1, y: 50, x: 0 }}
+                animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
+                exit={{ opacity: 0, scale: 1, y: 1, x: 0 }}
+                transition={{
+                  opacity: { duration: 0.1 },
+                  layout: {
+                    type: 'spring',
+                    bounce: 0.3,
+                    duration: conversation.indexOf(message) * 0.05 + 0.2,
+                  },
+                }}
+                style={{
+                  originX: 0.5,
+                  originY: 0.5,
+                }}
+                // className={cn(
+                //   "flex flex-col gap-2 p-4 whitespace-pre-wrap",
+                //   message.name !== selectedUser.name ? "items-end" : "items-start"
+                // )}
+              >
+                {message.senderId === userInfo?._id ? (
+                  <div className="ml-auto max-w-sm text-end">
+                    <div className="mb-2.5 inline-block rounded-2xl rounded-br-none bg-brand-500 px-5 py-3 dark:bg-brand-400">
+                      <p className="font-medium text-white">{message.text}</p>
+                    </div>
+
+                    <p className="text-right text-xs font-medium text-gray-600">
+                      1:55pm
+                    </p>
                   </div>
-                  <p className="text-right text-xs font-medium text-gray-600">
-                    1:55pm
-                  </p>
-                </div>
-              ) : (
-                <div className="max-w-sm">
-                  {/* <p className="mb-2.5 text-sm font-medium">
+                ) : (
+                  <div className="max-w-sm">
+                    {/* <p className="mb-2.5 text-sm font-medium">
                     {selectedUser?.firstName} {selectedUser?.lastName}
                   </p> */}
-                  <div className="mb-2.5  inline-block rounded-2xl rounded-tl-none bg-lightPrimary px-5 py-3 text-navy-700">
-                    <p className="font-medium">{message.text}</p>
+                    <div className="mb-2.5  inline-block rounded-2xl rounded-tl-none bg-lightPrimary px-5 py-3 text-navy-700">
+                      <p className="font-medium">{message.text}</p>
+                    </div>
+                    <p className="text-xs font-medium text-gray-600">1:55pm</p>
                   </div>
-                  <p className="text-xs font-medium text-gray-600">1:55pm</p>
-                </div>
-              )}
-            </>
-          ))}
+                )}
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
 
         <div className=" flex items-center gap-2 px-6 pt-[10px]">
@@ -229,19 +276,22 @@ const Conversation = ({
                 contentEditable="true"
                 role="textbox"
                 spellCheck="true"
-                className="max-h-16 min-h-4 overflow-y-auto overflow-x-hidden  border-0 text-sm outline-none"
+                className="max-h-16 min-h-4 overflow-y-auto overflow-x-hidden  border-0 text-sm outline-none 
+                before:text-gray-700 dark:placeholder:!text-white 
+                 dark:before:!text-white"
                 style={{
                   userSelect: 'text',
                   whiteSpace: 'pre-wrap',
                   wordBreak: 'break-word',
                 }}
-                onBlur={handleChange}
+                ref={divRef}
+                onKeyDown={handleKeyDown}
                 data-lexical-editor="true"
                 suppressContentEditableWarning={true}
                 placeholder="Type message..."
-              >
-                {text}
-                {/* <p className="text-indent-0 mb-0 mt-0 select-text">
+              />
+              {/* {text} */}
+              {/* <p className="text-indent-0 mb-0 mt-0 select-text">
                   <span
                     className="selectable-text copyable-text"
                     data-lexical-text="true"
@@ -249,7 +299,7 @@ const Conversation = ({
                     {content}
                   </span>
                 </p> */}
-              </div>
+              {/* </div> */}
             </div>
           </div>
           <span
@@ -370,7 +420,9 @@ const Conversation = ({
           </form> */}
         </div>
       </div>
-    </div>
+    </Card>
+    // </div>
+    // </Card>
   );
 };
 

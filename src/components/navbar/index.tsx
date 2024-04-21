@@ -14,6 +14,7 @@ import {
 } from 'react-icons/io';
 import avatar from '/public/img/avatars/avatar4.png';
 import Image from 'next/image';
+import useUserInfo from '../../../hooks/useUserInfo';
 
 const Navbar = (props: {
   onOpenSidenav: () => void;
@@ -22,6 +23,7 @@ const Navbar = (props: {
   [x: string]: any;
 }) => {
   const { onOpenSidenav, brandText, mini, hovered } = props;
+  const { userInfo } = useUserInfo();
   const [darkmode, setDarkmode] = React.useState(
     document.body.classList.contains('dark'),
   );
@@ -189,8 +191,8 @@ const Navbar = (props: {
               width="2"
               height="20"
               className="h-10 w-10 rounded-full"
-              src={avatar}
-              alt="Elon Musk"
+              src={userInfo?.profilePicture}
+              alt={`${userInfo?.firstName}`}
             />
           }
           classNames={'py-2 top-8 -left-[180px] w-max'}
@@ -199,7 +201,7 @@ const Navbar = (props: {
             <div className="ml-4 mt-3">
               <div className="flex items-center gap-2">
                 <p className="text-sm font-bold text-navy-700 dark:text-white">
-                  👋 Hey, Adela
+                  👋 Hey, {`${userInfo?.firstName} ${userInfo?.lastName}`}
                 </p>{' '}
               </div>
             </div>

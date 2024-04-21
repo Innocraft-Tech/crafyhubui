@@ -1,5 +1,12 @@
 import Cookies from 'js-cookie';
 
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
 export const setToken = (accessToken: string) => {
   const sevenDays = 7 * 24 * 60 * 60 * 1000;
   Cookies.set('access_token', accessToken, {

@@ -15,6 +15,8 @@ import {
 import avatar from '/public/img/avatars/avatar4.png';
 import Image from 'next/image';
 import useUserInfo from '../../../hooks/useUserInfo';
+import { removeToken } from 'utils/cookie';
+import { redirect, useRouter } from 'next/navigation';
 
 const Navbar = (props: {
   onOpenSidenav: () => void;
@@ -27,6 +29,15 @@ const Navbar = (props: {
   const [darkmode, setDarkmode] = React.useState(
     document.body.classList.contains('dark'),
   );
+  const router = useRouter();
+
+  const logout = (e) => {
+    e.preventDefault();
+
+    removeToken();
+    router.push('/login');
+  };
+
   return (
     <nav className="sticky top-4 z-40 flex flex-row flex-wrap items-center justify-between rounded-xl bg-white/10 p-2 backdrop-blur-xl dark:bg-[#0b14374d]">
       <div className="ml-[6px]">
@@ -221,8 +232,9 @@ const Navbar = (props: {
                 Newsletter Settings
               </a>
               <a
-                href=" "
-                className="mt-3 text-sm font-medium text-red-500 hover:text-red-500"
+                // href=" "
+                onClick={logout}
+                className="mt-3 cursor-pointer text-sm font-medium text-red-500 hover:text-red-500"
               >
                 Log Out
               </a>

@@ -1,9 +1,5 @@
 'use client';
 import React, { ReactNode } from 'react';
-import 'styles/App.css';
-import 'styles/Contact.css';
-import 'styles/index.css';
-
 import dynamic from 'next/dynamic';
 
 const _NoSSR = ({ children }) => <React.Fragment>{children}</React.Fragment>;

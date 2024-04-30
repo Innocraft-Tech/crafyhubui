@@ -67,6 +67,11 @@ const JobNewPost = () => {
       timeZone: '',
     },
   });
+  const onSubmit=async(data:TypeToolsSchema)=>{
+      const {title,tools,skills,minRate,maxRate,jobDetails,...body}=data;
+        
+      
+  }
   const { handleSubmit, control, getValues } = form;
   const { title, tools, skills, minRate, maxRate, jobDetails } = getValues();
   const onSubmitTools = async (data: TypeToolsSchema) => {
@@ -86,7 +91,15 @@ const JobNewPost = () => {
     }
   }
 
-  console.log(getValues());
+  const [jobData, setJobData] = useState([]);
+
+  // useEffect(() => {
+  //   fetch('http://localhost:8080/job/p-job')
+  //     .then((response) => response.json())
+  //     .then((data) => setJobData(data))
+  //     .catch((error) => console.log('Error fetching job data:', error));
+  // }, []);
+  // console.log('jobData'+ jobData);
 
   return (
     <>

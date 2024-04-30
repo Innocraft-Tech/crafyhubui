@@ -134,7 +134,7 @@ import { Separator } from '@/components/ui/separator';
 import { getAllJobs } from '@/app/api/auth/api-helper/index';
 import { useGetUserQuery } from '@/redux/api/usersApi';
 import Cookies from 'js-cookie';
-import jwtDecode from 'jwt-decode';
+
 
 export function JobsCard() {
   const [jobs, setJobs] = useState({});

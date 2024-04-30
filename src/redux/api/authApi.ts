@@ -35,6 +35,14 @@ const authApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['User'],
     }),
+    newPost: builder.mutation<any, any>({
+      query: (data) => ({
+        url: 'http://localhost:8080/job/p-job',
+        method: 'POST',
+        body:data,
+      }),
+      invalidatesTags: ['User'],
+    }),
     forgotPassword: builder.mutation<any, any>({
       query: (data) => ({
         url: 'auth/forgot',

@@ -17,6 +17,8 @@ import { SetStateAction, useState } from 'react';
 import SettingsComponent from '@/app/(user)/settings/email-preferences/page'
 export default function Dashboard() {
   const user_token = Cookies.get('access_token')
+  console.log(user_token);
+  
   console.log("user_token", typeof(user_token))
   const dataOfUser = useGetUserQuery(user_token ? user_token : '').data?.user
   console.log("Userdata",dataOfUser)

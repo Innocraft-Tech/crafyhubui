@@ -7,7 +7,7 @@ import { Metadata } from 'next';
 import { Filters } from '../discover/components/filters';
 import { JobsCard } from './components/card';
 import JobPost from './newpost/page';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import SettingsComponent from '@/app/(user)/settings/email-preferences/page';
 // export const metadata: Metadata = {
@@ -15,8 +15,12 @@ import SettingsComponent from '@/app/(user)/settings/email-preferences/page';
 //   description: 'Example music app using the components.',
 // };
 
+
 export default function Jobs() {
-  const [showSettings, setShowSettings] = useState<boolean>(false);
+  const [showSettings, setShowSettings] = useState<boolean>(false);  
+  useEffect(()=>{7
+
+  })                                                                
   return (
     <div className=" md:block">
       <div className="border-t">

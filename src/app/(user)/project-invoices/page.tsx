@@ -1,17 +1,17 @@
-"use client";
-import React, { useState } from "react";
+'use client';
+import React, { useState } from 'react';
 
-import Image from "next/image";
+import Image from 'next/image';
 // import addBtn from "../../assets/addBtn.svg";
 
-import { nanoid } from "nanoid";
+import { nanoid } from 'nanoid';
 // import { TrashIcon } from "@heroicons/react/24/outline";
 // import { Droppable, Draggable } from 'react-beautiful-dnd';
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 // import { Value } from "sass";
-import{ jsPDF }  from 'jspdf';
+import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
-import { TrashIcon } from "lucide-react";
+import { TrashIcon } from 'lucide-react';
 interface AddInputItem {
   uniqueString: string;
 }
@@ -32,17 +32,17 @@ const Page = () => {
     }
   }
   const [invoiceDetails, setInvoiceDetails] = React.useState<any>({
-    invoiceNumber: "",
-    issuedOn: "",
-    billTo: "",
-    due: "",
-    project:""
+    invoiceNumber: '',
+    issuedOn: '',
+    billTo: '',
+    due: '',
+    project: '',
   });
   const [userData, setUserData] = React.useState<any>({
-    item: "",
-    quantity: "",
-    price: "",
-    total: ""
+    item: '',
+    quantity: '',
+    price: '',
+    total: '',
   });
   function handleUserInput(event: React.ChangeEvent<HTMLInputElement>) {
     setUserData((prevState: any) => ({
@@ -54,24 +54,30 @@ const Page = () => {
   const downloadPdf = () => {
     const input = document.getElementById('invoiceContent');
     if (input) {
-      html2canvas(input, { scale: 2 }).then((canvas: { toDataURL: (arg0: string) => any; width: any; height: any; }) => { // Adjust scale for better quality
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF({
-          orientation: 'portrait',
-          unit: 'pt',
-          format: [canvas.width, canvas.height]
-        });
-        pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-        pdf.save('invoice.pdf');
-      });
+      html2canvas(input, { scale: 2 }).then(
+        (canvas: {
+          toDataURL: (arg0: string) => any;
+          width: any;
+          height: any;
+        }) => {
+          // Adjust scale for better quality
+          const imgData = canvas.toDataURL('image/png');
+          const pdf = new jsPDF({
+            orientation: 'portrait',
+            unit: 'pt',
+            format: [canvas.width, canvas.height],
+          });
+          pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+          pdf.save('invoice.pdf');
+        },
+      );
     } else {
       console.error('Element with id "invoiceContent" not found');
     }
   };
-  
+
   return (
     <>
-  
       <div className=" grid  grid-cols-1 gap-2 sm:grid-cols-2 w-[600px] sm:w-[1200px]  mx-6">
         <div className=" border-r-gray-100 border-r-2 h-screen ">
           <span className="  block text-gray-200"> From</span>
@@ -91,13 +97,17 @@ const Page = () => {
             className=" border  w-60 text-sm my-2 border-gray-100 outline-none px-1 py-1.5 rounded-[10px]"
             name="invoice"
             value={invoiceDetails.invoiceNumber}
-            onChange={(e) => setInvoiceDetails({ ...invoiceDetails, invoiceNumber: e.target.value })}
+            onChange={(e) =>
+              setInvoiceDetails({
+                ...invoiceDetails,
+                invoiceNumber: e.target.value,
+              })
+            }
           />
           <div className=" flex justify-between mx-2 text-xs w-[310px] ">
             <span> ISSUED ON</span>
-            
+
             <span> BILL TO</span>
-    
           </div>
           <div className="flex justify-between  text-xs text-start  w-[500px] ">
             <input
@@ -105,14 +115,21 @@ const Page = () => {
               placeholder="24-001"
               className=" border  w-[250px] text-xs my-2 border-gray-100 outline-none px-1 py-1.5 rounded-[10px]"
               value={invoiceDetails.issuedOn}
-              onChange={(e) => setInvoiceDetails({ ...invoiceDetails, issuedOn: e.target.value })}
+              onChange={(e) =>
+                setInvoiceDetails({
+                  ...invoiceDetails,
+                  issuedOn: e.target.value,
+                })
+              }
             />
             <input
               type="email"
               placeholder="enter email address"
               className=" border w-[250px] mx-2 text-sm my-2 border-gray-100 outline-none px-2  py-1.5 rounded-[10px]"
               value={invoiceDetails.billTo}
-              onChange={(e) => setInvoiceDetails({ ...invoiceDetails, billTo: e.target.value })}
+              onChange={(e) =>
+                setInvoiceDetails({ ...invoiceDetails, billTo: e.target.value })
+              }
             />
           </div>
           <span className="block text-xs mx-1"> Due</span>
@@ -121,8 +138,9 @@ const Page = () => {
             className="border   w-[250px]  text-xs my-2 border-gray-100 outline-none px-1 py-1.5 rounded-[10px]"
             name="due"
             value={invoiceDetails.due}
-            onChange={(e) => setInvoiceDetails({ ...invoiceDetails, due: e.target.value })}
-          
+            onChange={(e) =>
+              setInvoiceDetails({ ...invoiceDetails, due: e.target.value })
+            }
           ></input>
           <hr className="border-gray-100 my-2" />
           <span className="block text-xs"> Project</span>
@@ -131,7 +149,9 @@ const Page = () => {
             placeholder="Select Project "
             className="border text-xs rounded-[30px] my-3 px-2 py-2 w-[500px]"
             value={invoiceDetails.project}
-            onChange={(e) => setInvoiceDetails({ ...invoiceDetails, project: e.target.value })}
+            onChange={(e) =>
+              setInvoiceDetails({ ...invoiceDetails, project: e.target.value })
+            }
           />
           <table className=" border-b-2 border-b-gray-100">
             <thead className="  ">
@@ -169,7 +189,7 @@ const Page = () => {
                   <tr className="" key={item.uniqueString}>
                     <td className="py-1">
                       <div className="font-medium text-slate-700 flex items-center ">
-                        {" "}
+                        {' '}
                         {/* <Image
                           src={TrashIcon}
                           alt="addBtn"
@@ -225,28 +245,34 @@ const Page = () => {
             <span className=" text-sm">Total</span>
             <span>$00 </span>
           </div>
-          <button  className=" text-sm  bg-black-100 text-White-900 my-3 font-semibold border w-[200px] px-1 b before:after:first: py-2 rounded-[30px] hover:bg-Pink-900 hover:text-White-900"
-            onClick={handleInput}>+ New Item</button>
-         
+          <button
+            className=" text-sm  bg-black-100 text-White-900 my-3 font-semibold border w-[200px] px-1 b before:after:first: py-2 rounded-[30px] hover:bg-Pink-900 hover:text-White-900"
+            onClick={handleInput}
+          >
+            + New Item
+          </button>
         </div>
 
-        <div className="" >
-        <div id="invoiceContent"> world
-          <p>Invoice Number: {invoiceDetails.invoiceNumber}</p>
-          <p>Issued On: {invoiceDetails.issuedOn}</p>
-          <p>Bill To: {invoiceDetails.billTo}</p>
-          <p>Due: {invoiceDetails.due}</p>
-          <p>Project: {invoiceDetails.project}</p>
-          <ul>
-            {Object.entries(userData).map(([key, value]) => (
-              <li key={key}>
-                <strong>{key}:</strong> {typeof value === 'string' ? value : ''}
-              </li>
-            ))}
-          </ul></div>
+        <div className="">
+          <div id="invoiceContent">
+            {' '}
+            world
+            <p>Invoice Number: {invoiceDetails.invoiceNumber}</p>
+            <p>Issued On: {invoiceDetails.issuedOn}</p>
+            <p>Bill To: {invoiceDetails.billTo}</p>
+            <p>Due: {invoiceDetails.due}</p>
+            <p>Project: {invoiceDetails.project}</p>
+            <ul>
+              {Object.entries(userData).map(([key, value]) => (
+                <li key={key}>
+                  <strong>{key}:</strong>{' '}
+                  {typeof value === 'string' ? value : ''}
+                </li>
+              ))}
+            </ul>
+          </div>
           <button onClick={downloadPdf}>Download PDF</button>
-
-      </div>
+        </div>
       </div>
     </>
   );

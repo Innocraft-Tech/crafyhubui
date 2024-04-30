@@ -226,6 +226,8 @@ export function Sidebar({ className, playlists }: SidebarProps) {
                 Files
               </Button>
             </Link>
+            <Link href='/stats'>
+            
             <Button variant="ghost" className="w-full justify-start">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -239,6 +241,7 @@ export function Sidebar({ className, playlists }: SidebarProps) {
               </svg>
               Stats
             </Button>
+            </Link>
             <div className="shrink-0 bg-border h-[1px] w-full"></div>
             <Button variant="ghost" className="w-full justify-start">
               <svg

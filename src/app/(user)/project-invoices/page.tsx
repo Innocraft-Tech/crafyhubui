@@ -84,7 +84,7 @@ const Page = () => {
               Custom Branding
             </button>
           </div>
-          <span className=" text-xs"> INVOICE#</span> <br />
+          <span className=" text-xs"> INVOICE#</span> <br/>
           <input
             type="text"
             placeholder="24-001"

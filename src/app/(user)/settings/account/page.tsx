@@ -29,12 +29,24 @@ interface EditEmailProps {
   editFunc?: any;
 }
 
-const AccountInformation: React.FC = () => {
+interface SettingsProps {
+  setShowSettings: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+
+const AccountInformation: React.FC <SettingsProps> = ({ setShowSettings }) => {
+
+  
   const [accountInformation, setAccountInformation] =
     useState<AccountInformationData>(initialAccountInformation);
   const [activeEmail, setActiveEmail] = useState(false);
   const [activeDate, setActiveDate] = useState(false);
   const [activeCalendar, setActiveCalendar] = useState(false);
+  const handleClose = () => {
+    setShowSettings(false);
+  };
+
+
 
   function editFunc(type: string) {
     if (type === 'email') {
@@ -52,6 +64,9 @@ const AccountInformation: React.FC = () => {
   }
   return (
     <div className="border mx-4  w-auto ">
+       <span className="close" onClick={handleClose}>
+          &times;
+        </span>
       <h2 className="mx-4 font-bold mt-4 text-2xl"> Account Information</h2>
       <div className="category mx-5 my-5 ">
         <label className="block font-bold text-md my-2">Email</label>

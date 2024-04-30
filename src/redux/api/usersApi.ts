@@ -23,6 +23,14 @@ const usersApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [{ type: 'User', id: 'me' }],
     }),
+    updateProfile: builder.mutation<any, any>({
+      query: (data) => ({
+        url: 'https://crafy-server.onrender.com/profile/update/65b39c931f9c2fdda3e822e3',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: [{ type: 'User', id: 'me' }],
+    }),
     getAllUsers: builder.query<IUsersResponse, void>({
       query: () => `allusers`,
       providesTags: [{ type: 'User', id: 'LIST' }],
@@ -36,7 +44,7 @@ const usersApiSlice = apiSlice.injectEndpoints({
         result ? [{ type: 'User', id }] : ['User'],
     }),
 
-    // updateUser:
+    //   updateUser:
     // deleteUser:
   }),
   overrideExisting: false,
@@ -47,4 +55,5 @@ export const {
   useUpdateMeMutation,
   useGetAllUsersQuery,
   useGetUserQuery,
+  useUpdateProfileMutation,
 } = usersApiSlice;

@@ -5,7 +5,7 @@ export const userSignupRequest = async (data) => {
     .post('https://crafy-server.onrender.com/auth', data)
     .catch((err) => console.log(err));
   console.log(user);
-  return user   ;
+  return user;
 };
 
 export const loginRequest = async (data) => {
@@ -64,7 +64,7 @@ export const deleteUserAccoount = async (data) => {
 export const getUser = async (id) => {
   let response, responseData;
   try {
-    response = await axios.get(`http://localhost:8080/user/${id}`);
+    response = await axios.get(`https://crafy-server.onrender.com/user/${id}`);
     responseData = await response.data.user;
     return responseData;
   } catch (error) {
@@ -77,7 +77,7 @@ export const getAllUsers = async () => {
   const users = await axios
     .get('https://crafy-server.onrender.com/allusers')
     .catch((err) => console.log(err));
-    console.log(users)
+  console.log(users);
   const responseData = await users.data.users;
   return responseData;
 };

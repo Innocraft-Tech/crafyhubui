@@ -1,36 +1,25 @@
-'use client';
-import { Metadata } from 'next';
-import Image from 'next/image';
-
+import Chat from '@/components/chat/page';
+import React from 'react';
 import { Sidebar } from '@/components/ui/sidebar';
 import { playlists } from '@/data/playlists';
 import { Button } from '@/components/ui/button';
 import UserNav from '@/components/ui/usernav';
-import Cookies from 'js-cookie';
-import { useGetUserQuery } from '@/redux/api/usersApi';
+import { Filters } from '../discover/components/filters';
+import Messages from '@/components/message/page';
 
-// export const metadata: Metadata = {
-//   title: 'Dashboard',
-//   description: 'Example music app using the components.',
-// };
-
-export default function Dashboard() {
-  const user_token = Cookies.get('access_token');
-  console.log('user_token', typeof user_token);
-  const dataOfUser = useGetUserQuery(user_token ? user_token : '').data?.user;
-  console.log('Userdata', dataOfUser);
+const MessagesPage = () => {
   return (
-    <>
-      <div className=" md:block">
-        <div className="border-t">
-          <div className="bg-background">
-            <div className="grid lg:grid-cols-5">
-              <Sidebar playlists={playlists} />
-              <div className="col-span-3 lg:col-span-4 lg:border-l">
-                <div className="h-full">
-                  <div className="flex justify-between items-center border-b">
+    <div className=" md:block">
+      <div className="border-t">
+        <div className="bg-background">
+          <div className="grid lg:grid-cols-5">
+            <Sidebar playlists={playlists} />
+            <div className="col-span-3 lg:col-span-4 lg:border-l overflow-auto   ">
+              <div className="h-lvh z-20">
+                <div className="   z-30 ">
+                  <div className="flex justify-between items-center border-b bg-stone-50">
                     <div className="topHeadings p-5">
-                      <h3 className="text-lg">Dashboard</h3>
+                      <h3 className="text-lg">Discover</h3>
                     </div>
                     <div className="righ-nav flex items-center px-5">
                       <Button variant="ghost">
@@ -58,18 +47,15 @@ export default function Dashboard() {
                       <UserNav />
                     </div>
                   </div>
-                  <div className="coverImage bg-slate-100 h-64 relative">
-                    <h4 className="absolute bottom-0 px-5 py-5">
-                      Welcome, {dataOfUser && dataOfUser.firstName} 👋
-                    </h4>
-                  </div>
-                  <div className="flex"></div>
                 </div>
+                <Messages />
               </div>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
-}
+};
+
+export default MessagesPage;

@@ -67,8 +67,8 @@ export default function Discover() {
                         <UserNav />
                       </div>
                     </div>
-                    <div className="coverImage bg-slate-100 h-36 relative">
-                      <h4 className="absolute bottom-0 px-5 py-5">
+                    <div className="text-brand-500 coverImage bg-slate-100 h-36 relative">
+                      <h4 className="text-brand-500 absolute bottom-0 px-5 py-5">
                         Welcome, Nikki 👋
                       </h4>
                     </div>

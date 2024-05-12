@@ -12,8 +12,6 @@ const Wrapper = ({ withAuth, children }: IProtectedRouteProps) => {
   const cookieStore = cookies();
   const token = cookieStore.get('access_token')?.value;
 
-  console.log(token);
-
   if (!withAuth && token) {
     redirect('/dashboard');
   }

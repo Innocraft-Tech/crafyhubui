@@ -50,7 +50,7 @@ const SignupForm = () => {
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get('redirectTo');
 
-  const [currentStep, setCurrentStep] = useState<number>(0);
+  const [currentStep, setCurrentStep] = useState<number>(6);
   const [selectedType, setSelectedType] = useState('');
 
   const { data: skillsOptions = [] } = useGetSkillsQuery(); // Use the hook to
@@ -83,6 +83,8 @@ const SignupForm = () => {
   } = useForm();
 
   const { errors } = formState;
+
+  console.log(errors, 'errors');
 
   const {
     email,
@@ -161,6 +163,7 @@ const SignupForm = () => {
         : tools?.length >= 3 && !errors.tools,
       userLocation && !errors.userLocation,
       profilePicture && !errors.profilePicture,
+      true,
     ];
 
     return (

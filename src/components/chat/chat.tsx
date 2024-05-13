@@ -9,12 +9,16 @@ import { skipToken } from '@reduxjs/toolkit/query';
 import React, { useEffect, useState } from 'react';
 import { ChatList } from './chat-list';
 import ChatTopbar from './chat-topbar';
+import { Socket } from 'socket.io-client';
 
 interface ChatProps {
   //   messages?: Message[];
   selectedUser: User | null;
   isMobile: boolean;
   onlineUsers: OnlineUsers[];
+  socket: Socket | null;
+  closeConversationModal?: () => void;
+  widget?: boolean;
 }
 
 export function Chat({
@@ -22,8 +26,11 @@ export function Chat({
   selectedUser,
   isMobile,
   onlineUsers,
+  socket,
+  closeConversationModal,
+  widget,
 }: ChatProps) {
-  const socket = useSocket(process.env.NEXT_PUBLIC_SERVER_SOCKET_URI || '');
+  // const socket = useSocket(process.env.NEXT_PUBLIC_SERVER_SOCKET_URI || '');
   const [messagesState, setMessages] = React.useState<Message[]>([]);
   const [socketSendMessage, setSocketSendMessage] =
     useState<SocketMessage | null>(null);
@@ -49,11 +56,11 @@ export function Chat({
     selectedChat?._id ? selectedChat._id : skipToken,
   );
 
-  console.log(data, 'data', selectedChat);
+  // console.log(data, 'data', selectedChat);
 
   useEffect(() => {
     if (userInfo?._id) {
-      socket?.on('recieve-message', (data) => {
+      socket?.on('recieve-message', (data: SocketMessage) => {
         setMessages((prevState) => [...prevState, data]);
       });
     }
@@ -62,6 +69,7 @@ export function Chat({
   // Send Message to socket server
   useEffect(() => {
     if (socketSendMessage !== null) {
+      console.log('send-message', socketSendMessage);
       socket?.emit('send-message', socketSendMessage);
     }
   }, [socketSendMessage, socket]);
@@ -89,6 +97,7 @@ export function Chat({
           receiverId: selectedUser?._id,
         });
       }
+      console.log(selectedUser, 'selectedUser', userInfo?._id);
 
       // setSocketSendMessage({
       //   ...message,
@@ -103,7 +112,12 @@ export function Chat({
 
   return (
     <div className="flex flex-col justify-between w-full h-full">
-      <ChatTopbar selectedUser={selectedUser} onlineUsers={onlineUsers} />
+      <ChatTopbar
+        selectedUser={selectedUser}
+        onlineUsers={onlineUsers}
+        closeConversationModal={closeConversationModal}
+        widget={widget}
+      />
 
       <ChatList
         messages={messagesState}

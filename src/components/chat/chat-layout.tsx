@@ -139,6 +139,7 @@ export function ChatLayout({
           selectedUser={selectedUser}
           isMobile={isMobile}
           onlineUsers={onlineUsers}
+          socket={socket}
         />
       </ResizablePanel>
     </ResizablePanelGroup>

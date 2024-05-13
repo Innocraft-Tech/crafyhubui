@@ -1,3 +1,4 @@
+'use server';
 import { ReactNode } from 'react';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';

@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { Info, Phone, Video } from 'lucide-react';
+import { Info, Phone, Video, X } from 'lucide-react';
 import Link from 'next/link';
 import { Avatar, AvatarImage } from '../ui/avatar';
 import { buttonVariants } from '../ui/button';
@@ -8,13 +8,22 @@ import { buttonVariants } from '../ui/button';
 interface ChatTopbarProps {
   selectedUser: User;
   onlineUsers: OnlineUsers[];
+  closeConversationModal?: () => void;
+  widget?: boolean;
 }
 
-export const TopbarIcons = [{ icon: Phone }, { icon: Video }, { icon: Info }];
+export const TopbarIcons = [
+  { icon: Phone },
+  { icon: Video },
+  { icon: Info },
+  { icon: X, action: 'close' },
+];
 
 export default function ChatTopbar({
   selectedUser,
   onlineUsers,
+  closeConversationModal,
+  widget,
 }: ChatTopbarProps) {
   if (!selectedUser) return;
   return (
@@ -49,19 +58,26 @@ export default function ChatTopbar({
       </div>
 
       <div>
-        {TopbarIcons.map((icon, index) => (
-          <Link
-            key={index}
-            href="#"
-            className={cn(
-              buttonVariants({ variant: 'ghost', size: 'icon' }),
-              'h-9 w-9',
-              'dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white',
-            )}
-          >
-            <icon.icon size={20} className="text-muted-foreground" />
-          </Link>
-        ))}
+        {TopbarIcons.map((icon, index) =>
+          !widget && icon.action === 'close' ? null : (
+            <Link
+              key={index}
+              href="#"
+              className={cn(
+                buttonVariants({ variant: 'ghost', size: 'icon' }),
+                'h-9 w-9',
+                'dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white',
+              )}
+              onClick={(e) => {
+                e.preventDefault();
+                if (icon.action === 'close' && closeConversationModal)
+                  closeConversationModal();
+              }}
+            >
+              <icon.icon size={20} className="text-muted-foreground" />
+            </Link>
+          ),
+        )}
       </div>
     </div>
   );

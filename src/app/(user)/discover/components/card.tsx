@@ -7,13 +7,14 @@ import { Card } from '@/components/ui/card';
 import { useGetAllUsersQuery } from '@/redux/api/usersApi';
 import { ReactNode, useState } from 'react';
 import { ProjectSlider } from './projectsslider';
+import Conversation from '@/components/chat/conversation';
 // import { useGetUsersQuery } from '@/redux/api/usersApi';
 // import { useGetAllUserQuery } from '@/redux/api/usersApi';
-interface User {
-  profilePicture: string | undefined;
-  firstName: ReactNode;
-  tools: any;
-}
+// interface User {
+//   profilePicture: string | undefined;
+//   firstName: ReactNode;
+//   tools: any;
+// }
 
 export function DiscoverCard() {
   const { data, isError, isLoading } = useGetAllUsersQuery();
@@ -46,14 +47,14 @@ export function DiscoverCard() {
 
   return (
     <>
-      {/* <Conversation
+      <Conversation
         user={conversationModal}
         closeConversationModal={closeConversationModal}
-      /> */}
-      <div className="lg:grid px-32 py-5 discoverUsers">
-        <div className="grid lg:grid-cols-3 sm:grid-cols-2 gap-4">
+      />
+      <div className="lg:grid px-5 py-5 discoverUsers">
+        <div className="grid lg:grid-cols-3 sm:grid-cols-2 gap-4 mx-2">
           {userData?.map((user, index) => (
-            <Card key={index} className="rounded-2xl p-5 my-2">
+            <Card key={index} className="rounded-2xl p-5">
               <div className="flex items-center">
                 <Avatar className="w-16 h-16">
                   <AvatarImage
@@ -66,7 +67,7 @@ export function DiscoverCard() {
                 <div className="mx-3">
                   <h4 className="font-medium">
                     {user.firstName}
-                    {user.email}
+                    {/* {user.email} */}
                   </h4>
                   <span className="font-light">New Jersey</span>
                 </div>

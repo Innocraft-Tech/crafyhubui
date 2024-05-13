@@ -1,23 +1,12 @@
 'use client';
-import * as React from 'react';
 
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { ProjectSlider } from './projectsslider';
-import { getAllUsers } from '@/app/api/auth/api-helper';
-import { ReactNode } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { useGetAllUsersQuery } from '@/redux/api/usersApi';
+import { ReactNode, useState } from 'react';
+import { ProjectSlider } from './projectsslider';
 // import { useGetUsersQuery } from '@/redux/api/usersApi';
 // import { useGetAllUserQuery } from '@/redux/api/usersApi';
 interface User {
@@ -31,6 +20,17 @@ export function DiscoverCard() {
 
   const { data, isError, isLoading } = useGetAllUsersQuery();
   const { users: userData } = data || {};
+
+  const [conversationModal, setConversationModal] = useState<User | null>(null);
+
+  const openConversationModal = (user: User) => {
+    setConversationModal(user);
+  };
+
+  const closeConversationModal = () => {
+    setConversationModal(null);
+  };
+
   // React.useEffect(() => {
   //   const fetchData = async () => {
   //     try {
@@ -48,6 +48,10 @@ export function DiscoverCard() {
 
   return (
     <>
+      {/* <Conversation
+        user={conversationModal}
+        closeConversationModal={closeConversationModal}
+      /> */}
       <div className="lg:grid px-32 py-5 discoverUsers">
         <div className="grid lg:grid-cols-3 sm:grid-cols-2 gap-4">
           {userData?.map((user, index) => (
@@ -62,7 +66,10 @@ export function DiscoverCard() {
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
                 <div className="mx-3">
-                  <h4 className="font-medium">{user.firstName}</h4>
+                  <h4 className="font-medium">
+                    {user.firstName}
+                    {user.email}
+                  </h4>
                   <span className="font-light">New Jersey</span>
                 </div>
               </div>
@@ -93,7 +100,11 @@ export function DiscoverCard() {
               <div className="project-carousel">
                 <ProjectSlider />
               </div>
-              <Button variant="default" className="rounded-xl w-full">
+              <Button
+                variant="default"
+                className="rounded-xl w-full"
+                onClick={() => openConversationModal(user)}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"

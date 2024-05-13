@@ -39,10 +39,10 @@ export default function Discover() {
               {showSettings  ? <SettingsComponent setShowSettings={setShowSettings}/> :
               <div className="col-span-3 lg:col-span-4 lg:border-l overflow-auto   ">
                 <div className="h-lvh z-20">
-                  <div className="   z-30 ">
+                  <div className="z-30 ">
                     <div className="flex justify-between items-center border-b bg-stone-50">
                       <div className="topHeadings p-5">
-                        <h3 className="text-lg">Discover</h3>
+                        <h3 className="text-lg">Discover</h3> 
                       </div>
                       <div className="righ-nav flex items-center px-5">
                         <Button variant="ghost">
@@ -72,7 +72,7 @@ export default function Discover() {
                     </div>
                     <div className="coverImage bg-slate-100 h-36 relative">
                       <h4 className="absolute bottom-0 px-5 py-5">
-                        Welcome, Nikki 👋
+                        Welcome, ven 👋                                                                       
                       </h4>
                     </div>
                     <Filters />

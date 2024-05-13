@@ -107,7 +107,7 @@ const JobNewPost = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmitTools)}
-          className=" space-y-6"
+          className=" container"
         >
           <div className="  grid grid-cols-1 gap-1  place-content-center  place-items-center p-5    my-5 sm:mx-5   ">
             <div className="  my-5 mx-5 w-full sm:w-[40%] flex-col p-2 border  rounded-[10px]   ">

@@ -63,10 +63,8 @@ const AccountInformation: React.FC <SettingsProps> = ({ setShowSettings }) => {
     }
   }
   return (
-    <div className="border mx-4  w-auto ">
-       <span className="close" onClick={handleClose}>
-          &times;
-        </span>
+    <div className="border mx-4 mt-10 my-5 w-auto ">
+      
       <h2 className="mx-4 font-bold mt-4 text-2xl"> Account Information</h2>
       <div className="category mx-5 my-5 ">
         <label className="block font-bold text-md my-2">Email</label>
@@ -193,7 +191,7 @@ const EditEmail: React.FC<EditEmailProps> = ({
             name="email"
             placeholder="email"
             value={accountInformation.email}
-            className="w-full
+            className=" w-auto
          p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             id="email"
             onChange={handleInputChange}
@@ -255,7 +253,7 @@ const EditDate: React.FC<EditEmailProps> = ({
             name="birthdate"
             placeholder="birthDate"
             value={accountInformation.birthDate}
-            className="w-full
+            className="w-auto
          p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             id="email"
             onChange={handleInputChange}
@@ -317,7 +315,7 @@ const EditCalendar: React.FC<EditEmailProps> = ({
             name="birthdate"
             placeholder="birthDate"
             value={accountInformation.calendarLink}
-            className="w-full
+            className="w-auto  
          p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             id="email"
             onChange={handleInputChange}

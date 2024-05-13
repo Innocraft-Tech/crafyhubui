@@ -36,7 +36,7 @@ export function Sidebar({ className, playlists }: SidebarProps) {
     <div className={cn('pb-12', 'h-lvh', className)}>
       <div className="space-y-4 py-4">
         <div className="px-3 py-2">
-          <div className="w-full flex mx-3 items-center justify-start mb-8">
+          <div className=" flex mx-3 items-center justify-start mb-8">
             <svg
               width="36"
               height="36"
@@ -79,7 +79,7 @@ export function Sidebar({ className, playlists }: SidebarProps) {
               CrafyHub
             </span>
           </div>
-          <div className="w-full flex mx-3 items-center justify-start mb-8">
+          <div className=" flex mx-3 items-center justify-start mb-8">
             <div className="flex items-center space-x-4 ">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

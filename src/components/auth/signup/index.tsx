@@ -57,6 +57,8 @@ const SignupForm = () => {
   const [addSkillMutation, {}] = useAddSkillMutation();
 
   const [register, { isError, isSuccess, error, data }] = useRegisterMutation();
+ 
+  
 
   const form = useForm<TypeSignUpSchema>({
     resolver: zodResolver(signUpSchema),

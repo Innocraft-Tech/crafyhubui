@@ -8,7 +8,6 @@ interface IUsersResponse {
 interface IUserResponse {
   user: User;
 }
-
 const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getMe: builder.query<any, any>({
@@ -32,7 +31,7 @@ const usersApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: [{ type: 'User', id: 'me' }],
     }),
     getAllUsers: builder.query<IUsersResponse, void>({
-      query: () => `allusers`,
+      query: () => `allusers`, 
       providesTags: [{ type: 'User', id: 'LIST' }],
     }),
     getUser: builder.query<IUserResponse, string>({
@@ -44,7 +43,7 @@ const usersApiSlice = apiSlice.injectEndpoints({
         result ? [{ type: 'User', id }] : ['User'],
     }),
 
-    //   updateUser:
+    //    updateUser:
     // deleteUser:
   }),
   overrideExisting: false,

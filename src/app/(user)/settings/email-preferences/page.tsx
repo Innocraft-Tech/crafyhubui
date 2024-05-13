@@ -68,11 +68,11 @@ const EmailPreferences = () => {
 
   return (
     <>
-      <div className=" border">
-        <h2 className="text-start mx-10 text-2xl font-bold mt-12 mb-6 ">
+      <div className=" sm:w-auto border sm:my-5  sm:mt-16">
+        <h2 className="text-start sm:mx-10 text-2xl font-bold mt-12 mb-6 ">
           Email Preferences
         </h2>
-        <div className="email-preferences mx-auto max-w-xl grid grid-cols-2 ">
+        <div className="email-preferences   grid grid-cols-2 ">
           <div className="category  mx-2 my-2">
             {formData.marketing.map((option) => (
               <div key={option.id} className="   mb-2">
@@ -81,7 +81,7 @@ const EmailPreferences = () => {
                   type="checkbox"
                   checked={option.isChecked}
                   onChange={() => handleCheckboxChange('marketing', option.id)}
-                  className="form-checkbox h-5 w-5  relative top-1 text-indigo-600 mr-2"
+                  className="form-checkbox h-5 relative top-1 text-indigo-600 mr-2"
                 />
                 <h3 className="text-md font-bold inline ">Marketing</h3>
                 <label

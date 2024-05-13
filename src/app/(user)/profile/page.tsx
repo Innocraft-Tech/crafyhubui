@@ -108,8 +108,8 @@ const Profile = () => {
         </CardHeader>
       </Card>
     </div> */}
-      {userData?.map((item) => (
-        <div className="flex items-center h-screen    justify-center">
+      {userData?.map((item,index) => (
+        <div className="flex items-center h-screen    justify-center" key={index}>
           <div className="   w-52">
             <div className="bg-white shadow-xl rounded-lg py-3 ">
               <div className="photo-wrapper p-2">

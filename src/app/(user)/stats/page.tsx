@@ -13,7 +13,7 @@ import {
 import React, { useEffect, useRef } from 'react';
 import { Chart, ChartData } from 'chart.js/auto';
 
-const page = () => {
+const Page = () => {
   const chartRef = useRef(null);
   useEffect(() => {
     if (chartRef.current) {
@@ -168,4 +168,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

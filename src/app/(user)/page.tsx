@@ -1,10 +1,11 @@
-import { useAppSelector } from '@/lib/hooks/appHooks';
-import { useGetMeQuery } from '@/redux/api/usersApi';
-import Image from 'next/image';
+'use client';
+import useUserInfo from '@/lib/hooks/useUserInfo';
+import { redirect } from 'next/navigation';
 
 export default function Home() {
   // const state = useAppSelector((state) => state);
-
+  useUserInfo();
+  redirect('/dashboard');
   return (
     <>
       <h1>Login</h1>

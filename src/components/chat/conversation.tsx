@@ -14,9 +14,10 @@ import { IoMdClose } from 'react-icons/io';
 import { IoSend } from 'react-icons/io5';
 import { MdOutlineAttachFile } from 'react-icons/md';
 import Card from '../card';
+import { Chat } from './chat';
 
 type ConversationProps = {
-  user?: User | null;
+  user: User | null;
   closeConversationModal?: () => void;
 };
 
@@ -48,6 +49,25 @@ const Conversation = ({
 
   const divRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkScreenWidth = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    // Initial check
+    checkScreenWidth();
+
+    // Event listener for screen width changes
+    window.addEventListener('resize', checkScreenWidth);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', checkScreenWidth);
+    };
+  }, []);
 
   useEffect(() => {
     if (messagesContainerRef.current) {
@@ -87,6 +107,7 @@ const Conversation = ({
   // Send Message to socket server
   useEffect(() => {
     if (socketSendMessage !== null) {
+      console.log('send-message', socketSendMessage);
       socket?.emit('send-message', socketSendMessage);
     }
   }, [socketSendMessage, socket]);
@@ -114,6 +135,8 @@ const Conversation = ({
           ...res.data.message,
           receiverId: selectedUser?._id,
         });
+        console.log(selectedUser, 'selectedUser', userInfo?._id);
+        console.log(userInfo, 'userInfo');
       }
 
       // setSocketSendMessage({
@@ -139,19 +162,22 @@ const Conversation = ({
       }`}
     >
       <div className="flex h-full flex-col gap-3 rounded-[20px] bg-white py-4 shadow-xl shadow-shadow-500 dark:!bg-navy-700">
+        <Chat
+          selectedUser={selectedUser}
+          isMobile={isMobile}
+          onlineUsers={onlineUsers}
+          socket={socket}
+          closeConversationModal={closeConversationModal}
+          widget={true}
+        />
+      </div>
+
+      {/* <div className="flex h-full flex-col gap-3 rounded-[20px] bg-white py-4 shadow-xl shadow-shadow-500 dark:!bg-navy-700">
         <div className="flex items-center justify-between gap-2 px-6">
           <div className="!z-5 relative flex flex-grow !flex-row flex-col items-center rounded-[20px] rounded-[20px]  dark:text-white dark:shadow-none">
             <div className="flex w-auto flex-row items-center">
               <span className="flex items-center text-brand-500 dark:text-white">
                 <div className="relative flex h-[40px] w-[40px] items-center justify-center rounded-full border-[0px] border-white bg-lightPrimary  dark:bg-navy-700">
-                  {/* <Image
-                    alt=""
-                    loading="lazy"
-                    width="16"
-                    height="16"
-                    className="h-full w-full rounded-full"
-                    src={selectedUser?.profilePicture || ''}
-                  /> */}
                   <span
                     className={`absolute bottom-1 right-0 block h-2 w-2 rounded-full border-2 border-green-500  ${
                       onlineUsers.some(
@@ -168,10 +194,6 @@ const Conversation = ({
               <h4 className="text-xl font-bold text-navy-700 dark:text-white">
                 {selectedUser?.firstName} {selectedUser?.lastName}
               </h4>
-              {/* <p className="flex items-center font-dm text-sm font-medium text-gray-600">
-              <GoDotFill className="mr-1 inline text-green-500" />
-              Active
-            </p> */}
             </div>
           </div>
 
@@ -183,7 +205,7 @@ const Conversation = ({
           </button>
         </div>
         <div className="mt-3 h-px w-full bg-gray-200 dark:bg-white/20 " />
-        {/* <div className="flex-basis-0 h-1 flex-shrink-0 flex-grow px-6 py-3"> */}
+
         <div
           ref={messagesContainerRef}
           className="no-scrollbar py-7.5 max-h-full flex-1 space-y-3.5 overflow-auto px-6 text-navy-700 dark:text-white"
@@ -225,9 +247,6 @@ const Conversation = ({
                   </div>
                 ) : (
                   <div className="max-w-sm">
-                    {/* <p className="mb-2.5 text-sm font-medium">
-                  {selectedUser?.firstName} {selectedUser?.lastName}
-                </p> */}
                     <div className="mb-2.5  inline-block rounded-2xl rounded-tl-none bg-lightPrimary px-5 py-3 text-navy-700">
                       <p className="font-medium">{message.text}</p>
                     </div>
@@ -271,16 +290,6 @@ const Conversation = ({
                 suppressContentEditableWarning={true}
                 // placeholder="Type message..."
               />
-              {/* {text} */}
-              {/* <p className="text-indent-0 mb-0 mt-0 select-text">
-                <span
-                  className="selectable-text copyable-text"
-                  data-lexical-text="true"
-                >
-                  {content}
-                </span>
-              </p> */}
-              {/* </div> */}
             </div>
           </div>
           <span
@@ -290,7 +299,7 @@ const Conversation = ({
             <IoSend className="h-6 w-6" />
           </span>
         </div>
-      </div>
+      </div> */}
     </Card>
   );
 };

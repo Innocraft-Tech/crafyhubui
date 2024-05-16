@@ -58,7 +58,23 @@ const config = {
         badge: {
           DEFAULT: '#455A64',
         },
+        brand: {
+          1: '#fff5f9',
+          5: '#f8eff1',
+          10: '#ffb4b9',
+          50: '#ffa0a8',
+          100: '##ff8c97',
+          200: '#ff7687',
+          300: '#ff5d76',
+          400: '#ff4066',
+          500: '#FF0055',
+          600: '#de0049',
+          700: '#be003d',
+          800: '#9e0031',
+          900: '#800026',
+        },
       },
+
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',

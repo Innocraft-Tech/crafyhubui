@@ -19,7 +19,7 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
     return (
       <nav
         className={cn(
-          "flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1",
+          "   flex space-x-2  2xl:flex-col ",
           className
         )}
         {...props}
@@ -37,6 +37,7 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
             )}
           >
             {item.title}
+            
           </Link>
         ))}
       </nav>

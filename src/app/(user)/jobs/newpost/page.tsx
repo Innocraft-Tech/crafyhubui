@@ -102,7 +102,9 @@ const JobNewPost = () => {
 
   return (
     <>
-      <NavigationMenuDemo values={getValues()} />
+      <NavigationMenuDemo
+      //  values={getValues()}
+      />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmitTools)}

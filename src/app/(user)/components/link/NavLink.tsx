@@ -7,11 +7,11 @@ import {
   useMemo,
 } from 'react';
 
-export type NavLinkProps = NextLinkProps &
-  PropsWithChildren & {
-    styles?: CSSProperties;
-    borderRadius?: ComponentProps<typeof NextLink>['style']['borderRadius'];
-  };
+// export type NavLinkProps = NextLinkProps &
+//   PropsWithChildren & {
+//     styles?: CSSProperties;
+//     borderRadius?: ComponentProps<typeof NextLink>['style']['borderRadius'];
+//   };
 
 function NavLink({ className, children, styles, borderRadius, ...props }: any) {
   const memoizedStyles = useMemo(

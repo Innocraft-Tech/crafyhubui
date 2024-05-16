@@ -6,8 +6,8 @@ export const isWindowAvailable = () => typeof window !== 'undefined';
 export const findCurrentRoute = (
   routes: IRoute[],
   pathname: string,
-): IRoute => {
-  if (!isWindowAvailable()) return null;
+): IRoute | undefined => {
+  if (!isWindowAvailable()) return undefined;
 
   for (let route of routes) {
     if (!!route.items) {
@@ -26,7 +26,7 @@ export const getActiveRoute = (routes: IRoute[], pathname: string): string => {
 export const getActiveNavbar = (
   routes: IRoute[],
   pathname: string,
-): boolean => {
+): boolean | undefined => {
   const route = findCurrentRoute(routes, pathname);
   return route?.secondary;
 };

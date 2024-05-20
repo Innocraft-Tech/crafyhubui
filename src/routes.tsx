@@ -1,6 +1,6 @@
 import React from 'react';
 // Icon Imports
-import { MdHome, MdLock, MdPerson } from 'react-icons/md';
+import { MdHome, MdPerson } from 'react-icons/md';
 import { PiBinocularsFill } from 'react-icons/pi';
 import { TbMessageCircle2Filled } from 'react-icons/tb';
 

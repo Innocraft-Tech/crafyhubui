@@ -1,7 +1,5 @@
 'use client';
-import { useGetUserQuery } from '@/redux/api/usersApi';
 import React, { SetStateAction, useState } from 'react';
-import Cookies from 'js-cookie';
 import { HiOutlinePencilSquare } from 'react-icons/hi2';
 import { RiDeleteBin6Fill } from 'react-icons/ri';
 type AccountInformationData = {

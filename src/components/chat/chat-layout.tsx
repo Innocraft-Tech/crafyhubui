@@ -52,7 +52,7 @@ export function ChatLayout({
       });
       if (filteredUsers?.length) {
         setFilteredUserChats(filteredUsers);
-        !selectedUser && setSelectedUser(filteredUsers[0]);
+        if (!selectedUser) setSelectedUser(filteredUsers[0]);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

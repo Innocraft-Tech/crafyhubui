@@ -60,8 +60,12 @@ const Page: React.FC = () => {
               </p>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel className=' px-6 py-2  rounded-[50px]'>Cancel</AlertDialogCancel>
-              <AlertDialogAction className='  px-6 py-2 rounded-[50px] '>Continue</AlertDialogAction>
+              <AlertDialogCancel className=" px-6 py-2  rounded-[50px]">
+                Cancel
+              </AlertDialogCancel>
+              <AlertDialogAction className="  px-6 py-2 rounded-[50px] ">
+                Continue
+              </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>

@@ -6,6 +6,7 @@ export default function Home() {
   // const state = useAppSelector((state) => state);
   useUserInfo();
   redirect('/dashboard');
+
   return (
     <>
       <h1>Login</h1>

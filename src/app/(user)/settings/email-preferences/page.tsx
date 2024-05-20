@@ -57,16 +57,12 @@ const EmailPreferences: React.FC = () => {
       const updatedCategory = (prevData[category] || []).map((option) =>
         option.id === id ? { ...option, isChecked: !option.isChecked } : option,
       );
-     
-
 
       return {
         ...prevData,
         [category]: updatedCategory,
-   
       };
     });
-   
   };
 
   return (
@@ -85,7 +81,6 @@ const EmailPreferences: React.FC = () => {
                   checked={option.isChecked}
                   onChange={() => handleCheckboxChange('marketing', option.id)}
                   className="form-checkbox h-5 w-5  relative top-1 text-indigo-600 mr-2"
-                 
                 />
                 <h3 className="text-md font-bold inline ">Marketing</h3>
                 <label
@@ -121,9 +116,7 @@ const EmailPreferences: React.FC = () => {
                   id={option.id}
                   type="checkbox"
                   checked={option.isChecked}
-                  onChange={() =>
-                    handleCheckboxChange('suggestion', option.id)
-                  }
+                  onChange={() => handleCheckboxChange('suggestion', option.id)}
                   className="form-checkbox h-5 w-5 text-indigo-600 mr-2 relative top-1"
                 />
                 <h3 className="text-md font-bold inline">
@@ -172,7 +165,7 @@ const EmailPreferences: React.FC = () => {
               Unsubscribe from all emails
             </span>
             <button
-              type="button" 
+              type="button"
               disabled={isButtonDisabled}
               className=" w-[60%] text-md font-bold cursor-pointer bg-black text-white px-3 py-2 rounded-[50px] my-5"
             >

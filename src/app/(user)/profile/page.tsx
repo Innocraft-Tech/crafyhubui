@@ -1,36 +1,20 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { useGetUserQuery } from '@/redux/api/usersApi';
 import Cookies from 'js-cookie';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
 import ImagePng from '@/assets/hummans-1.gif';
 const Profile = () => {
   const router = useRouter();
 
-  const user_token = Cookies.get('access_token');
-  console.log('user_token', typeof user_token);
-  const dataOfUser = useGetUserQuery(user_token ? user_token : '').data?.user;
+  const userToken = Cookies.get('access_token');
+
+  const dataOfUser = useGetUserQuery(userToken ? userToken : '').data?.user;
   console.log('Userdata', dataOfUser);
 
   const [firstName, setName] = useState('suresh');

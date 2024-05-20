@@ -1,7 +1,5 @@
-import { removeToken } from '@/lib/cookie';
 import { createSlice, Draft, PayloadAction } from '@reduxjs/toolkit';
 // import {IUser} from '../../types/user'
-import { cookies } from 'next/headers';
 
 export interface AuthState {
   token: null | string;

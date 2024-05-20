@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useGetAllUsersQuery } from '@/redux/api/usersApi';
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
 import { ProjectSlider } from './projectsslider';
 import Conversation from '@/components/chat/conversation';
 // import { useGetUsersQuery } from '@/redux/api/usersApi';
@@ -85,7 +85,7 @@ export function DiscoverCard() {
               </div>
               <div className="grid">
                 <div className="grid grid-cols-4 items-center gap-4">
-                  {user.tools.map((tool: String, index: number) => (
+                  {user.tools.map((tool: string, index: number) => (
                     <Badge
                       key={index}
                       variant="secondary"

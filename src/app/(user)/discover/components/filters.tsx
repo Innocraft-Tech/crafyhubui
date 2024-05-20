@@ -1,12 +1,10 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import UserNav from '@/components/ui/usernav';
 import { useRouter } from 'next/navigation';
 import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
@@ -26,9 +24,9 @@ const filterList = [
   'UI/UX',
   'Web Design',
 ];
-const Filter_Sheets = ['Filters', 'Location', 'Rate'] as const;
+const filterSheets = ['Filters', 'Location', 'Rate'] as const;
 
-type FilterSheets = (typeof Filter_Sheets)[number];
+type FilterSheets = (typeof filterSheets)[number];
 
 export const Filters = () => {
   const router = useRouter();
@@ -38,7 +36,7 @@ export const Filters = () => {
   return (
     <>
       <div className="crafy_filters px-5 py-5 bg-white ">
-        {Filter_Sheets.map((side, index) => (
+        {filterSheets.map((side, index) => (
           <Sheet key={index}>
             <SheetTrigger asChild key={index}>
               <Button variant="outline" className="mx-2" key={index}>

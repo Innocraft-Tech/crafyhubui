@@ -20,13 +20,13 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useCallback } from 'react';
 import { HiX } from 'react-icons/hi';
-import { LuLayoutDashboard } from 'react-icons/lu';
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   playlists: Playlist[];
   open: boolean;
   setOpen: (value: boolean) => void;
   routes: RoutesType[];
+  verified: boolean;
 }
 
 export function Sidebar({ className, routes, open, setOpen }: SidebarProps) {
@@ -45,7 +45,7 @@ export function Sidebar({ className, routes, open, setOpen }: SidebarProps) {
 
   return (
     <div
-      className={`sm:none duration-175 linear fixed !z-50 flex min-h-full flex-col bg-white pb-10 shadow-2xl shadow-white/5 transition-all dark:!bg-navy-800 dark:text-white md:!z-50 lg:!z-50 xl:!z-0 ${
+      className={`sm:none duration-175 linear fixed !z-50 flex min-h-full flex-col bg-white pb-10 shadow-2xl shadow-white/5 transition-all dark:!bg-navy-800 dark:text-white md:!z-50 lg:!z-50 lg:border-r xl:!z-0 ${
         open ? 'translate-x-0' : '-translate-x-96 xl:translate-x-0'
       }`}
     >

@@ -7,6 +7,7 @@ export const singleUserApi = createApi({
         getUserData:builder.query({
             query: (id) => `user/${id}`,
         })
+        
     })
 })
 

@@ -23,7 +23,7 @@ export const SidebarLinks = (props: { routes: RoutesType[] }): JSX.Element => {
   );
 
   const createLinks = (routes: RoutesType[]) => {
-    return routes.map((route, index) => {
+    return routes && routes.map((route, index) => {
       if (route.layout === '/user') {
         return (
           <NavLink
@@ -53,6 +53,7 @@ export const SidebarLinks = (props: { routes: RoutesType[] }): JSX.Element => {
                   }`}
                 >
                   {route.name}
+             
                 </p>
               </li>
               {activeRoute(route.path) ? (

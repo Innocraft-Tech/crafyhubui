@@ -30,6 +30,12 @@ const usersApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [{ type: 'User', id: 'me' }],
     }),
+    getCompletedUser: builder.query<any, void>({
+      query:()=>`users/profilecompleted`,
+      transformResponse: (response: any) => {
+        return response;
+      }
+    }),
     getAllUsers: builder.query<IUsersResponse, void>({
       query: () => `allusers`, 
       providesTags: [{ type: 'User', id: 'LIST' }],
@@ -42,8 +48,15 @@ const usersApiSlice = apiSlice.injectEndpoints({
       providesTags: (result, error, id) =>
         result ? [{ type: 'User', id }] : ['User'],
     }),
+    postJob:builder.query<any, any>({
+      query: (data) => ({
+        url: 'job/p-job',
+        method: 'POST',
+        body: data,
+      }),
+    }),
 
-    //    updateUser:
+    // updateUser:
     // deleteUser:
   }),
   overrideExisting: false,
@@ -55,4 +68,6 @@ export const {
   useGetAllUsersQuery,
   useGetUserQuery,
   useUpdateProfileMutation,
+  useGetCompletedUserQuery,
+  usePostJobQuery
 } = usersApiSlice;

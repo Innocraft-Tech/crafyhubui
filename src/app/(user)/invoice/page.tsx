@@ -15,7 +15,7 @@ import { TrashIcon } from 'lucide-react';
 interface AddInputItem {
   uniqueString: string;
 }
-const Page = () => {
+const Invoive = () => {
   const [addInput, setAddInput] = React.useState<AddInputItem[]>([
     { uniqueString: nanoid() },
   ]);
@@ -327,4 +327,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default Invoive;

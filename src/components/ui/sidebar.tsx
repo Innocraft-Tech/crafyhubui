@@ -282,7 +282,7 @@ export function Sidebar({ className, routes, open, setOpen }: SidebarProps) {
                 Referral Program
               </Button>
             </div> */}
-            {routes.map((route, index) => (
+            {routes && routes.map((route, index) => (
               <NavLink
                 key={index}
                 href={route.path}

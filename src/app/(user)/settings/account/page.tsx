@@ -4,6 +4,8 @@ import React, { SetStateAction, useState } from 'react';
 import Cookies from 'js-cookie';
 import { HiOutlinePencilSquare } from 'react-icons/hi2';
 import { RiDeleteBin6Fill } from 'react-icons/ri';
+import { MdDeleteOutline } from "react-icons/md";
+
 type AccountInformationData = {
   email: string;
   birthdate: string;
@@ -46,8 +48,6 @@ const AccountInformation: React.FC <SettingsProps> = ({ setShowSettings }) => {
     setShowSettings(false);
   };
 
-
-
   function editFunc(type: string) {
     if (type === 'email') {
       setActiveEmail(true);
@@ -68,7 +68,7 @@ const AccountInformation: React.FC <SettingsProps> = ({ setShowSettings }) => {
       <h2 className="mx-4 font-bold mt-4 text-2xl"> Account Information</h2>
       <div className="category mx-5 my-5 ">
         <label className="block font-bold text-md my-2">Email</label>
-        <div className=" grid grid-cols-2 gap-20 hover:bg-gray-100 items-center   ">
+     
           {activeEmail ? (
             <EditEmail
               accountInformation={accountInformation}
@@ -79,17 +79,17 @@ const AccountInformation: React.FC <SettingsProps> = ({ setShowSettings }) => {
           ) : (
             <>
               <p className="px-2 py-2">{accountInformation.email}</p>
-              <HiOutlinePencilSquare
-                className=" inline w-[25px] h-[25px] mx-2 cursor-pointer  "
+              {/* <HiOutlinePencilSquare
+                className=" inline w-auto h-auto mx-2 cursor-pointer  "
                 onClick={() => editFunc('email')}
-              />
+              /> */}
             </>
           )}
-        </div>
+     
       </div>
       <div className="category mx-5 my-5">
         <label className="block my-2 font-bold text-md">Birthdate</label>
-        <div className=" grid grid-cols-2  gap-20 hover:bg-gray-100 items-center">
+        <div className=" grid grid-cols-2  gap-20 items-center">
           {activeDate ? (
             <>
               <EditDate
@@ -114,7 +114,7 @@ const AccountInformation: React.FC <SettingsProps> = ({ setShowSettings }) => {
       </div>
       <div className="category mx-5 my-5  ">
         <label className="block my-2 font-bold text-md">Calendar Link</label>
-        <div className=" grid grid-cols-2 hover:bg-gray-100 items-center gap-20">
+        <div className=" grid grid-cols-2 items-center gap-20">
           {activeCalendar ? (
             <EditCalendar
               accountInformation={accountInformation}
@@ -144,7 +144,7 @@ const AccountInformation: React.FC <SettingsProps> = ({ setShowSettings }) => {
       <div className=" mx-5 my-3">
         <span className=" ">
           {' '}
-          <RiDeleteBin6Fill className="  bg-pink-50 w-[25px] h-[25px] inline  text-pink-900" />{' '}
+          <MdDeleteOutline className="  w-[25px] h-[25px] inline" />{' '}
           Delete Account{' '}
         </span>
       </div>
@@ -182,29 +182,29 @@ const EditEmail: React.FC<EditEmailProps> = ({
       {activeSave ? (
         <>
           <p className=" px-2 py-2">{accountInformation.email}</p>
-          <HiOutlinePencilSquare className=" inline w-[25px] h-[25px] mx-2 cursor-pointer  " />
+          <HiOutlinePencilSquare className="cursor-pointer  " />
         </>
       ) : (
-        <div className="">
+        <div className=" grid-col-1">
           <input
             type="text"
             name="email"
             placeholder="email"
             value={accountInformation.email}
-            className=" w-auto
-         p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            className=" 
+         p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:  focus:border-pink-800 w-full "
             id="email"
             onChange={handleInputChange}
           />
-          <div className=" grid grid-cols-2 gap-0">
+          <div className="grid grid-cols-1 sm:grid-cols-2 ">
             <button
-              className=" bg-black  w-[100px] text-white mx-1 my-2 p-1 rounded-[50px]"
+              className=" bg-black   w-full text-white mx-1 my-2 p-1 rounded-[50px]"
               onClick={handleSave}
             >
               Save
             </button>
             <button
-              className=" bg-black w-[100px]  text-white mx-1 my-2 p-1 rounded-[50px]"
+              className=" bg-black w-full text-white mx-1 my-2 p-1 rounded-[50px]"
               onClick={handleCancel}
             >
               Cancel
@@ -253,20 +253,20 @@ const EditDate: React.FC<EditEmailProps> = ({
             name="birthdate"
             placeholder="birthDate"
             value={accountInformation.birthDate}
-            className="w-auto
+            className="w-full
          p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             id="email"
             onChange={handleInputChange}
           />
-          <div className=" grid grid-cols-2 gap-0">
+          <div className=" grid-col-1 sm:grid grid-cols-2 gap-0">
             <button
-              className=" bg-black  w-[100px] text-white mx-1 my-2 p-1 rounded-[50px]"
+              className=" bg-black   w-full text-white sm:mx-2 my-2   sm:p-2 rounded-[50px]"
               onClick={handleSave}
             >
               Save
             </button>
             <button
-              className=" bg-black w-[100px]  text-white mx-1 my-2 p-1 rounded-[50px]"
+              className=" bg-black w-full  text-white sm:mx-2 my-2  sm:p-2 rounded-[50px]"
               onClick={handleCancel}
             >
               Cancel
@@ -315,20 +315,20 @@ const EditCalendar: React.FC<EditEmailProps> = ({
             name="birthdate"
             placeholder="birthDate"
             value={accountInformation.calendarLink}
-            className="w-auto  
+            className="w-full
          p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             id="email"
             onChange={handleInputChange}
           />
-          <div className=" grid grid-cols-2 gap-0">
+          <div className=" sm:grid grid-cols-2 gap-0">
             <button
-              className=" bg-black  w-[100px] text-white mx-1 my-2 p-1 rounded-[50px]"
+              className=" bg-black  w-full text-white mx-1 my-2 p-1 rounded-[50px]"
               onClick={handleSave}
             >
               Save
             </button>
             <button
-              className=" bg-black w-[100px]  text-white mx-1 my-2 p-1 rounded-[50px]"
+              className=" bg-black w-full  text-white mx-1 my-2 p-1 rounded-[50px]"
               onClick={handleCancel}
             >
               Cancel

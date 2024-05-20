@@ -2,6 +2,7 @@
 
 import { toolsSchema, TypeToolsSchema } from '../components/toolsData';
 import { IoMdAdd } from 'react-icons/io';
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -41,7 +42,8 @@ import {
   useRegisterMutation,
 } from '@/redux/api/authApi';
 import { zodResolver } from '@hookform/resolvers/zod';
-
+import { usePostJobQuery } from '@/redux/api/usersApi';
+import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaRegClock } from 'react-icons/fa';
@@ -53,6 +55,10 @@ import { date } from 'zod';
 const JobNewPost = () => {
   const { data: skillsOptions = [] } = useGetSkillsQuery(); // Use the hook to
   const [addSkillMutation, {}] = useAddSkillMutation();
+
+  // const { data, error, isLoading, isSuccess } = usePostJobQuery();
+  const dispatch = useDispatch();
+  
 
   const form = useForm<TypeToolsSchema>({
     resolver: zodResolver(toolsSchema),
@@ -67,15 +73,14 @@ const JobNewPost = () => {
       timeZone: '',
     },
   });
-  const onSubmit=async(data:TypeToolsSchema)=>{
-      const {title,tools,skills,minRate,maxRate,jobDetails,...body}=data;
-        
-      
-  }
+  
+
   const { handleSubmit, control, getValues } = form;
-  const { title, tools, skills, minRate, maxRate, jobDetails } = getValues();
+
   const onSubmitTools = async (data: TypeToolsSchema) => {
     console.log('hello');
+    console.log(data);
+    
   };
   const [display, setDisplay] = useState(false);
   function handleSave() {
@@ -91,10 +96,10 @@ const JobNewPost = () => {
     }
   }
 
-  const [jobData, setJobData] = useState([]);
+ 
 
   // useEffect(() => {
-  //   fetch('http://localhost:8080/job/p-job')
+  //   fetch('https://crafy-server.onrender.com/job/p-job')
   //     .then((response) => response.json())
   //     .then((data) => setJobData(data))
   //     .catch((error) => console.log('Error fetching job data:', error));
@@ -110,8 +115,8 @@ const JobNewPost = () => {
           className=" container"
         >
           <div className="  grid grid-cols-1 gap-1  place-content-center  place-items-center p-5    my-5 sm:mx-5   ">
-            <div className="  my-5 mx-5 w-full sm:w-[40%] flex-col p-2 border  rounded-[10px]   ">
-              <Label className="  font-bold text-sm">Job Title</Label>
+            <div className="  my-5 mx-5 w-full sm:w-[60%] flex-col p-2 border  rounded-[10px]   ">
+              <Label className="  w-full font-bold text-sm">Job Title</Label>
 
               <FormField
                 control={control}
@@ -217,7 +222,7 @@ const JobNewPost = () => {
                   {display ? (
                     <li className=" mx-1 text-xs font-medium flex justify-start my-2">
                       {' '}
-                      {'$' + maxRate + ' - ' + '$' + minRate}
+                      {/* {'$' + maxRate + ' - ' + '$' + minRate} */}
                     </li>
                   ) : (
                     ''
@@ -551,18 +556,19 @@ const JobNewPost = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Select>
+                        <Select  onValueChange={field.onChange} defaultValue={field.value}>
                           <SelectTrigger className="w-[280px]">
                             <SelectValue placeholder="Select a timezone" />
                           </SelectTrigger>
-                          <SelectContent>
+                          <SelectContent> 
                             <SelectGroup>
                               <SelectLabel>North America</SelectLabel>
-                              <SelectItem value="est">
+                              <SelectItem value="est">  
                                 Eastern Standard Time (EST)
                               </SelectItem>
                               <SelectItem value="cst">
                                 Central Standard Time (CST)
+                             
                               </SelectItem>
                               <SelectItem value="mst">
                                 Mountain Standard Time (MST)

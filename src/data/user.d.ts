@@ -23,3 +23,12 @@ type User = {
   userLanguages: string[];
   isVerified: boolean;
 };
+
+type EmailRequest = {
+  email: string;
+  name: string;
+};
+
+type EmailResponse = {
+  message: string;
+};

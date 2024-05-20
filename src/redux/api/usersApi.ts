@@ -24,7 +24,7 @@ const usersApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: [{ type: 'User', id: 'me' }],
     }),
     getAllUsers: builder.query<IUsersResponse, void>({
-      query: () => `allusers`,
+      query: () => 'allusers',
       providesTags: [{ type: 'User', id: 'LIST' }],
     }),
     getUser: builder.query<IUserResponse, string>({
@@ -35,7 +35,14 @@ const usersApiSlice = apiSlice.injectEndpoints({
       providesTags: (result, error, id) =>
         result ? [{ type: 'User', id }] : ['User'],
     }),
-
+    sendEmail: builder.mutation<EmailResponse, EmailRequest>({
+      query: (data) => ({
+        url: 'emailverification',
+        method: 'POST',
+        body: data,
+      }),
+      // invalidatesTags: [{ type: 'User', id: 'me' }],
+    }),
     // updateUser:
     // deleteUser:
   }),
@@ -47,4 +54,5 @@ export const {
   useUpdateMeMutation,
   useGetAllUsersQuery,
   useGetUserQuery,
+  useSendEmailMutation,
 } = usersApiSlice;

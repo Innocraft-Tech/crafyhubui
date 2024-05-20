@@ -121,27 +121,21 @@
 //   );
 // }
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 
-import { getAllJobs } from '@/app/api/auth/api-helper/index';
 import { useGetUserQuery } from '@/redux/api/usersApi';
 import Cookies from 'js-cookie';
-import jwtDecode from 'jwt-decode';
 
 export function JobsCard() {
   const [jobs, setJobs] = useState({});
 
-  let user_token = Cookies.get('access_token');
-  console.log('user_token', typeof user_token);
-  const { data: Userdata } = useGetUserQuery(user_token ? user_token : '');
+  const userToken = Cookies.get('access_token');
+
+  const { data: Userdata } = useGetUserQuery(userToken ? userToken : '');
   console.log('Userdata', Userdata);
 
   return (

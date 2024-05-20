@@ -9,10 +9,10 @@ export const findCurrentRoute = (
 ): IRoute | undefined => {
   if (!isWindowAvailable()) return undefined;
 
-  for (let route of routes) {
-    if (!!route.items) {
+  for (const route of routes) {
+    if (route.items) {
       const found = findCurrentRoute(route.items, pathname);
-      if (!!found) return found;
+      if (found) return found;
     }
     if (pathname?.match(route.path) && route) return route;
   }

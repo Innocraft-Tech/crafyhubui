@@ -15,7 +15,7 @@ import { removeToken } from '@/lib/cookie';
 import { useGetUserQuery } from '@/redux/api/usersApi';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export default function UserNav() {
   const router = useRouter();
@@ -26,10 +26,8 @@ export default function UserNav() {
     router.push('/login');
   };
 
-  const user_token = Cookies.get('access_token');
-  console.log('user_token', typeof user_token);
-  const dataOfUser = useGetUserQuery(user_token ? user_token : '').data?.user;
-  console.log('Userdata', dataOfUser);
+  const userToken = Cookies.get('access_token');
+  const dataOfUser = useGetUserQuery(userToken ? userToken : '').data?.user;
 
   if (dataOfUser) {
     console.log('profile pic', dataOfUser);

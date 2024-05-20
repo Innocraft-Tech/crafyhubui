@@ -7,12 +7,7 @@ import {
   useSendMessageMutation,
 } from '@/redux/api/chatApi';
 import { skipToken } from '@reduxjs/toolkit/query';
-import { AnimatePresence, motion } from 'framer-motion';
 import { KeyboardEvent, useEffect, useRef, useState } from 'react';
-import { BsEmojiLaughing } from 'react-icons/bs';
-import { IoMdClose } from 'react-icons/io';
-import { IoSend } from 'react-icons/io5';
-import { MdOutlineAttachFile } from 'react-icons/md';
 import Card from '../card';
 import { Chat } from './chat';
 

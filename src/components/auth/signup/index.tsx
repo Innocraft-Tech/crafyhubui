@@ -54,7 +54,7 @@ const SignupForm = () => {
   const [selectedType, setSelectedType] = useState('');
 
   const { data: skillsOptions = [] } = useGetSkillsQuery(); // Use the hook to
-  const [addSkillMutation, {}] = useAddSkillMutation();
+  const [addSkillMutation] = useAddSkillMutation();
 
   const [register, { isError, isSuccess, error, data }] = useRegisterMutation();
 
@@ -470,8 +470,8 @@ const SignupForm = () => {
                           <div className="space-y-6">
                             <h1 className="text-2xl font-semibold tracking-tight text-left">
                               {isClient
-                                ? `What's the name of your company?`
-                                : `What's your name?`}
+                                ? "What's the name of your company?"
+                                : "What's your name?"}
                             </h1>
                             <div className="flex items-center space-x-4">
                               {isClient ? (

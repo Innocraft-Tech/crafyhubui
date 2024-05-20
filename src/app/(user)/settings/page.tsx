@@ -1,5 +1,4 @@
-
-'use client'
+'use client';
 import { Separator } from '@radix-ui/react-separator';
 
 export default function page() {
@@ -12,7 +11,6 @@ export default function page() {
         </p>
       </div>
       <Separator />
-
     </div>
   );
 }

@@ -5,7 +5,6 @@ import { IoMdAdd } from 'react-icons/io';
 import {
   AlertDialog,
   AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -19,12 +18,11 @@ import {
   FormControl,
   FormDescription,
   FormMessage,
-  FormLabel,
   Form,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import MultipleSelector, { Option } from '@/components/ui/multiple-selector';
+import MultipleSelector from '@/components/ui/multiple-selector';
 import {
   Select,
   SelectContent,
@@ -35,24 +33,20 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {
-  useAddSkillMutation,
-  useGetSkillsQuery,
-  useRegisterMutation,
-} from '@/redux/api/authApi';
+import { useAddSkillMutation, useGetSkillsQuery } from '@/redux/api/authApi';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaRegClock } from 'react-icons/fa';
 import { FaPen } from 'react-icons/fa6';
 import { TfiMoney } from 'react-icons/tfi';
 import { RiSubtractFill } from 'react-icons/ri';
 import { NavigationMenuDemo } from '@/app/(user)/jobs/newpost/components/navbar';
-import { date } from 'zod';
+
 const JobNewPost = () => {
   const { data: skillsOptions = [] } = useGetSkillsQuery(); // Use the hook to
-  const [addSkillMutation, {}] = useAddSkillMutation();
+  const [addSkillMutation] = useAddSkillMutation();
 
   const form = useForm<TypeToolsSchema>({
     resolver: zodResolver(toolsSchema),
@@ -116,7 +110,7 @@ const JobNewPost = () => {
 
               <FormField
                 control={control}
-                name={`title`}
+                name={'title'}
                 render={({ field }) => (
                   <FormItem>
                     {/* <FormLabel>Title</FormLabel> */}

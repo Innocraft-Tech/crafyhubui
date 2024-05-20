@@ -1,4 +1,3 @@
-import useSocket from '@/lib/hooks/useSocket';
 import useUserInfo from '@/lib/hooks/useUserInfo';
 import {
   useGetChatsQuery,

@@ -28,7 +28,7 @@ interface GroupOption {
 }
 
 interface MultipleSelectorProps {
-  value?: String[];
+  value?: string[];
   defaultOptions?: Option[];
   /** manually controlled options */
   options?: Option[];
@@ -46,7 +46,7 @@ interface MultipleSelectorProps {
   triggerSearchOnFocus?: boolean;
   /** async search */
   onSearch?: (value: string) => Promise<Option[]>;
-  onChange?: (options: String[]) => void;
+  onChange?: (options: string[]) => void;
   /** Limit the maximum number of selected options. */
   maxSelected?: number;
   /** When the number of selected options exceeds the limit, the onMaxSelected will be called. */
@@ -79,7 +79,7 @@ interface MultipleSelectorProps {
 }
 
 export interface MultipleSelectorRef {
-  selectedValue: String[];
+  selectedValue: string[];
   input: HTMLInputElement;
 }
 
@@ -118,7 +118,7 @@ function transToGroupOption(options: Option[], groupBy?: string) {
   return groupOption;
 }
 
-function removePickedOption(groupOption: GroupOption, picked: String[]) {
+function removePickedOption(groupOption: GroupOption, picked: string[]) {
   const cloneOption = JSON.parse(JSON.stringify(groupOption)) as GroupOption;
 
   for (const [key, value] of Object.entries(cloneOption)) {
@@ -191,7 +191,7 @@ const MultipleSelector = React.forwardRef<
     const [open, setOpen] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
 
-    const [selected, setSelected] = React.useState<String[]>(value || []);
+    const [selected, setSelected] = React.useState<string[]>(value || []);
     const [options, setOptions] = React.useState<GroupOption>(
       transToGroupOption(arrayDefaultOptions, groupBy),
     );
@@ -208,7 +208,7 @@ const MultipleSelector = React.forwardRef<
     );
 
     const handleUnselect = React.useCallback(
-      (option: String) => {
+      (option: string) => {
         const newOptions = selected.filter((s) => s !== option);
         setSelected(newOptions);
         onChange?.(newOptions);
@@ -376,7 +376,7 @@ const MultipleSelector = React.forwardRef<
           )}
         >
           <div className="flex flex-wrap gap-1">
-            {selected.map((option: String) => {
+            {selected.map((option: string) => {
               const selectedOption = arrayOptions?.find(
                 (item) => item.value === option,
               );
@@ -431,7 +431,7 @@ const MultipleSelector = React.forwardRef<
               }}
               onFocus={(event) => {
                 setOpen(true);
-                triggerSearchOnFocus && onSearch?.(debouncedSearchTerm);
+                if (triggerSearchOnFocus) onSearch?.(debouncedSearchTerm);
                 inputProps?.onFocus?.(event);
               }}
               placeholder={

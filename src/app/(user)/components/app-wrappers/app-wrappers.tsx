@@ -2,11 +2,11 @@
 import React, { ReactNode } from 'react';
 import dynamic from 'next/dynamic';
 
-const _NoSSR = ({ children }: { children: React.ReactNode }) => (
+const NoSSRWrapper = ({ children }: { children: React.ReactNode }) => (
   <React.Fragment>{children}</React.Fragment>
 );
 
-const NoSSR = dynamic(() => Promise.resolve(_NoSSR), {
+const NoSSR = dynamic(() => Promise.resolve(NoSSRWrapper), {
   ssr: false,
 });
 

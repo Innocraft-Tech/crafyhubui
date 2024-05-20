@@ -19,7 +19,7 @@ const EmailPasswordFormField: React.FC<EmailPasswordFormFieldProps> = ({
     <>
       <FormField
         control={control}
-        name={`email`}
+        name={'email'}
         render={({ field }) => (
           <FormItem>
             <FormLabel>Email Address</FormLabel>
@@ -32,7 +32,7 @@ const EmailPasswordFormField: React.FC<EmailPasswordFormFieldProps> = ({
       />
       <FormField
         control={control}
-        name={`password`}
+        name={'password'}
         render={({ field }) => (
           <FormItem>
             <FormLabel>Password</FormLabel>

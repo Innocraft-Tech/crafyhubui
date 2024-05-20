@@ -1,5 +1,3 @@
-import { ComponentType, Element } from 'react';
-
 export interface IRoute {
   name: string;
   layout: string;

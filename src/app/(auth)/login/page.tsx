@@ -4,8 +4,6 @@ import Link from 'next/link';
 
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
 import SigninForm from '@/components/auth/login';
 // import SigninForm from '@/components/forms/SigninForm';
 

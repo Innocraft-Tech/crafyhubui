@@ -1,49 +1,46 @@
-import useSocket from '@/lib/hooks/useSocket';
 import useUserInfo from '@/lib/hooks/useUserInfo';
-import {
-  useChatStartMutation,
-  useGetChatsQuery,
-  useGetUserChatsQuery,
-  useSendMessageMutation,
-} from '@/redux/api/chatApi';
-import { skipToken } from '@reduxjs/toolkit/query';
-import { KeyboardEvent, useEffect, useRef, useState } from 'react';
+import { useChatStartMutation } from '@/redux/api/chatApi';
+import { useEffect, useState } from 'react';
 import Card from '../card';
 import { Chat } from './chat';
+import { Socket } from 'socket.io-client';
 
 type ConversationProps = {
   user: User | null;
   closeConversationModal?: () => void;
+  onlineUsers: OnlineUsers[];
+  socket: Socket | null;
 };
 
 const Conversation = ({
   user: selectedUser,
   closeConversationModal,
+  onlineUsers,
+  socket,
 }: ConversationProps) => {
-  const socket = useSocket(process.env.NEXT_PUBLIC_SERVER_SOCKET_URI || '');
   const { userInfo } = useUserInfo();
 
-  const [onlineUsers, setOnlineUsers] = useState<OnlineUsers[]>([]);
+  // const [onlineUsers, setOnlineUsers] = useState<OnlineUsers[]>([]);
   // const [text, setText] = useState<string>('');
-  const [socketSendMessage, setSocketSendMessage] =
-    useState<SocketMessage | null>(null);
-  const [conversation, setConversation] = useState<Message[]>([]);
+  // const [socketSendMessage, setSocketSendMessage] =
+  //   useState<SocketMessage | null>(null);
+  // const [conversation, setConversation] = useState<Message[]>([]);
 
   const [chatStart, { isError: chatError, isSuccess, error, data: chatData }] =
     useChatStartMutation();
 
-  const [sendMessage, { isSuccess: msgSuccess }] = useSendMessageMutation();
+  // const [sendMessage, { isSuccess: msgSuccess }] = useSendMessageMutation();
 
-  const { data, isLoading, isFetching } = useGetChatsQuery(
-    chatData?._id ? chatData._id : skipToken,
-  );
+  // const { data, isLoading, isFetching } = useGetChatsQuery(
+  //   chatData?._id ? chatData._id : skipToken,
+  // );
 
-  const { data: userChats } = useGetUserChatsQuery(
-    userInfo?._id ? userInfo._id : skipToken,
-  );
+  // const { data: userChats } = useGetUserChatsQuery(
+  //   userInfo?._id ? userInfo._id : skipToken,
+  // );
 
-  const divRef = useRef<HTMLDivElement>(null);
-  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  // const divRef = useRef<HTMLDivElement>(null);
+  // const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   const [isMobile, setIsMobile] = useState(false);
 
@@ -64,21 +61,21 @@ const Conversation = ({
     };
   }, []);
 
-  useEffect(() => {
-    if (messagesContainerRef.current) {
-      messagesContainerRef.current.scrollTop =
-        messagesContainerRef.current.scrollHeight;
-    }
-  }, [conversation]);
+  // useEffect(() => {
+  //   if (messagesContainerRef.current) {
+  //     messagesContainerRef.current.scrollTop =
+  //       messagesContainerRef.current.scrollHeight;
+  //   }
+  // }, [conversation]);
+
+  // useEffect(() => {
+  //   if (data) {
+  //     setConversation(data.messages);
+  //   }
+  // }, [data]);
 
   useEffect(() => {
-    if (data) {
-      setConversation(data.messages);
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (userInfo && selectedUser) {
+    if (userInfo?._id && selectedUser?._id) {
       const data = {
         senderId: userInfo._id,
         receiverId: selectedUser._id,
@@ -87,68 +84,64 @@ const Conversation = ({
     }
   }, [userInfo, selectedUser, chatStart]);
 
-  useEffect(() => {
-    if (userInfo?._id) {
-      socket?.emit('new-user-add', userInfo?._id);
-      socket?.on('get-users', (users) => {
-        setOnlineUsers(users);
-      });
-      socket?.on('recieve-message', (data) => {
-        setConversation((prevState) => [...prevState, data]);
-      });
-    }
-  }, [userInfo, socket]);
+  // useEffect(() => {
+  //   if (userInfo?._id) {
+  //     socket?.emit('new-user-add', userInfo?._id);
+  //     socket?.on('get-users', (users) => {
+  //       setOnlineUsers(users);
+  //     });
+  //     socket?.on('recieve-message', (data) => {
+  //       setConversation((prevState) => [...prevState, data]);
+  //     });
+  //   }
+  // }, [userInfo, socket]);
 
-  // Send Message to socket server
-  useEffect(() => {
-    if (socketSendMessage !== null) {
-      console.log('send-message', socketSendMessage);
-      socket?.emit('send-message', socketSendMessage);
-    }
-  }, [socketSendMessage, socket]);
+  // // Send Message to socket server
+  // useEffect(() => {
+  //   if (socketSendMessage !== null) {
+  //     console.log('send-message', socketSendMessage);
+  //     socket?.emit('send-message', socketSendMessage);
+  //   }
+  // }, [socketSendMessage, socket]);
 
-  const onClickSendMessage = () => {
-    const text = divRef?.current?.textContent;
+  // const onClickSendMessage = () => {
+  //   const text = divRef?.current?.textContent;
 
-    if (!text?.trim()) return;
-    if (divRef.current) {
-      divRef.current.textContent = '';
-    }
+  //   if (!text?.trim()) return;
+  //   if (divRef.current) {
+  //     divRef.current.textContent = '';
+  //   }
 
-    const message = {
-      chatId: chatData?._id || '',
-      senderId: userInfo?._id || '',
-      text,
-    };
+  //   const message = {
+  //     chatId: chatData?._id || '',
+  //     senderId: userInfo?._id || '',
+  //     text,
+  //   };
 
-    sendMessage(message).then((res) => {
-      if ('data' in res) {
-        const conversationCopy = [...conversation];
-        conversationCopy.push(res.data.message);
-        setConversation(conversationCopy);
-        setSocketSendMessage({
-          ...res.data.message,
-          receiverId: selectedUser?._id,
-        });
-        console.log(selectedUser, 'selectedUser', userInfo?._id);
-        console.log(userInfo, 'userInfo');
-      }
+  //   sendMessage(message).then((res) => {
+  //     if ('data' in res) {
+  //       const conversationCopy = [...conversation];
+  //       conversationCopy.push(res.data.message);
+  //       setConversation(conversationCopy);
+  //       setSocketSendMessage({
+  //         ...res.data.message,
+  //         receiverId: selectedUser?._id,
+  //       });
+  //     }
 
-      // setSocketSendMessage({
-      //   ...message,
-      //   receiverId: selectedUser._id,
-      // });
-    });
-  };
+  //     // setSocketSendMessage({
+  //     //   ...message,
+  //     //   receiverId: selectedUser._id,
+  //     // });
+  //   });
+  // };
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (event.code === 'Enter' && !event.shiftKey) {
-      event.preventDefault();
-      onClickSendMessage();
-    }
-  };
-
-  console.log(selectedUser?.profilePicture);
+  // const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+  //   if (event.code === 'Enter' && !event.shiftKey) {
+  //     event.preventDefault();
+  //     onClickSendMessage();
+  //   }
+  // };
 
   return (
     <Card
@@ -164,6 +157,8 @@ const Conversation = ({
           socket={socket}
           closeConversationModal={closeConversationModal}
           widget={true}
+          // conversationLoading={isLoading || isFetching}
+          conversationLoading={false}
         />
       </div>
 

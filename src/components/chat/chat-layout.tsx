@@ -140,6 +140,7 @@ export function ChatLayout({
           isMobile={isMobile}
           onlineUsers={onlineUsers}
           socket={socket}
+          conversationLoading={false}
         />
       </ResizablePanel>
     </ResizablePanelGroup>

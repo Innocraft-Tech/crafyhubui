@@ -1,19 +1,12 @@
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
-import {
-  FileImage,
-  Mic,
-  Paperclip,
-  PlusCircle,
-  SendHorizontal,
-  ThumbsUp,
-} from 'lucide-react';
+import { Mic, SendHorizontal, ThumbsUp } from 'lucide-react';
 import Link from 'next/link';
 import React, { useRef, useState } from 'react';
 import { buttonVariants } from '../ui/button';
 import { Textarea } from '../ui/textarea';
 
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { Popover, PopoverContent } from '../ui/popover';
 import { EmojiPicker } from './emoji-picker';
 
 interface ChatBottombarProps {
@@ -21,7 +14,9 @@ interface ChatBottombarProps {
   isMobile: boolean;
 }
 
-export const BottombarIcons = [{ icon: FileImage }, { icon: Paperclip }];
+export const BottombarIcons = [
+  // { icon: FileImage }, { icon: Paperclip }
+];
 
 export default function ChatBottombar({
   sendMessage,
@@ -80,7 +75,7 @@ export default function ChatBottombar({
     <div className="p-2 flex justify-between w-full items-center gap-2">
       <div className="flex">
         <Popover>
-          <PopoverTrigger asChild>
+          {/* <PopoverTrigger asChild>
             <Link
               href="#"
               className={cn(
@@ -91,11 +86,11 @@ export default function ChatBottombar({
             >
               <PlusCircle size={20} className="text-muted-foreground" />
             </Link>
-          </PopoverTrigger>
+          </PopoverTrigger> */}
           <PopoverContent side="top" className="w-full p-2">
             {message.trim() || isMobile ? (
               <div className="flex gap-2">
-                <Link
+                {/* <Link
                   href="#"
                   className={cn(
                     buttonVariants({ variant: 'ghost', size: 'icon' }),
@@ -104,8 +99,8 @@ export default function ChatBottombar({
                   )}
                 >
                   <Mic size={20} className="text-muted-foreground" />
-                </Link>
-                {BottombarIcons.map((icon, index) => (
+                </Link> */}
+                {/* {BottombarIcons.map((icon, index) => (
                   <Link
                     key={index}
                     href="#"
@@ -117,7 +112,7 @@ export default function ChatBottombar({
                   >
                     <icon.icon size={20} className="text-muted-foreground" />
                   </Link>
-                ))}
+                ))} */}
               </div>
             ) : (
               <Link
@@ -133,7 +128,7 @@ export default function ChatBottombar({
             )}
           </PopoverContent>
         </Popover>
-        {!message.trim() && !isMobile && (
+        {/* {!message.trim() && !isMobile && (
           <div className="flex">
             {BottombarIcons.map((icon, index) => (
               <Link
@@ -149,7 +144,7 @@ export default function ChatBottombar({
               </Link>
             ))}
           </div>
-        )}
+        )} */}
       </div>
 
       <AnimatePresence initial={false}>

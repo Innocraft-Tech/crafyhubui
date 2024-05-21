@@ -30,7 +30,6 @@ const SigninForm = () => {
     try {
       const result = await logIn(data).unwrap();
 
-      console.log(result);
       // // notifySuccess('Login successfully');
       setToken(result.token);
       router.push('/dashboard');

@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { Info, Phone, Video, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import Link from 'next/link';
 import { Avatar, AvatarImage } from '../ui/avatar';
 import { buttonVariants } from '../ui/button';
@@ -13,9 +13,9 @@ interface ChatTopbarProps {
 }
 
 export const TopbarIcons = [
-  { icon: Phone },
-  { icon: Video },
-  { icon: Info },
+  // { icon: Phone },
+  // { icon: Video },
+  // { icon: Info },
   { icon: X, action: 'close' },
 ];
 

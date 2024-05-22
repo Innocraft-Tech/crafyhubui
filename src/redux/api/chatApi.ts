@@ -13,7 +13,8 @@ const chatApiSlice = apiSlice.injectEndpoints({
     }),
     getChats: builder.query<MessageResponse, GetChatPayload>({
       query: (id) => `message/${id}`,
-      providesTags: [{ type: 'Chat' }],
+      // providesTags: [{ type: 'Chat' }],
+      providesTags: (result, error, id) => [{ type: 'Chat', id }],
     }),
     getUserChats: builder.query<UserChatsResponse, GetChatPayload>({
       query: (id) => `chat/${id}`,

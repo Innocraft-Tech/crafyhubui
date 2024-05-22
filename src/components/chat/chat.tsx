@@ -18,6 +18,7 @@ interface ChatProps {
   socket: Socket | null;
   closeConversationModal?: () => void;
   widget?: boolean;
+  conversationLoading: boolean;
 }
 
 export function Chat({
@@ -28,6 +29,7 @@ export function Chat({
   socket,
   closeConversationModal,
   widget,
+  conversationLoading,
 }: ChatProps) {
   // const socket = useSocket(process.env.NEXT_PUBLIC_SERVER_SOCKET_URI || '');
   const [messagesState, setMessages] = React.useState<Message[]>([]);
@@ -47,15 +49,14 @@ export function Chat({
   useEffect(() => {
     if (userChats && selectedUser) {
       const chat = userChats?.find((x) => x.members.includes(selectedUser._id));
-      if (chat) setSelectedChat(chat);
+      if (chat && selectedChat?._id !== chat?._id) setSelectedChat(chat);
     }
   }, [userChats, userInfo, selectedUser]);
 
   const { data, isLoading, isFetching } = useGetChatsQuery(
     selectedChat?._id ? selectedChat._id : skipToken,
+    { refetchOnMountOrArgChange: true },
   );
-
-  // console.log(data, 'data', selectedChat);
 
   useEffect(() => {
     if (userInfo?._id) {
@@ -65,10 +66,15 @@ export function Chat({
     }
   }, [userInfo, socket]);
 
+  // useEffect(() => {
+  //   if (selectedChat) {
+  //     refetch();
+  //   }
+  // }, [selectedChat]);
+
   // Send Message to socket server
   useEffect(() => {
     if (socketSendMessage !== null) {
-      console.log('send-message', socketSendMessage);
       socket?.emit('send-message', socketSendMessage);
     }
   }, [socketSendMessage, socket]);
@@ -96,7 +102,6 @@ export function Chat({
           receiverId: selectedUser?._id,
         });
       }
-      console.log(selectedUser, 'selectedUser', userInfo?._id);
 
       // setSocketSendMessage({
       //   ...message,
@@ -123,6 +128,7 @@ export function Chat({
         selectedUser={selectedUser}
         sendMessage={onClickSendMessage}
         isMobile={isMobile}
+        isLoadingChat={isFetching || isLoading || conversationLoading}
       />
     </div>
   );

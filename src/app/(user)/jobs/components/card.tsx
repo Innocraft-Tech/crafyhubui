@@ -136,7 +136,6 @@ export function JobsCard() {
   const userToken = Cookies.get('access_token');
 
   const { data: Userdata } = useGetUserQuery(userToken ? userToken : '');
-  console.log('Userdata', Userdata);
 
   return (
     <>

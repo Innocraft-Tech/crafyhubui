@@ -32,3 +32,12 @@ type EmailRequest = {
 type EmailResponse = {
   message: string;
 };
+
+type OtpResponse = {
+  message: string;
+};
+
+type OtpRequest = {
+  userId: string;
+  otp: string;
+};

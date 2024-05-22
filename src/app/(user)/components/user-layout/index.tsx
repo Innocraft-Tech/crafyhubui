@@ -3,9 +3,10 @@ import { Button } from '@/components/ui/button';
 import { Sidebar } from '@/components/ui/sidebar';
 import UserNav from '@/components/ui/usernav';
 import { playlists } from '@/data/playlists';
+import useUserInfo from '@/lib/hooks/useUserInfo';
 import { getActiveRoute } from '@/lib/navigation';
 import routes from '@/routes';
-import { usePathname } from 'next/navigation';
+import { redirect, usePathname } from 'next/navigation';
 import React, { useState } from 'react';
 import { FiAlignJustify } from 'react-icons/fi';
 import AppWrappers from '../app-wrappers/app-wrappers';
@@ -17,6 +18,9 @@ export default function UserLayout({
 }>) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+
+  const { userInfo } = useUserInfo();
+  if (!userInfo?.isVerified) redirect('/verification');
 
   return (
     <>

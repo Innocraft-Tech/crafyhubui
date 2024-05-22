@@ -1,4 +1,3 @@
-// 'use client';
 import Wrapper from '@/components/layout';
 import UserLayout from './components/user-layout';
 

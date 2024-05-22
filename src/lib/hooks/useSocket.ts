@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Socket, io } from 'socket.io-client';
 
-const socketIO: Socket | null = null;
+// const socketIO: Socket | null = null;
 
 const useSocket = (serverUrl: string): Socket | null => {
   // const [currentSocket, setCurrentSocket] = useState<Socket | null>(null);

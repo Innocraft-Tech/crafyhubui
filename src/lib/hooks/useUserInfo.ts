@@ -10,9 +10,10 @@ export default function useUserInfo() {
   //     skip: !isVerify,
   //   })
   const userToken = Cookies.get('access_token') || '';
-  const { data, isLoading, error, isError } = useGetUserQuery(userToken);
+  const { data, isLoading, error, isError, refetch } =
+    useGetUserQuery(userToken);
 
   //   if (isError) dispatch(userLogin(''))
 
-  return { userInfo: data?.user, isLoading, error, isError };
+  return { userInfo: data?.user, isLoading, error, isError, refetch };
 }

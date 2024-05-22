@@ -35,6 +35,24 @@ const usersApiSlice = apiSlice.injectEndpoints({
       providesTags: (result, error, id) =>
         result ? [{ type: 'User', id }] : ['User'],
     }),
+    verifyOtp: builder.mutation<OtpResponse, OtpRequest>({
+      query: (data) => ({
+        url: 'verify-otp',
+        method: 'POST',
+        body: data,
+      }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(
+            apiSlice.util.invalidateTags([{ type: 'User', id: arg.userId }]),
+          );
+        } catch (error) {
+          /* empty */
+        }
+      },
+    }),
+
     sendEmail: builder.mutation<EmailResponse, EmailRequest>({
       query: (data) => ({
         url: 'emailverification',
@@ -54,5 +72,6 @@ export const {
   useUpdateMeMutation,
   useGetAllUsersQuery,
   useGetUserQuery,
+  useVerifyOtpMutation,
   useSendEmailMutation,
 } = usersApiSlice;

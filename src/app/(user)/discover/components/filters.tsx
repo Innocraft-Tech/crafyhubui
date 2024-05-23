@@ -31,7 +31,7 @@ type FilterSheets = (typeof filterSheets)[number];
 export const Filters = () => {
   const router = useRouter();
   const handleLinkClick = () => {
-    router.push('/jobs/newpost');
+    router.push('jobs/newpost');
   };
   return (
     <>
@@ -53,6 +53,7 @@ export const Filters = () => {
                 {side}
               </Button>
             </SheetTrigger>
+
             <SheetContent className="md:max-w-xl">
               <SheetHeader>
                 <SheetTitle>All Filters (0)</SheetTitle>
@@ -64,13 +65,15 @@ export const Filters = () => {
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                   {filterList.map((item, index) => (
-                    <Button
-                      key={index}
-                      variant="outline"
-                      className="mx-1 px-5 font-light rounded-xl"
-                    >
-                      {item}
-                    </Button>
+                    <>
+                      <Button
+                        key={index}
+                        variant="outline"
+                        className="mx-1 px-5 font-light rounded-xl"
+                      >
+                        {item}
+                      </Button>
+                    </>
                   ))}
                 </div>
                 <div className="shrink-0 bg-border h-[1px] w-full"></div>
@@ -151,13 +154,17 @@ export const Filters = () => {
             </SheetContent>
           </Sheet>
         ))}
-      </div>
-      <div className=" mx-5 ">
-        <Button
-          variant="outline"
-          className="mx-1 px-2 font-light rounded-xl"
-          onClick={handleLinkClick}
-        >
+        <Button variant="outline" onClick={handleLinkClick}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            className="mr-2"
+            fill="#000000"
+            viewBox="0 0 256 256"
+          >
+            <path d="M32,80a8,8,0,0,1,8-8H72a8,8,0,0,1,0,16H40A8,8,0,0,1,32,80Zm184,88H176V152a8,8,0,0,0-16,0v48a8,8,0,0,0,16,0V184h40a8,8,0,0,0,0-16Zm-80,0H40a8,8,0,0,0,0,16h96a8,8,0,0,0,0-16Zm-32-56a8,8,0,0,0,8-8V88H216a8,8,0,0,0,0-16H112V56a8,8,0,0,0-16,0v48A8,8,0,0,0,104,112Z"></path>
+          </svg>
           Post New Job
         </Button>
       </div>

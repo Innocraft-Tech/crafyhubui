@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 import { Input } from '@/components/ui/input';
@@ -10,8 +10,6 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import ImagePng from '@/assets/hummans-1.gif';
 const Profile = () => {
-  const router = useRouter();
-
   const userToken = Cookies.get('access_token');
 
   const dataOfUser = useGetUserQuery(userToken ? userToken : '').data?.user;

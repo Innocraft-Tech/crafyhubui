@@ -42,7 +42,6 @@ import { FaRegClock } from 'react-icons/fa';
 import { FaPen } from 'react-icons/fa6';
 import { TfiMoney } from 'react-icons/tfi';
 import { RiSubtractFill } from 'react-icons/ri';
-import { NavigationMenuDemo } from '@/app/(user)/jobs/newpost/components/navbar';
 
 const JobNewPost = () => {
   const { data: skillsOptions = [] } = useGetSkillsQuery(); // Use the hook to
@@ -84,41 +83,26 @@ const JobNewPost = () => {
     }
   }
 
-  const [jobData, setJobData] = useState([]);
-
-  // useEffect(() => {
-  //   fetch('http://localhost:8080/job/p-job')
-  //     .then((response) => response.json())
-  //     .then((data) => setJobData(data))
-  //     .catch((error) => console.log('Error fetching job data:', error));
-  // }, []);
-  // console.log('jobData'+ jobData);
-
   return (
     <>
-      <NavigationMenuDemo
-      //  values={getValues()}
-      />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmitTools)}
-          className=" container"
+          className=" mx-5 container"
         >
-          <div className="  grid grid-cols-1 gap-1  place-content-center  place-items-center p-5    my-5 sm:mx-5   ">
-            <div className="  my-5 mx-5 w-full sm:w-[40%] flex-col p-2 border  rounded-[10px]   ">
-              <Label className="  font-bold text-sm">Job Title</Label>
-
+          <div className=" container grid grid-cols-1 gap-1  place-content-center  place-items-center p-5 mx-5  sm:my-5 sm:mx-5   ">
+            <div className=" my-5 mx-5   flex-col p-2 border  rounded-[10px]  ">
+              <Label className=" mx-10  font-bold text-sm">Job Title</Label>
               <FormField
                 control={control}
                 name={'title'}
                 render={({ field }) => (
                   <FormItem>
-                    {/* <FormLabel>Title</FormLabel> */}
                     <FormControl>
                       <input
                         type="text"
                         placeholder=" Add a Descriptive Title"
-                        className=" text-2xl my-4 border-none outline-none px-0 sm:px-4 "
+                        className=" mx-8 text-2xl my-4 border-none outline-none px-0 sm:px-2 "
                         {...field}
                       />
                       {/* <Input type="text" placeholder="" {...field} /> */}
@@ -127,8 +111,6 @@ const JobNewPost = () => {
                   </FormItem>
                 )}
               />
-            </div>
-            <div className=" my-5 mx-5   flex-col p-2 border  rounded-[10px]  ">
               <div className=" mx-10  mt-5 sm:w-[500px]   px-[15px] ">
                 <Label className="   font-bold text-sm">Skills</Label>
 

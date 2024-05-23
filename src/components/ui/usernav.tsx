@@ -14,12 +14,11 @@ import {
 import { removeToken } from '@/lib/cookie';
 import { useGetUserQuery } from '@/redux/api/usersApi';
 import Cookies from 'js-cookie';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 
 export default function UserNav() {
   const router = useRouter();
-  const [user, setUser] = useState<any>({});
 
   const logout = () => {
     removeToken();
@@ -76,7 +75,8 @@ export default function UserNav() {
             <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            Settings
+            <Link href="/settings">Settings</Link>
+
             <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>New Team</DropdownMenuItem>

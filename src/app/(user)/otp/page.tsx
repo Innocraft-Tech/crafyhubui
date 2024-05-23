@@ -29,7 +29,7 @@ const page = () => {
           </div>
 
           <p className=" text-xs my-2">
-            Didn't get code ?{' '}
+            Didn&apos;t get code ?{' '}
             <Link href="#" className=" text-blue-600">
               Send a new code
             </Link>

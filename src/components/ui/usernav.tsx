@@ -12,28 +12,18 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { removeToken } from '@/lib/cookie';
-import { useGetUserQuery } from '@/redux/api/usersApi';
-import Cookies from 'js-cookie';
+import useUserInfo from '@/lib/hooks/useUserInfo';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 
 export default function UserNav() {
   const router = useRouter();
-  const [user, setUser] = useState<any>({});
 
   const logout = () => {
     removeToken();
     router.push('/login');
   };
 
-  const userToken = Cookies.get('access_token');
-  const dataOfUser = useGetUserQuery(userToken ? userToken : '').data?.user;
-
-  if (dataOfUser) {
-    console.log('profile pic', dataOfUser);
-  } else {
-    console.log('User data is not available');
-  }
+  const { userInfo: dataOfUser } = useUserInfo();
 
   return (
     <DropdownMenu>
@@ -60,7 +50,6 @@ export default function UserNav() {
               {dataOfUser && dataOfUser.firstName + ' ' + dataOfUser.lastName}
             </p>
             <p className="text-xs leading-none text-muted-foreground">
-              {/* {console.log(Userdata,"data in design")} */}
               {dataOfUser ? dataOfUser?.email : '@example.com'}
             </p>
           </div>

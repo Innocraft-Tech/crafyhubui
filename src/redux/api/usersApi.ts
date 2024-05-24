@@ -29,9 +29,7 @@ const usersApiSlice = apiSlice.injectEndpoints({
     }),
     getUser: builder.query<IUserResponse, string>({
       query: (id) => `user/${id}`,
-      transformResponse: (response: any) => {
-        return response;
-      },
+      transformResponse: (response: any) => response,
       providesTags: (result, error, id) =>
         result ? [{ type: 'User', id }] : ['User'],
     }),
@@ -52,17 +50,13 @@ const usersApiSlice = apiSlice.injectEndpoints({
         }
       },
     }),
-
     sendEmail: builder.mutation<EmailResponse, EmailRequest>({
       query: (data) => ({
         url: 'emailverification',
         method: 'POST',
         body: data,
       }),
-      // invalidatesTags: [{ type: 'User', id: 'me' }],
     }),
-    // updateUser:
-    // deleteUser:
   }),
   overrideExisting: false,
 });
@@ -75,3 +69,5 @@ export const {
   useVerifyOtpMutation,
   useSendEmailMutation,
 } = usersApiSlice;
+
+export default usersApiSlice;

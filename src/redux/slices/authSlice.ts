@@ -1,5 +1,4 @@
 import { createSlice, Draft, PayloadAction } from '@reduxjs/toolkit';
-// import {IUser} from '../../types/user'
 
 export interface AuthState {
   token: null | string;

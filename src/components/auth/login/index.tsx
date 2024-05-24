@@ -9,6 +9,7 @@ import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { setToken } from '@/lib/cookie';
 import EmailPasswordFormField from '@/components/forms/email-password-form';
+import { toast } from '@/components/ui/use-toast';
 
 const SigninForm = () => {
   const router = useRouter();
@@ -25,17 +26,24 @@ const SigninForm = () => {
   const { handleSubmit, reset, control } = form;
 
   const onSubmit = async (data: TypeSignInSchema) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
     try {
       const result = await logIn(data).unwrap();
 
-      // // notifySuccess('Login successfully');
       setToken(result.token);
       router.push('/dashboard');
       reset();
-    } catch (err) {
-      // notifyError(data?.error?.data?.error);
+    } catch (err: any) {
+      if (err?.data?.message) {
+        toast({
+          description: 'Error',
+          variant: 'destructive',
+        });
+      } else {
+        toast({
+          description: 'An unexpected error occurred',
+          variant: 'destructive',
+        });
+      }
     }
   };
 

@@ -4,13 +4,14 @@ const UserType = z.enum(['CLIENT', 'FREELANCER']);
 const NullableUserType = UserType.optional();
 
 export const toolsSchema = z.object({
-  tools: z.array(z.string()).min(3),
-  skills: z.array(z.string()).min(3),
-  title: z.string(),
-  minRate: z.string(),
-  maxRate: z.string(),
-  jobDetails: z.string(),
-  timeZone: z.string(),
+  // tools: z.array(z.string()).min(3),
+  requiredSkills: z.array(z.string()).min(3),
+  jobTitle: z.string(),
+  // // minRate: z.string(),
+  // // maxRate: z.string(),
+  jobDescription: z.string(),
+  // // timeZone: z.string(),
+  languages: z.array(z.string()).min(1),
 
   // .refine((data) => data.length >= 3, {
   //   message: 'Array must contain at least 3 items',

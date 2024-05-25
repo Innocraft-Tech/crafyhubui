@@ -22,6 +22,7 @@ export function JobsCard() {
     <>
       <div className="lg:grid px-5 py-1 discoverUsers">
         <div className="grid lg:grid-cols-3 sm:grid-cols-2 gap-3">
+          {data?.map((data) => '')}
           <Card className="rounded-2xl p-5 my-2">
             <div className="flex items-center">
               <Avatar className="w-16 h-16 rounded-lg">
@@ -46,7 +47,7 @@ export function JobsCard() {
           </Card>
 
           {/* Repeat the above Card and description block for additional cards */}
-          <Card className="rounded-2xl p-5 my-2">
+          {/* <Card className="rounded-2xl p-5 my-2">
             <div className="flex items-center">
               <Avatar className="w-16 h-16 rounded-lg">
                 <AvatarImage
@@ -67,7 +68,7 @@ export function JobsCard() {
               <Separator orientation="vertical" className="mx-1 h-5" />
               <span className="text-xs">One-Time</span>
             </div>
-          </Card>
+          </Card> */}
         </div>
       </div>
     </>

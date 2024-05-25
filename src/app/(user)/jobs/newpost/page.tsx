@@ -1,6 +1,30 @@
 'use client';
-
-import HandleResponse from '@/components/common/HandleResponse';
+import React from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import MultipleSelector from '@/components/ui/multiple-selector';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import {
   Form,
   FormControl,
@@ -9,58 +33,90 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import MultipleSelector from '@/components/ui/multiple-selector';
-import { isMyKnownError, SOMETHING_WENT_WRONG } from '@/lib/api';
+import { TfiMoney } from 'react-icons/tfi';
+import { FaPen, FaRegClock } from 'react-icons/fa';
+import { IoMdAdd } from 'react-icons/io';
+import { RiSubtractFill } from 'react-icons/ri';
+import HandleResponse from '@/components/common/HandleResponse';
 import { useAddSkillMutation, useGetSkillsQuery } from '@/redux/api/authApi';
 import { usePostJobMutation } from '@/redux/api/jobApi';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2 } from 'lucide-react';
 import { redirect } from 'next/navigation';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { toolsSchema, TypeToolsSchema } from '../components/toolsData';
+import { Loader2 } from 'lucide-react';
+import { SOMETHING_WENT_WRONG, isMyKnownError } from '@/lib/api';
+import { jobsSchema } from '../components/toolsData';
+import { TabContent } from './components/tabContent';
+
+export type JobsToolsSchema = z.infer<typeof jobsSchema>;
 
 const JobNewPost = () => {
   const { data: skillsOptions = [] } = useGetSkillsQuery();
   const [addSkillMutation] = useAddSkillMutation();
-
   const [
     postJob,
     { data: successData = {}, isLoading, isSuccess, isError, error },
   ] = usePostJobMutation();
 
-  const form = useForm<TypeToolsSchema>({
-    resolver: zodResolver(toolsSchema),
+  const form = useForm<JobsToolsSchema>({
+    resolver: zodResolver(jobsSchema),
     mode: 'onChange',
     defaultValues: {
       jobTitle: '',
       languages: [],
       requiredSkills: [],
-      // minRate: '',
-      // maxRate: '',
+      paymentOneTime: true,
+      paymentOngoing: false,
+      oneTime: ['', '', '', 'Days'],
+      onGoing: ['hourly', '', '', ''],
       jobDescription: '',
-      // timeZone: '',
     },
   });
 
-  const onSubmit = async (data: TypeToolsSchema) => {
-    // handle form submission
+  const {
+    handleSubmit,
+    setValue,
+    getValues,
+    watch,
+    control,
+    formState: { errors },
+  } = form;
+  const paymentOneTime = watch('paymentOneTime');
+
+  const onSubmit = async (data: JobsToolsSchema) => {
     console.log('Form submitted', data);
     postJob(data);
   };
 
-  const [count, setCount] = useState(0);
-  const increment = () => setCount(count + 1);
-  const decrement = () => count > 0 && setCount(count - 1);
+  const increment = () => {
+    const currentValue = getValues('oneTime')[2] as number;
+    setValue('oneTime.2', currentValue + 1);
+  };
 
-  const [display, setDisplay] = useState(false);
-  const handleSave = () => setDisplay(!display);
+  const decrement = () => {
+    const currentValue = getValues('oneTime')[2] as number;
+    if (currentValue > 0) {
+      setValue('oneTime.2', currentValue - 1);
+    }
+  };
+
+  const handleTabChange = (tab: string) => {
+    switch (tab) {
+      case 'hourly':
+        setValue('onGoing', ['hourly', '', '', '']);
+        break;
+      case 'weekly':
+        setValue('onGoing', ['weekly', '', '']);
+        break;
+      case 'monthly':
+        setValue('onGoing', ['monthly', '', '']);
+        break;
+    }
+  };
 
   const onSuccess = () => {
     redirect('/jobs');
   };
+
+  console.log(errors, 'error', getValues());
 
   return (
     <>
@@ -77,14 +133,14 @@ const JobNewPost = () => {
       )}
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit)}
           className="container mx-auto p-5"
         >
           <div className="w-full sm:w-[60%] p-6 border rounded-md mx-auto">
             <div className="mb-6">
               <Label className="font-bold text-sm">Job Title</Label>
               <FormField
-                control={form.control}
+                control={control}
                 name="jobTitle"
                 render={({ field }) => (
                   <FormItem>
@@ -105,7 +161,7 @@ const JobNewPost = () => {
             <div className="mb-6">
               <Label className="font-bold text-sm">Skills</Label>
               <FormField
-                control={form.control}
+                control={control}
                 name="requiredSkills"
                 render={({ field }) => (
                   <FormItem>
@@ -140,292 +196,458 @@ const JobNewPost = () => {
               />
             </div>
 
-            {/* <div className="mb-6">
-            <div className="flex gap-4 items-center">
-              <Label className="font-bold text-sm">Budget & Duration</Label>
+            <div className="mb-6">
+              <div className="flex gap-4 items-center">
+                <Label className="font-bold text-sm">Budget & Duration</Label>
 
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <div className="inline-block  bg-gray-100 px-3 py-3 rounded-[50px] my-1 cursor-pointer">
-                    <FaPen color="  gray" />
-                  </div>
-                </AlertDialogTrigger>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <div className="inline-block bg-gray-100 px-3 py-3 rounded-[50px] my-1 cursor-pointer">
+                      <FaPen color="gray" />
+                    </div>
+                  </AlertDialogTrigger>
 
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Set Budget and Duration</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      <p className=" font-bold text-xs  text-gray-800">
-                        {' '}
-                        What type of project do you need?
-                      </p>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Set Budget and Duration
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        <p className="font-medium text-sm mb-4">
+                          What type of project do you need?
+                        </p>
 
-                      <Tabs defaultValue="one-time" className="  w-60 p-2 my-2">
-                        <TabsList className=" py-6 mx-3 w-[400px]">
-                          <TabsTrigger
-                            value="one-time"
-                            className=" py-2 mx-3 w-[400px]"
-                          >
-                            <TfiMoney className=" mx-2" /> One Time
-                          </TabsTrigger>
-                          <TabsTrigger
-                            value="ongoing"
-                            className=" py-2 mx-3 w-[400px]"
-                          >
-                            <FaRegClock className=" mx-2" />{' '}
-                            <span>Ongoing</span>
-                          </TabsTrigger>
-                        </TabsList>
-                        <TabsContent value="one-time">
-                          <div className="category grid grid-cols-2  place-content-center w-[400px] my-1 ">
-                            <div className=" w-[200px]">
-                              <FormField
-                                control={form.control}
-                                name="minRate"
+                        <Tabs
+                          value={
+                            paymentOneTime ? 'paymentOneTime' : 'paymentOngoing'
+                          }
+                          onValueChange={(value) => {
+                            setValue(
+                              'paymentOneTime',
+                              value === 'paymentOneTime',
+                            );
+                            setValue(
+                              'paymentOngoing',
+                              value === 'paymentOngoing',
+                            );
+                          }}
+                          className="w-full mt-2"
+                        >
+                          <TabsList className="w-full py-6">
+                            <TabsTrigger
+                              value="paymentOneTime"
+                              className="w-full py-2 mx-3"
+                            >
+                              <TfiMoney className="mx-2" /> One Time
+                            </TabsTrigger>
+                            <TabsTrigger
+                              value="paymentOngoing"
+                              className="w-full py-2 mx-3"
+                            >
+                              <FaRegClock className="mx-2" />
+                              <span>Ongoing</span>
+                            </TabsTrigger>
+                          </TabsList>
+                          <TabsContent value="paymentOneTime">
+                            <div className="category gap-5 grid grid-cols-2 place-content-center my-1">
+                              <div className="">
+                                <FormField
+                                  control={control}
+                                  name="oneTime.0"
+                                  render={({ field }) => (
+                                    <FormControl>
+                                      <FormItem>
+                                        <Label htmlFor="minRate" className="">
+                                          Min. rate
+                                        </Label>
+                                        <Input
+                                          type="text"
+                                          id="minRate"
+                                          placeholder="$ 2,500"
+                                          className="my-1 "
+                                          {...field}
+                                        />
+                                        <FormMessage />
+                                      </FormItem>
+                                    </FormControl>
+                                  )}
+                                />
+                              </div>
+                              <div className="">
+                                <FormField
+                                  control={control}
+                                  name="oneTime.1"
+                                  render={({ field }) => (
+                                    <FormControl>
+                                      <FormItem>
+                                        <Label htmlFor="maxRate" className="">
+                                          Max. rate
+                                        </Label>
+                                        <Input
+                                          type="text"
+                                          id="maxRate"
+                                          placeholder="$ 5,000"
+                                          className="my-1 "
+                                          {...field}
+                                        />
+                                        <FormMessage />
+                                      </FormItem>
+                                    </FormControl>
+                                  )}
+                                />
+                              </div>
+                            </div>
+                            <div className="grid grid-cols-2 gap-5">
+                              <p className="text-xs my-3">
+                                We review every job to ensure a high quality
+                                marketplace
+                              </p>
+                              <span className="block text-xs my-3">
+                                When do you need this project delivered by?
+                              </span>
+                            </div>
+                            <div className="grid grid-cols-2 gap-5">
+                              <div className=" grid grid-cols-5 border gap-1 ">
+                                <Controller
+                                  control={control}
+                                  name="oneTime.2"
+                                  render={({ field }) => (
+                                    <input
+                                      type="number"
+                                      id="thirdValue"
+                                      className="mx-3 py-2 px-2 m-auto outline-none col-span-3"
+                                      readOnly
+                                      value={field.value}
+                                    />
+                                  )}
+                                />
+                                <IoMdAdd
+                                  size={20}
+                                  color="black"
+                                  className="mx-2 my-2 cursor-pointer"
+                                  onClick={increment}
+                                />
+                                <RiSubtractFill
+                                  size={20}
+                                  color="black"
+                                  className="my-2 cursor-pointer"
+                                  onClick={decrement}
+                                />
+                              </div>
+
+                              <Controller
+                                control={control}
+                                name="oneTime.3"
                                 render={({ field }) => (
-                                  <FormControl>
-                                    <FormItem>
+                                  <Select
+                                    value={(field.value as string) || ''}
+                                    onValueChange={(value) => {
+                                      field.onChange(value);
+                                    }}
+                                  >
+                                    <SelectTrigger className="">
+                                      <SelectValue placeholder="Select a Duration" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      <SelectGroup>
+                                        <SelectItem value="Days">
+                                          Days
+                                        </SelectItem>
+                                        <SelectItem value="Weeks">
+                                          Weeks
+                                        </SelectItem>
+                                        <SelectItem value="Months">
+                                          Months
+                                        </SelectItem>
+                                      </SelectGroup>
+                                    </SelectContent>
+                                  </Select>
+                                )}
+                              />
+                            </div>
+                          </TabsContent>
+                          <TabsContent value="paymentOngoing">
+                            <p className="text-xs my-3">
+                              How do you want to pay for this ongoing project?
+                            </p>
+                            <Tabs
+                              defaultValue="hourly"
+                              className="my-2"
+                              onValueChange={handleTabChange}
+                            >
+                              <TabsList className="w-full py-6">
+                                <TabsTrigger
+                                  value="hourly"
+                                  className="w-full py-2"
+                                >
+                                  HOURLY
+                                </TabsTrigger>
+                                <TabsTrigger
+                                  value="weekly"
+                                  className="w-full py-2"
+                                >
+                                  WEEKLY
+                                </TabsTrigger>
+                                <TabsTrigger
+                                  value="monthly"
+                                  className="w-full py-2"
+                                >
+                                  MONTHLY
+                                </TabsTrigger>
+                              </TabsList>
+
+                              <TabContent
+                                value={'hourly'}
+                                control={control}
+                                errors={errors}
+                              />
+                              <TabContent
+                                value={'weekly'}
+                                control={control}
+                                errors={errors}
+                              />
+                              <TabContent
+                                value={'monthly'}
+                                control={control}
+                                errors={errors}
+                              />
+
+                              {/* <TabsContent
+                                value={'hourly' || 'weekly' || 'monthly'}
+                              >
+                                <p className="text-xs w-full mt-4">
+                                  We review every job to ensure a high quality
+                                  marketplace
+                                </p>
+                                <div className="flex flex-col w-full gap-2.5 my-3">
+                                  <div className="flex w-full gap-2.5">
+                                    <div className="input flex flex-col w-full max-w-xs space-y-2">
                                       <Label
-                                        htmlFor="Min.rate"
-                                        className=" mx-3"
+                                        htmlFor="hourlyMinRate"
+                                        className="text-xs"
                                       >
                                         Min. rate
                                       </Label>
-                                      <Input
-                                        type="number"
-                                        id="number"
-                                        placeholder="$ 2,500"
-                                        className=" my-1 mx-3"
-                                        {...field}
+                                      <Controller
+                                        control={control}
+                                        name="ongoing.1"
+                                        render={({ field }) => (
+                                          <FormItem>
+                                            <Input
+                                              type="text"
+                                              id="hourlyMinRate"
+                                              placeholder="$75"
+                                              {...field}
+                                            />
+                                            <FormMessage />
+                                          </FormItem>
+                                        )}
                                       />
-                                    </FormItem>
-                                  </FormControl>
-                                )}
-                              />
-                            </div>
-                            <div className=" mx-3 w-[200px]">
-                              <FormField
-                                control={form.control}
-                                name="maxRate"
-                                render={({ field }) => (
-                                  <FormControl>
-                                    <FormItem>
+                                      {errors.ongoing?.[1] && (
+                                        <p className="text-red-500">
+                                          {errors.ongoing[1]?.message}
+                                        </p>
+                                      )}
+                                    </div>
+                                    <div className="input flex flex-col w-full max-w-xs space-y-2">
                                       <Label
-                                        htmlFor="Min.rate"
-                                        className=" mx-3"
+                                        htmlFor="hourlyMaxRate"
+                                        className="text-xs"
                                       >
                                         Max. rate
                                       </Label>
-                                      <Input
-                                        type="number"
-                                        id="text"
-                                        placeholder="$ 5,000"
-                                        className=" my-1 mx-3"
-                                        {...field}
+                                      <Controller
+                                        control={control}
+                                        name="ongoing.2"
+                                        render={({ field }) => (
+                                          <FormItem>
+                                            <Input
+                                              type="text"
+                                              id="hourlyMaxRate"
+                                              placeholder="$125"
+                                              {...field}
+                                            />
+                                            <FormMessage />
+                                          </FormItem>
+                                        )}
                                       />
-                                    </FormItem>
-                                  </FormControl>
+                                      {errors.ongoing?.[2] && (
+                                        <p className="text-red-500">
+                                          {errors.ongoing[2]?.message}
+                                        </p>
+                                      )}
+                                    </div>
+
+                                    <div className="input flex flex-col w-full max-w-xs space-y-2">
+                                      <Label
+                                        htmlFor="hourlyMaxHours"
+                                        className="text-xs"
+                                      >
+                                        Max. hours per week
+                                      </Label>
+                                      <Controller
+                                        control={control}
+                                        name="ongoing.3"
+                                        render={({ field }) => (
+                                          <Input
+                                            type="text"
+                                            id="hourlyMaxHours"
+                                            placeholder="0"
+                                            {...field}
+                                          />
+                                        )}
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              </TabsContent> */}
+
+                              {/* <TabsContent value="weekly">
+                                <p className="text-xs w-full mt-4">
+                                  We review every job to ensure a high quality
+                                  marketplace
+                                </p>
+                                <div className="grid grid-cols-2 gap-2.5">
+                                  <div className="input grid items-center gap-2.5 my-3">
+                                    <Label
+                                      htmlFor="weeklyMinRate"
+                                      className="text-xs"
+                                    >
+                                      Min. rate
+                                    </Label>
+                                    <Controller
+                                      control={control}
+                                      name="ongoing.1"
+                                      render={({ field }) => (
+                                        <Input
+                                          type="text"
+                                          id="weeklyMinRate"
+                                          placeholder="$75"
+                                          {...field}
+                                        />
+                                      )}
+                                    />
+                                    {errors.ongoing?.[1] && (
+                                      <p className="text-red-500">
+                                        {errors.ongoing[1]?.message}
+                                      </p>
+                                    )}
+                                  </div>
+                                  <div className="input grid items-center gap-2.5 my-3">
+                                    <Label
+                                      htmlFor="weeklyMaxRate"
+                                      className="text-xs"
+                                    >
+                                      Max. rate
+                                    </Label>
+                                    <Controller
+                                      control={control}
+                                      name="ongoing.2"
+                                      render={({ field }) => (
+                                        <Input
+                                          type="text"
+                                          id="weeklyMaxRate"
+                                          placeholder="$75"
+                                          {...field}
+                                        />
+                                      )}
+                                    />
+                                    {errors.ongoing?.[2] && (
+                                      <p className="text-red-500">
+                                        {errors.ongoing[2]?.message}
+                                      </p>
+                                    )}
+                                  </div>
+                                </div>
+                                {errors.ongoing && (
+                                  <p className="text-red-500">
+                                    {errors.ongoing.message}
+                                  </p>
                                 )}
-                              />
-                            </div>
-                          </div>
-                          <p className=" mx-3 text-xs my-3 ">
-                            We review every job to ensure a high quality
-                            marketplace
-                          </p>
-                          <span className=" block mx-3 text-xs my-3 ">
-                            {' '}
-                            When do you need this project delivered by?
-                          </span>
-                          <div className=" grid grid-cols-2 mx-2 w-[400px]  gap-5">
-                            <div className="'mx-5 grid grid-cols-5 border  gap-1 w-[200px] ">
-                              <input
-                                type="text"
-                                className=" mx-3 py-2 px-2 m-auto  outline-none col-span-3"
-                                value={count}
-                              />
-                              <IoMdAdd
-                                size={20}
-                                color="black"
-                                className=" mx-2 my-2 cursor-pointer"
-                                onClick={increment}
-                              />
-                              <RiSubtractFill
-                                size={20}
-                                color="black"
-                                className=" my-2 cursor-pointer"
-                                onClick={decrement}
-                              />
-                            </div>
+                              </TabsContent>
 
-                            <Select>
-                              <SelectTrigger className="w-[200px] ">
-                                <SelectValue placeholder="Select a Durution" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectGroup>
-                                  <SelectItem value="Days">Days</SelectItem>
-                                  <SelectItem value="Weeks">Weeks</SelectItem>
-                                  <SelectItem value="Months">Months</SelectItem>
-                                </SelectGroup>
-                              </SelectContent>
-                            </Select>
-                          </div>
-                        </TabsContent>
-                        <TabsContent value="ongoing">
-                          <p className=" text-xs mx-3 my-3">
-                            How do you want to pay for this ongoing project?
-                          </p>
-                          <Tabs
-                            defaultValue="hourly"
-                            className="  w-60 p-2 my-2"
-                          >
-                            <TabsList className=" py-6 mx-3 w-[400px]">
-                              <TabsTrigger
-                                value="hourly"
-                                className=" py-2 mx-3 w-[400px]"
-                              >
-                                HOURLY
-                              </TabsTrigger>
-                              <TabsTrigger
-                                value="weekly"
-                                className=" py-2 mx-3 w-[400px]"
-                              >
-                                WEEKLY
-                              </TabsTrigger>
-                              <TabsTrigger
-                                value="monthly"
-                                className=" py-2 mx-3 w-[400px]"
-                              >
-                                MONTHLY
-                              </TabsTrigger>
-                            </TabsList>
-                            <TabsContent
-                              value="hourly"
-                              className="  grid grid-cols-3  w-[400px] mx-2 gap-2.5"
-                            >
-                              <div className="input grid w-full  items-center gap-2.5 mx-2 my-3">
-                                <Label htmlFor="email" className=" text-xs">
-                                  Min. rate
-                                </Label>
-                                <Input
-                                  type="email"
-                                  id="email"
-                                  placeholder="$75"
-                                />
-                              </div>
-                              <div className="input grid w-full max-w-sm items-center gap-1.5 mx-2 my-3">
-                                <Label htmlFor="email" className=" text-xs">
-                                  Max. rate
-                                </Label>
-                                <Input
-                                  type="email"
-                                  id="email"
-                                  placeholder="$ 125"
-                                />
-                              </div>
-                              <div className="input grid w-full max-w-sm items-center gap-1.5 mx-2 my-3">
-                                <Label htmlFor="email" className=" text-xs">
-                                  Max. hours per week
-                                </Label>
-                                <Input
-                                  type="email"
-                                  id="email"
-                                  placeholder="0"
-                                />
-                              </div>
-                              <p className=" text-xs w-full mx-2">
-                                We review every job to ensure a high quality
-                                marketplace
-                              </p>
-                            </TabsContent>
-                            <TabsContent
-                              value="weekly"
-                              className=" grid grid-cols-2 gap-2.5 w-[400px]"
-                            >
-                              <div className="input grid   w-[200px] items-center gap-2.5 mx-2 my-3">
-                                <Label htmlFor="email" className=" text-xs">
-                                  Min. rate
-                                </Label>
-                                <Input
-                                  type="email"
-                                  id="email"
-                                  placeholder="$75"
-                                />
-                              </div>
-                              <div className="input grid w-[200px]  items-center gap-2.5 mx-2 my-3">
-                                <Label htmlFor="email" className=" text-xs">
-                                  Min. rate
-                                </Label>
-                                <Input
-                                  type="email"
-                                  id="email"
-                                  placeholder="$75"
-                                />
-                              </div>
-                              <p className=" text-xs mx-2">
-                                We review every job to ensure a high quality
-                                marketplace
-                              </p>
-                            </TabsContent>
-
-                            <TabsContent
-                              value="monthly"
-                              className=" grid grid-cols-2  w-[400px] mx-2 gap-3.5"
-                            >
-                              <div className="input grid   w-[200px] items-center gap-2.5 mx-2 my-3">
-                                <Label htmlFor="email" className=" text-xs">
-                                  Min. rate
-                                </Label>
-                                <Input
-                                  type="email"
-                                  id="email"
-                                  placeholder="$ 5,000"
-                                />
-                              </div>
-                              <div className="input grid w-[200px]  items-center gap-2.5 mx-2 my-3">
-                                <Label htmlFor="email" className=" text-xs">
-                                  Min. rate
-                                </Label>
-                                <Input
-                                  type="email"
-                                  id="email"
-                                  placeholder="$ 8,000"
-                                />
-                              </div>
-                              <p className=" text-xs mx-2">
-                                We review every job to ensure a high quality
-                                marketplace
-                              </p>
-                            </TabsContent>
-                          </Tabs>
-                        </TabsContent>
-                      </Tabs>
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogAction onClick={handleSave}>
-                      Save
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+                              <TabsContent value="monthly">
+                                <p className="text-xs w-full mt-4">
+                                  We review every job to ensure a high quality
+                                  marketplace
+                                </p>
+                                <div className="grid grid-cols-2 gap-2.5">
+                                  <div className="input grid items-center gap-2.5 my-3">
+                                    <Label
+                                      htmlFor="monthlyMinRate"
+                                      className="text-xs"
+                                    >
+                                      Min. rate
+                                    </Label>
+                                    <Controller
+                                      control={control}
+                                      name="ongoing.1"
+                                      render={({ field }) => (
+                                        <Input
+                                          type="text"
+                                          id="monthlyMinRate"
+                                          placeholder="$5000"
+                                          {...field}
+                                        />
+                                      )}
+                                    />
+                                    {errors.ongoing?.[1] && (
+                                      <p className="text-red-500">
+                                        {errors.ongoing[1]?.message}
+                                      </p>
+                                    )}
+                                  </div>
+                                  <div className="input grid items-center gap-2.5 my-3">
+                                    <Label
+                                      htmlFor="monthlyMaxRate"
+                                      className="text-xs"
+                                    >
+                                      Max. rate
+                                    </Label>
+                                    <Controller
+                                      control={control}
+                                      name="ongoing.2"
+                                      render={({ field }) => (
+                                        <Input
+                                          type="text"
+                                          id="monthlyMaxRate"
+                                          placeholder="$8000"
+                                          {...field}
+                                        />
+                                      )}
+                                    />
+                                    {errors.ongoing?.[2] && (
+                                      <p className="text-red-500">
+                                        {errors.ongoing[2]?.message}
+                                      </p>
+                                    )}
+                                  </div>
+                                </div>
+                                {errors.ongoing && (
+                                  <p className="text-red-500">
+                                    {errors.ongoing.message}
+                                  </p>
+                                )}
+                              </TabsContent> */}
+                            </Tabs>
+                          </TabsContent>
+                        </Tabs>
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogAction onClick={() => null}>
+                        Save
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </div>
             </div>
-            {display && (
-              <p className="text-xs font-medium my-2">
-                {'$' +
-                  form.getValues().maxRate +
-                  ' - ' +
-                  '$' +
-                  form.getValues().minRate}
-              </p>
-            )}
-          </div> */}
 
             <div className="mb-6">
               <Label className="font-bold text-sm">Tools</Label>
               <FormField
-                control={form.control}
+                control={control}
                 name="languages"
                 render={({ field }) => (
                   <FormItem>
@@ -459,32 +681,10 @@ const JobNewPost = () => {
               />
             </div>
 
-            {/* <div className="mb-6">
-            <Label className="font-bold text-sm">Time Zone</Label>
-            <FormField
-              control={form.control}
-              name="timeZone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      type="text"
-                      placeholder="Select Time Zone"
-                      className="text-sm border px-4 py-2 rounded-md w-full"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>e.g., PST, EST, GMT</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div> */}
-
             <div className="mb-6">
               <Label className="font-bold text-sm">Job Details</Label>
               <FormField
-                control={form.control}
+                control={control}
                 name="jobDescription"
                 render={({ field }) => (
                   <FormItem>

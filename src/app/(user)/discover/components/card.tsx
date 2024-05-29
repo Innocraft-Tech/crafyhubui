@@ -11,15 +11,8 @@ import { useEffect, useState } from 'react';
 import { ProjectSlider } from './projectsslider';
 import useUserInfo from '@/lib/hooks/useUserInfo';
 import { LoaderIcon } from 'lucide-react';
-// import { useGetUsersQuery } from '@/redux/api/usersApi';
-// import { useGetAllUserQuery } from '@/redux/api/usersApi';
-// interface User {
-//   profilePicture: string | undefined;
-//   firstName: ReactNode;
-//   tools: any;
-// }
 
-export function DiscoverCard() {
+export function DiscoverCard(): JSX.Element {
   const socket = useSocket(process.env.NEXT_PUBLIC_SERVER_SOCKET_URI || '');
   const [onlineUsers, setOnlineUsers] = useState<OnlineUsers[]>([]);
   const { data, isLoading } = useGetAllUsersQuery();
@@ -44,19 +37,6 @@ export function DiscoverCard() {
       });
     }
   }, [userInfo, socket]);
-
-  // React.useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await getAllUsers();
-  //       setUser(response);
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
-  // console.log(userData);
 
   if (isLoading) {
     return (

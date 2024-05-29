@@ -45,10 +45,12 @@ import { Loader2 } from 'lucide-react';
 import { SOMETHING_WENT_WRONG, isMyKnownError } from '@/lib/api';
 import { jobsSchema } from '../components/toolsData';
 import { TabContent } from './components/tabContent';
+import useUserInfo from '@/lib/hooks/useUserInfo';
 
 export type JobsToolsSchema = z.infer<typeof jobsSchema>;
 
 const JobNewPost = () => {
+  const { token } = useUserInfo();
   const { data: skillsOptions = [] } = useGetSkillsQuery();
   const [addSkillMutation] = useAddSkillMutation();
   const [
@@ -82,8 +84,7 @@ const JobNewPost = () => {
   const paymentOneTime = watch('paymentOneTime');
 
   const onSubmit = async (data: JobsToolsSchema) => {
-    console.log('Form submitted', data);
-    postJob(data);
+    postJob({ data, id: token });
   };
 
   const increment = () => {

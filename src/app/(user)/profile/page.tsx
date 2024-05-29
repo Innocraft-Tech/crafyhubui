@@ -1,133 +1,70 @@
 'use client';
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-import { Input } from '@/components/ui/input';
-import { useGetUserQuery } from '@/redux/api/usersApi';
-import Cookies from 'js-cookie';
-import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import ImagePng from '@/assets/hummans-1.gif';
-const Profile = () => {
-  const router = useRouter();
+import { Card, CardContent } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import ProfileLeftSection from './components/profileLeftSection';
+import useUserInfo from '@/lib/hooks/useUserInfo';
+import { LoaderIcon } from 'lucide-react';
 
-  const userToken = Cookies.get('access_token');
+export default function Profile(): JSX.Element {
+  const { isLoading: isLoadingProfile } = useUserInfo();
 
-  const dataOfUser = useGetUserQuery(userToken ? userToken : '').data?.user;
-  console.log('Userdata', dataOfUser);
-
-  const [firstName, setName] = useState('suresh');
-  const [lastName, setLastName] = useState('kumar');
-  const [updateName, setUpdateName] = useState<string | JSX.Element>(firstName);
-
-  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value);
-  };
-  function editText(firstName: string) {
-    setUpdateName(
-      firstName ? (
-        <Edit firstName={firstName} lastName={lastName} />
-      ) : (
-        firstName
-      ),
+  if (isLoadingProfile) {
+    return (
+      <div className="flex items-center justify-center min-h-[75vh]">
+        <LoaderIcon className="my-28 h-16 w-16 text-primary/60 animate-spin" />
+      </div>
     );
   }
+
   return (
-    <div>
-      <Card className="w-[350px] mx-5">
-        <CardHeader>
-          <CardHeader className="flex justify-center items-center">
-            <CardTitle className=" rounded-[60px] border w-[100px] h-[100px] flex justify-center items-center">
-              <Image
-                src={ImagePng}
-                alt="Profile Picture"
-                width={100}
-                height={100}
-              />
-            </CardTitle>
-          </CardHeader>
-          {/* <Dialog>
-            <DialogTrigger asChild className="flex justify-center items-center">
-              <div className=" hover:bg-slate-100   mx-auto h-[50px] grid grid-cols-2  justify-center ">
-                <p className="mx-1"> {firstName}</p>
-                <h1 className="mx-1">edit</h1>
-              </div>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="name" className="text-right">
-                    firstName
-                  </Label>
-                  <Input
-                    id="name"
-                    value={firstName}
-                    className="col-span-3"
-                    onChange={(event) => handleNameChange(event)}
-                  />
+    <div className="flex flex-col md:flex-row">
+      {/* Left Section */}
+      <div className="w-full md:w-1/3 p-6">
+        <ProfileLeftSection />
+      </div>
+
+      {/* Right Section */}
+      <div className="w-full md:w-2/3 p-6">
+        <Card className="shadow-lg">
+          <CardContent>
+            <h1 className="text-3xl font-bold">Add a professional one-liner</h1>
+            <Tabs defaultValue="work" className="mt-4">
+              <TabsList>
+                <TabsTrigger value="work">Work</TabsTrigger>
+                <TabsTrigger value="services">Services</TabsTrigger>
+                <TabsTrigger value="recommendations">
+                  Recommendations
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="work">
+                <div className="p-4 bg-yellow-100 rounded-lg text-yellow-800">
+                  Need project ideas?{' '}
+                  <a href="#" className="text-blue-500">
+                    Generate AI suggestions
+                  </a>
                 </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="username" className="text-right">
-                    LastName
-                  </Label>
-                  <Input
-                    id="username"
-                    value={lastName}
-                    className="col-span-3"
-                  />
+                <div className="mt-4 p-4 bg-gray-100 rounded-lg flex items-center">
+                  <Button className="bg-white border border-gray-300 rounded-full p-2 mr-4">
+                    <span className="text-2xl">+</span>
+                  </Button>
+                  <div>
+                    <h2 className="text-gray-700 font-bold">Add a project</h2>
+                    <p className="text-gray-500">
+                      Your projects should highlight your best skills and
+                      experience.
+                    </p>
+                    <a href="#" className="text-blue-500">
+                      Import content in seconds
+                    </a>
+                  </div>
                 </div>
-              </div>
-              <DialogFooter>
-                <Button type="submit" onClick={handleSubmit}>
-                  Save changes
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog> */}
-          <div className=" grid grid-cols-2 mx-auto">
-            <span> {updateName}</span>
-            <button onClick={() => editText(firstName)}>edit</button>
-          </div>
-          <Button className=" mx-auto w-[200px] rounded-[30px]">
-            {' '}
-            Get In Touch
-          </Button>
-          <CardContent></CardContent>
-        </CardHeader>
-      </Card>
+              </TabsContent>
+            </Tabs>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
-};
-
-export default Profile;
-
-type EditProps = {
-  firstName: string;
-  lastName: string;
-};
-
-const Edit = ({ firstName, lastName }: EditProps) => {
-  return (
-    <>
-      <div className="grid grid-cols-2  w-[300px] items-center  ">
-        <Input
-          type="text"
-          placeholder={firstName}
-          value={firstName}
-          className="  w-[150px]  mx-1 "
-        ></Input>
-        <Input
-          type="text"
-          placeholder={lastName}
-          value={lastName}
-          className=" w-[150px] mx-1 "
-        ></Input>
-      </div>
-      <div className=" grid grid-cols-2 mx-auto items-center  ">
-        <Button className="  mx-1 my-2"> Cancel</Button>
-        <Button className="  mx-1 my-2"> save</Button>
-      </div>
-    </>
-  );
-};
+}

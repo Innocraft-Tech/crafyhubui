@@ -15,12 +15,15 @@ export default function UserLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>): JSX.Element {
   const [open, setOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
+
   const pathname = usePathname();
 
   const { userInfo } = useUserInfo();
-  if (!userInfo?.isVerified) redirect('/verification');
+
+  if (userInfo && !userInfo.isVerified) redirect('/verification');
 
   return (
     <>
@@ -34,12 +37,14 @@ export default function UserLayout({
                 setOpen={setOpen}
                 routes={routes}
                 verified={false}
+                collapsed={collapsed}
+                setCollapsed={setCollapsed}
               />
 
               <div className="h-full w-full overflow-auto ">
                 <main
                   className={`flex-none transition-all
-              xl:ml-[253px]`}
+              ${collapsed ? 'xl:ml-[80px]' : 'xl:ml-[253px]'}`}
                 >
                   <div className="h-lvh z-20">
                     <div className="z-30 ">

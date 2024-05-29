@@ -3,7 +3,10 @@ import { HiX } from 'react-icons/hi';
 import Links from './components/Links';
 import { IRoute } from '@/data/navigation';
 
-function TailwindSidebar(props: { routes: IRoute[]; [x: string]: any }) {
+function TailwindSidebar(props: {
+  routes: IRoute[];
+  [x: string]: any;
+}): JSX.Element {
   const { routes, open, setOpen } = props;
   return (
     <div

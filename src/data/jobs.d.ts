@@ -17,7 +17,7 @@ type Job = {
   updatedAt?: Date;
 };
 
-type PostJobPayload = Job;
+type PostJobPayload = { data: Job; id: string };
 
 type PostJobResponse = {
   message?: string;

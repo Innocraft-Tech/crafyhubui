@@ -2,7 +2,7 @@
 
 import { DiscoverCard } from './components/card';
 
-export default function Discover() {
+export default function Discover(): JSX.Element {
   return (
     <>
       {/* <Filters /> */}

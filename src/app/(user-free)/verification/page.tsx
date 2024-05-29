@@ -26,7 +26,7 @@ const Verification = () => {
   const router = useRouter();
   const [value, setValue] = React.useState('');
 
-  const { userInfo, refetch } = useUserInfo();
+  const { userInfo, refetch, token } = useUserInfo();
   const [verifyOtp, { data, isSuccess, isLoading, isError, error }] =
     useVerifyOtpMutation();
 
@@ -59,11 +59,16 @@ const Verification = () => {
     refetch();
   };
 
+  const onError = () => {
+    setValue('');
+  };
+
   const sendNewCode = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     e.preventDefault();
     sendEmail({
       email: userInfo?.email || '',
       name: userInfo?.firstName || '',
+      reqtoken: token,
     });
   };
 
@@ -84,6 +89,7 @@ const Verification = () => {
           }
           message={data?.message || ''}
           onSuccess={onSuccess}
+          onError={onError}
         />
       )}
       {(isSuccessMail || isErrorMail) && (

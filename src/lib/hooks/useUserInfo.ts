@@ -15,5 +15,12 @@ export default function useUserInfo() {
 
   //   if (isError) dispatch(userLogin(''))
 
-  return { userInfo: data?.user, isLoading, error, isError, refetch };
+  return {
+    userInfo: data?.user,
+    isLoading,
+    error,
+    isError,
+    refetch,
+    token: userToken,
+  };
 }

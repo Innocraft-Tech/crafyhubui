@@ -45,7 +45,7 @@ import { RadioGroup, RadioGroupItem } from '../../ui/radio-group';
 
 const stepClassNames = ['px-6', 'sm:w-[350px] mx-auto'];
 
-const SignupForm = () => {
+const SignupForm = (): JSX.Element => {
   const { replace } = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get('redirectTo');

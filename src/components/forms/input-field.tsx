@@ -45,6 +45,7 @@ const InputField: React.FC<InputFieldProps> = ({
               disabled={disabled}
               startIcon={startIcon}
               {...field}
+              value={field.value || ''}
             />
           </FormControl>
           <FormMessage />

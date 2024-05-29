@@ -22,11 +22,14 @@ type User = {
   invoice: string[] | [];
   userLanguages: string[];
   isVerified: boolean;
+  bio?: string;
+  timezone?: string;
 };
 
 type EmailRequest = {
   email: string;
   name: string;
+  reqtoken: string;
 };
 
 type EmailResponse = {
@@ -40,4 +43,22 @@ type OtpResponse = {
 type OtpRequest = {
   userId: string;
   otp: string;
+};
+
+type ProfileRequest = {
+  data: {
+    userName?: string;
+    firstName: string;
+    lastName: string;
+    profilePicture: string;
+    tools: string[];
+    perHourValue: number[] | [];
+    bio: string;
+  };
+  id: string;
+};
+
+type ProfileResponse = {
+  message: string;
+  updatedUser: User;
 };

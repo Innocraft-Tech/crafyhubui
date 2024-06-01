@@ -1,20 +1,5 @@
 'use client';
-import React from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import MultipleSelector from '@/components/ui/multiple-selector';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import HandleResponse from '@/components/common/HandleResponse';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -33,19 +18,33 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import { TfiMoney } from 'react-icons/tfi';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import MultipleSelector from '@/components/ui/multiple-selector';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { SOMETHING_WENT_WRONG, isMyKnownError } from '@/lib/api';
+import useUserInfo from '@/lib/hooks/useUserInfo';
+import { useAddSkillMutation, useGetSkillsQuery } from '@/redux/api/authApi';
+import { usePostJobMutation } from '@/redux/api/jobApi';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
+import { redirect } from 'next/navigation';
+import { Controller, useForm } from 'react-hook-form';
 import { FaPen, FaRegClock } from 'react-icons/fa';
 import { IoMdAdd } from 'react-icons/io';
 import { RiSubtractFill } from 'react-icons/ri';
-import HandleResponse from '@/components/common/HandleResponse';
-import { useAddSkillMutation, useGetSkillsQuery } from '@/redux/api/authApi';
-import { usePostJobMutation } from '@/redux/api/jobApi';
-import { redirect } from 'next/navigation';
-import { Loader2 } from 'lucide-react';
-import { SOMETHING_WENT_WRONG, isMyKnownError } from '@/lib/api';
+import { TfiMoney } from 'react-icons/tfi';
+import { z } from 'zod';
 import { jobsSchema } from '../components/toolsData';
 import { TabContent } from './components/tabContent';
-import useUserInfo from '@/lib/hooks/useUserInfo';
 
 export type JobsToolsSchema = z.infer<typeof jobsSchema>;
 
@@ -137,9 +136,9 @@ const JobNewPost = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="container mx-auto p-5"
         >
-          <div className="w-full sm:w-[60%] p-6 border rounded-md mx-auto">
+          <div className="mx-auto w-full rounded-md border p-6 sm:w-[60%]">
             <div className="mb-6">
-              <Label className="font-bold text-sm">Job Title</Label>
+              <Label className="text-sm font-bold">Job Title</Label>
               <FormField
                 control={control}
                 name="jobTitle"
@@ -149,7 +148,7 @@ const JobNewPost = () => {
                       <Input
                         type="text"
                         placeholder="Add a Descriptive Title"
-                        className="text-2xl my-4 border px-4 py-2 rounded-md w-full"
+                        className="my-4 w-full rounded-md border px-4 py-2 text-2xl"
                         {...field}
                       />
                     </FormControl>
@@ -160,7 +159,7 @@ const JobNewPost = () => {
             </div>
 
             <div className="mb-6">
-              <Label className="font-bold text-sm">Skills</Label>
+              <Label className="text-sm font-bold">Skills</Label>
               <FormField
                 control={control}
                 name="requiredSkills"
@@ -198,12 +197,12 @@ const JobNewPost = () => {
             </div>
 
             <div className="mb-6">
-              <div className="flex gap-4 items-center">
-                <Label className="font-bold text-sm">Budget & Duration</Label>
+              <div className="flex items-center gap-4">
+                <Label className="text-sm font-bold">Budget & Duration</Label>
 
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <div className="inline-block bg-gray-100 px-3 py-3 rounded-[50px] my-1 cursor-pointer">
+                    <div className="my-1 inline-block cursor-pointer rounded-[50px] bg-gray-100 px-3 py-3">
                       <FaPen color="gray" />
                     </div>
                   </AlertDialogTrigger>
@@ -214,7 +213,7 @@ const JobNewPost = () => {
                         Set Budget and Duration
                       </AlertDialogTitle>
                       <AlertDialogDescription>
-                        <p className="font-medium text-sm mb-4">
+                        <p className="mb-4 text-sm font-medium">
                           What type of project do you need?
                         </p>
 
@@ -232,25 +231,25 @@ const JobNewPost = () => {
                               value === 'paymentOngoing',
                             );
                           }}
-                          className="w-full mt-2"
+                          className="mt-2 w-full"
                         >
                           <TabsList className="w-full py-6">
                             <TabsTrigger
                               value="paymentOneTime"
-                              className="w-full py-2 mx-3"
+                              className="mx-3 w-full py-2"
                             >
                               <TfiMoney className="mx-2" /> One Time
                             </TabsTrigger>
                             <TabsTrigger
                               value="paymentOngoing"
-                              className="w-full py-2 mx-3"
+                              className="mx-3 w-full py-2"
                             >
                               <FaRegClock className="mx-2" />
                               <span>Ongoing</span>
                             </TabsTrigger>
                           </TabsList>
                           <TabsContent value="paymentOneTime">
-                            <div className="category gap-5 grid grid-cols-2 place-content-center my-1">
+                            <div className="category my-1 grid grid-cols-2 place-content-center gap-5">
                               <div className="">
                                 <FormField
                                   control={control}
@@ -265,7 +264,7 @@ const JobNewPost = () => {
                                           type="text"
                                           id="minRate"
                                           placeholder="$ 2,500"
-                                          className="my-1 "
+                                          className="my-1"
                                           {...field}
                                         />
                                         <FormMessage />
@@ -288,7 +287,7 @@ const JobNewPost = () => {
                                           type="text"
                                           id="maxRate"
                                           placeholder="$ 5,000"
-                                          className="my-1 "
+                                          className="my-1"
                                           {...field}
                                         />
                                         <FormMessage />
@@ -299,16 +298,16 @@ const JobNewPost = () => {
                               </div>
                             </div>
                             <div className="grid grid-cols-2 gap-5">
-                              <p className="text-xs my-3">
+                              <p className="my-3 text-xs">
                                 We review every job to ensure a high quality
                                 marketplace
                               </p>
-                              <span className="block text-xs my-3">
+                              <span className="my-3 block text-xs">
                                 When do you need this project delivered by?
                               </span>
                             </div>
                             <div className="grid grid-cols-2 gap-5">
-                              <div className=" grid grid-cols-5 border gap-1 ">
+                              <div className="grid grid-cols-5 gap-1 border">
                                 <Controller
                                   control={control}
                                   name="oneTime.2"
@@ -316,7 +315,7 @@ const JobNewPost = () => {
                                     <input
                                       type="number"
                                       id="thirdValue"
-                                      className="mx-3 py-2 px-2 m-auto outline-none col-span-3"
+                                      className="col-span-3 m-auto mx-3 px-2 py-2 outline-none"
                                       readOnly
                                       value={field.value}
                                     />
@@ -368,7 +367,7 @@ const JobNewPost = () => {
                             </div>
                           </TabsContent>
                           <TabsContent value="paymentOngoing">
-                            <p className="text-xs my-3">
+                            <p className="my-3 text-xs">
                               How do you want to pay for this ongoing project?
                             </p>
                             <Tabs
@@ -646,7 +645,7 @@ const JobNewPost = () => {
             </div>
 
             <div className="mb-6">
-              <Label className="font-bold text-sm">Tools</Label>
+              <Label className="text-sm font-bold">Tools</Label>
               <FormField
                 control={control}
                 name="languages"
@@ -683,7 +682,7 @@ const JobNewPost = () => {
             </div>
 
             <div className="mb-6">
-              <Label className="font-bold text-sm">Job Details</Label>
+              <Label className="text-sm font-bold">Job Details</Label>
               <FormField
                 control={control}
                 name="jobDescription"
@@ -692,7 +691,7 @@ const JobNewPost = () => {
                     <FormControl>
                       <textarea
                         placeholder="Provide a detailed description of the job"
-                        className="w-full h-[200px] p-4 border rounded-md resize-none"
+                        className="h-[200px] w-full resize-none rounded-md border p-4"
                         {...field}
                       />
                     </FormControl>
@@ -705,7 +704,7 @@ const JobNewPost = () => {
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="w-full py-3 text-sm bg-primary text-white rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                className="w-full rounded-lg bg-primary py-3 text-sm text-white shadow-md focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
               >
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Post Job

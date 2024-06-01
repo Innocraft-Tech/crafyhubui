@@ -19,7 +19,7 @@ import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useCallback } from 'react';
-import { HiX, HiChevronLeft, HiChevronRight } from 'react-icons/hi';
+import { HiChevronLeft, HiChevronRight, HiX } from 'react-icons/hi';
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   playlists: Playlist[];
@@ -51,14 +51,14 @@ export function Sidebar({
 
   return (
     <div
-      className={`sm:none duration-300 linear fixed !z-50 flex min-h-full flex-col bg-white pb-10 shadow-2xl shadow-white/5 transition-all dark:!bg-navy-800 dark:text-white md:!z-50 lg:!z-50 lg:border-r xl:!z-0 ${
+      className={`sm:none linear dark:!bg-navy-800 fixed !z-50 flex min-h-full flex-col bg-white pb-10 shadow-2xl shadow-white/5 transition-all duration-300 dark:text-white md:!z-50 lg:!z-50 lg:border-r xl:!z-0 ${
         open ? 'translate-x-0' : '-translate-x-96 xl:translate-x-0'
-      } ${collapsed ? 'w-20' : 'w-64'}`}
+      } ${collapsed && !open ? 'w-20' : 'w-64'}`}
     >
       <div className="absolute right-2 top-4 block cursor-pointer xl:hidden">
         <HiX onClick={() => setOpen(false)} />
       </div>
-      <div className="absolute right-2 top-4 block cursor-pointer xl:block hidden">
+      <div className="absolute right-2 top-4 block hidden cursor-pointer xl:block">
         {collapsed ? (
           <HiChevronRight onClick={() => setCollapsed(!collapsed)} />
         ) : (
@@ -68,7 +68,7 @@ export function Sidebar({
       <div className={cn('pb-12', 'h-lvh', className)}>
         <div className="space-y-4 py-4">
           <div className="py-2">
-            <div className="flex mx-3 px-4 items-center justify-start mb-8">
+            <div className="mx-3 mb-8 flex items-center justify-start px-4">
               <svg
                 width="36"
                 height="36"
@@ -107,7 +107,7 @@ export function Sidebar({
                   fill="white"
                 />
               </svg>
-              {!collapsed && (
+              {(!collapsed || open) && (
                 <span className="px-3 text-lg font-semibold tracking-tight">
                   CrafyHub
                 </span>
@@ -116,10 +116,7 @@ export function Sidebar({
             <div
               // className="flex mx-3 px-4 items-center justify-start mb-8"
 
-              className={cn(
-                'flex mx-3 px-4 items-center justify-start mb-8',
-                collapsed ? 'justify-center' : 'justify-start',
-              )}
+              className={cn('mx-3 mb-8 flex items-center justify-start px-4')}
             >
               <div className="flex items-center space-x-4 p-0">
                 <DropdownMenu>
@@ -138,13 +135,13 @@ export function Sidebar({
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent
-                    className="w-56 mx-2"
+                    className="mx-2 w-56"
                     align="end"
                     forceMount
                   >
                     <DropdownMenuLabel className="font-normal">
                       <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium whitespace-nowrap ">
+                        <p className="whitespace-nowrap text-sm font-medium">
                           {dataOfUser &&
                             dataOfUser.firstName + ' ' + dataOfUser.lastName}
                         </p>
@@ -178,13 +175,13 @@ export function Sidebar({
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-                {!collapsed && (
+                {(!collapsed || open) && (
                   <div>
-                    <p className="text-sm whitespace-nowrap font-medium ">
+                    <p className="whitespace-nowrap text-sm font-medium">
                       {dataOfUser &&
                         dataOfUser.firstName + ' ' + dataOfUser.lastName}
                     </p>
-                    <p className="text-sm text-muted-foreground leading-none">
+                    <p className="text-sm leading-none text-muted-foreground">
                       {dataOfUser && dataOfUser.tools[0]}
                     </p>
                   </div>
@@ -195,16 +192,16 @@ export function Sidebar({
               <NavLink
                 key={index}
                 href={route.path}
-                className="flex items-center justify-start "
+                className="flex items-center justify-start"
               >
                 <div
-                  className={`rounded-md relative mb-3 flex hover:cursor-pointer hover:bg-accent/30 hover:text-accent-foreground w-full ${
-                    collapsed ? 'justify-center' : ''
+                  className={`relative mb-3 flex w-full rounded-md hover:cursor-pointer hover:bg-accent/30 hover:text-accent-foreground ${
+                    collapsed ? 'justify-start' : ''
                   }`}
                 >
                   <li
-                    className={`my-[3px] mx-3 text-sm font-medium flex cursor-pointer items-center px-4 ${
-                      collapsed ? 'justify-center' : 'mr-24'
+                    className={`mx-3 my-[3px] flex cursor-pointer items-center px-4 text-sm font-medium ${
+                      collapsed ? 'justify-start' : 'mr-24'
                     }`}
                     key={index}
                   >
@@ -215,7 +212,7 @@ export function Sidebar({
                     >
                       {route.icon}{' '}
                     </span>
-                    {!collapsed && (
+                    {(!collapsed || open) && (
                       <p
                         className={`leading-1 ml-4 flex ${
                           activeRoute(route.path) === true

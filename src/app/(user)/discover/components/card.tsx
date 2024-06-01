@@ -6,11 +6,11 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import useSocket from '@/lib/hooks/useSocket';
+import useUserInfo from '@/lib/hooks/useUserInfo';
 import { useGetAllUsersQuery } from '@/redux/api/usersApi';
+import { LoaderIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { ProjectSlider } from './projectsslider';
-import useUserInfo from '@/lib/hooks/useUserInfo';
-import { LoaderIcon } from 'lucide-react';
 
 export function DiscoverCard(): JSX.Element {
   const socket = useSocket(process.env.NEXT_PUBLIC_SERVER_SOCKET_URI || '');
@@ -40,8 +40,8 @@ export function DiscoverCard(): JSX.Element {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-[75vh]">
-        <LoaderIcon className="my-28 h-16 w-16 text-primary/60 animate-spin" />
+      <div className="flex min-h-[75vh] items-center justify-center">
+        <LoaderIcon className="my-28 h-16 w-16 animate-spin text-primary/60" />
       </div>
     );
   }
@@ -54,8 +54,8 @@ export function DiscoverCard(): JSX.Element {
         onlineUsers={onlineUsers}
         socket={socket}
       />
-      <div className="lg:grid px-5 py-5 discoverUsers">
-        <div className="grid lg:grid-cols-3 sm:grid-cols-2 gap-4 mx-2">
+      <div className="discoverUsers px-5 py-5 lg:grid">
+        <div className="mx-2 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {userData?.map((user, index) => {
             if (userInfo?._id === user._id) return null;
             const userExists = onlineUsers?.some(
@@ -66,18 +66,18 @@ export function DiscoverCard(): JSX.Element {
               <Card key={index} className="rounded-2xl p-5">
                 <div className="flex items-center">
                   <div className="relative">
-                    <Avatar className="w-16 h-16">
+                    <Avatar className="h-16 w-16">
                       <AvatarImage
                         src={user.profilePicture}
                         alt="@shadcn"
-                        className="  object-cover"
+                        className="object-cover"
                       />
                       <AvatarFallback>{`${user.firstName?.charAt(
                         0,
                       )}${user.lastName?.charAt(0)}`}</AvatarFallback>
                     </Avatar>
                     <span
-                      className={`absolute bottom-3 right-0 block h-2 w-2 rounded-full border-2 border-green-500  ${
+                      className={`absolute bottom-3 right-0 block h-2 w-2 rounded-full border-2 border-green-500 ${
                         userExists ? 'bg-green-500' : 'bg-white'
                       }`}
                     ></span>
@@ -92,7 +92,7 @@ export function DiscoverCard(): JSX.Element {
                     </span>
                   </div>
                 </div>
-                <div className="flex my-5 gap-3">
+                <div className="my-5 flex gap-3">
                   <Badge variant="secondary" className="p-2 font-normal">
                     {user.perHourValue?.length > 0
                       ? `${user.perHourValue.join('-')}`
@@ -112,7 +112,7 @@ export function DiscoverCard(): JSX.Element {
                     <Badge
                       key={index}
                       variant="secondary"
-                      className="p-2 font-normal text-center rounded-md justify-center item flex-1"
+                      className="item flex-1 justify-center rounded-md p-2 text-center font-normal"
                     >
                       {tool}
                     </Badge>
@@ -123,7 +123,7 @@ export function DiscoverCard(): JSX.Element {
                 </div>
                 <Button
                   variant="default"
-                  className="rounded-xl w-full"
+                  className="w-full rounded-xl"
                   onClick={() => openConversationModal(user)}
                 >
                   <svg

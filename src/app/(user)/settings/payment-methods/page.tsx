@@ -1,7 +1,5 @@
 'use client';
-import React from 'react';
 import MoneyIcon from '@/assets/money-bag-light.k94uH0zM.webp';
-import Image from 'next/image';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,65 +11,65 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { GoCreditCard } from 'react-icons/go';
+import Image from 'next/image';
+import React from 'react';
 import { AiTwotoneBank } from 'react-icons/ai';
+import { GoCreditCard } from 'react-icons/go';
 const Page: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
-    <div className="border h-[350px] rounded-[30px] w-auto px-5">
-      <div className="grid grid-cols-3 items-center mx-2 my-8">
-        <h2 className="text-md font-medium mx-3">Payment methods</h2>
-        <button className="border-gray-500 border-x-2 border-y-2 rounded-[40px] font-bold text-xs mx-2 px-1 py-2">
+    <div className="h-[350px] w-auto rounded-[30px] border px-5">
+      <div className="mx-2 my-8 grid grid-cols-3 items-center">
+        <h2 className="text-md mx-3 font-medium">Payment methods</h2>
+        <button className="mx-2 rounded-[40px] border-x-2 border-y-2 border-gray-500 px-1 py-2 text-xs font-bold">
           + Add Finance Integration
         </button>
         <AlertDialog>
-          <AlertDialogTrigger className=" px-2 py-2 bg-black  font-semibold text-white rounded-[40px] text-sm">
+          <AlertDialogTrigger className="rounded-[40px] bg-black px-2 py-2 text-sm font-semibold text-white">
             + Add Account
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>Add Payment Method</AlertDialogTitle>
               <AlertDialogDescription>
-                <div className=" grid grid-cols-2 p-3 cursor-pointer">
+                <div className="grid cursor-pointer grid-cols-2 p-3">
                   <div
                     className={
-                      ' flex-col  flex justify-center items-center  border-2 border-black rounded-[10px] h-[130px] mx-1 '
+                      'mx-1 flex h-[130px] flex-col items-center justify-center rounded-[10px] border-2 border-black'
                     }
                   >
-                    <GoCreditCard className=" text-black w-[30px] h-[30px] block" />
-                    <p className=" font-bold text-black my-2 ">
+                    <GoCreditCard className="block h-[30px] w-[30px] text-black" />
+                    <p className="my-2 font-bold text-black">
                       Credit / Debit Card
                     </p>
                   </div>
 
-                  <div className="  flex-col flex justify-center items-center h-[130px] rounded-[10px]  border-2 border-black mx-1">
-                    <AiTwotoneBank className=" text-black w-[30px] h-[30px] block" />
-                    <p className=" font-bold text-black my-2 ">
-                      US Bank Account
-                    </p>
+                  <div className="mx-1 flex h-[130px] flex-col items-center justify-center rounded-[10px] border-2 border-black">
+                    <AiTwotoneBank className="block h-[30px] w-[30px] text-black" />
+                    <p className="my-2 font-bold text-black">US Bank Account</p>
                   </div>
                 </div>
               </AlertDialogDescription>
-              <p className=" text-start mx-5 text-xs text-gray-500">
+              <p className="mx-5 text-start text-xs text-gray-500">
                 Pay for work on crafyHub with a Credit or Debit card. Payments
                 are processed in seconds and stripe fees can charge from 2% up
                 to 5%.
               </p>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel className=" px-6 py-2  rounded-[50px]">
+              <AlertDialogCancel className="rounded-[50px] px-6 py-2">
                 Cancel
               </AlertDialogCancel>
-              <AlertDialogAction className="  px-6 py-2 rounded-[50px] ">
+              <AlertDialogAction className="rounded-[50px] px-6 py-2">
                 Continue
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
       </div>
-      <div className="category my-6 flex justify-center items-center flex-col">
-        <Image src={MoneyIcon} alt="money" className="w-[150px] h-[150px]" />
+      <div className="category my-6 flex flex-col items-center justify-center">
+        <Image src={MoneyIcon} alt="money" className="h-[150px] w-[150px]" />
         <p className="text-2xl font-medium">Add a payment method</p>
         <span className="my-2 text-xs text-gray-500">
           Link your preferred credit card or US bank account (ACH)

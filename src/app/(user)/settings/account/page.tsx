@@ -49,11 +49,11 @@ const AccountInformation: React.FC = () => {
     }
   }
   return (
-    <div className="border mx-4  w-auto ">
-      <h2 className="mx-4 font-bold mt-4 text-2xl"> Account Information</h2>
-      <div className="category mx-5 my-5 ">
-        <label className="block font-bold text-md my-2">Email</label>
-        <div className=" grid grid-cols-2 gap-20 hover:bg-gray-100 items-center   ">
+    <div className="mx-4 w-auto border">
+      <h2 className="mx-4 mt-4 text-2xl font-bold"> Account Information</h2>
+      <div className="category mx-5 my-5">
+        <label className="text-md my-2 block font-bold">Email</label>
+        <div className="grid grid-cols-2 items-center gap-20 hover:bg-gray-100">
           {activeEmail ? (
             <EditEmail
               accountInformation={accountInformation}
@@ -65,7 +65,7 @@ const AccountInformation: React.FC = () => {
             <>
               <p className="px-2 py-2">{accountInformation.email}</p>
               <HiOutlinePencilSquare
-                className=" inline w-[25px] h-[25px] mx-2 cursor-pointer  "
+                className="mx-2 inline h-[25px] w-[25px] cursor-pointer"
                 onClick={() => editFunc('email')}
               />
             </>
@@ -73,8 +73,8 @@ const AccountInformation: React.FC = () => {
         </div>
       </div>
       <div className="category mx-5 my-5">
-        <label className="block my-2 font-bold text-md">Birthdate</label>
-        <div className=" grid grid-cols-2  gap-20 hover:bg-gray-100 items-center">
+        <label className="text-md my-2 block font-bold">Birthdate</label>
+        <div className="grid grid-cols-2 items-center gap-20 hover:bg-gray-100">
           {activeDate ? (
             <>
               <EditDate
@@ -86,20 +86,20 @@ const AccountInformation: React.FC = () => {
             </>
           ) : (
             <>
-              <p className=" px-2 py-2 text-sm">
+              <p className="px-2 py-2 text-sm">
                 {accountInformation.birthdate}
               </p>
               <HiOutlinePencilSquare
-                className=" inline w-[25px] h-[25px] mx-2 cursor-pointer "
+                className="mx-2 inline h-[25px] w-[25px] cursor-pointer"
                 onClick={() => editFunc('birthDate')}
               />
             </>
           )}
         </div>
       </div>
-      <div className="category mx-5 my-5  ">
-        <label className="block my-2 font-bold text-md">Calendar Link</label>
-        <div className=" grid grid-cols-2 hover:bg-gray-100 items-center gap-20">
+      <div className="category mx-5 my-5">
+        <label className="text-md my-2 block font-bold">Calendar Link</label>
+        <div className="grid grid-cols-2 items-center gap-20 hover:bg-gray-100">
           {activeCalendar ? (
             <EditCalendar
               accountInformation={accountInformation}
@@ -111,7 +111,7 @@ const AccountInformation: React.FC = () => {
             <>
               <p className="px-2 py-2">{accountInformation.calendarLink}</p>
               <HiOutlinePencilSquare
-                className=" inline w-[25px] h-[25px] mx-2 cursor-pointer "
+                className="mx-2 inline h-[25px] w-[25px] cursor-pointer"
                 onClick={() => editFunc('calendar')}
               />
             </>
@@ -119,17 +119,17 @@ const AccountInformation: React.FC = () => {
         </div>
       </div>
       <div className="category mx-5 my-5">
-        <label className="my-2 font-bold text-md block">Domains</label>
-        <span className=" text-sm font-bold my-3">Contra Profile Domain</span>
-        <p className="px-2 py-2 hover:bg-gray-100 items-center gap-20 my-3 text-sm">
+        <label className="text-md my-2 block font-bold">Domains</label>
+        <span className="my-3 text-sm font-bold">Contra Profile Domain</span>
+        <p className="my-3 items-center gap-20 px-2 py-2 text-sm hover:bg-gray-100">
           {accountInformation.profileDomain}
         </p>
       </div>
-      <hr className=" mx-4 my-5" />
-      <div className=" mx-5 my-3">
+      <hr className="mx-4 my-5" />
+      <div className="mx-5 my-3">
         <span className=" ">
           {' '}
-          <RiDeleteBin6Fill className="  bg-pink-50 w-[25px] h-[25px] inline  text-pink-900" />{' '}
+          <RiDeleteBin6Fill className="inline h-[25px] w-[25px] bg-pink-50 text-pink-900" />{' '}
           Delete Account{' '}
         </span>
       </div>
@@ -166,8 +166,8 @@ const EditEmail: React.FC<EditEmailProps> = ({
     <>
       {activeSave ? (
         <>
-          <p className=" px-2 py-2">{accountInformation.email}</p>
-          <HiOutlinePencilSquare className=" inline w-[25px] h-[25px] mx-2 cursor-pointer  " />
+          <p className="px-2 py-2">{accountInformation.email}</p>
+          <HiOutlinePencilSquare className="mx-2 inline h-[25px] w-[25px] cursor-pointer" />
         </>
       ) : (
         <div className="">
@@ -176,20 +176,19 @@ const EditEmail: React.FC<EditEmailProps> = ({
             name="email"
             placeholder="email"
             value={accountInformation.email}
-            className="w-full
-         p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            className="w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
             id="email"
             onChange={handleInputChange}
           />
-          <div className=" grid grid-cols-2 gap-0">
+          <div className="grid grid-cols-2 gap-0">
             <button
-              className=" bg-black  w-[100px] text-white mx-1 my-2 p-1 rounded-[50px]"
+              className="mx-1 my-2 w-[100px] rounded-[50px] bg-black p-1 text-white"
               onClick={handleSave}
             >
               Save
             </button>
             <button
-              className=" bg-black w-[100px]  text-white mx-1 my-2 p-1 rounded-[50px]"
+              className="mx-1 my-2 w-[100px] rounded-[50px] bg-black p-1 text-white"
               onClick={handleCancel}
             >
               Cancel
@@ -228,30 +227,29 @@ const EditDate: React.FC<EditEmailProps> = ({
   return (
     <>
       {activeSave ? (
-        <span className=" hover:bg-gray-100 px-2 py-2">
+        <span className="px-2 py-2 hover:bg-gray-100">
           {accountInformation.birthdate}
         </span>
       ) : (
-        <div className=" grid grid-cols-1">
+        <div className="grid grid-cols-1">
           <input
             type="date"
             name="birthdate"
             placeholder="birthDate"
             value={accountInformation.birthDate}
-            className="w-full
-         p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            className="w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
             id="email"
             onChange={handleInputChange}
           />
-          <div className=" grid grid-cols-2 gap-0">
+          <div className="grid grid-cols-2 gap-0">
             <button
-              className=" bg-black  w-[100px] text-white mx-1 my-2 p-1 rounded-[50px]"
+              className="mx-1 my-2 w-[100px] rounded-[50px] bg-black p-1 text-white"
               onClick={handleSave}
             >
               Save
             </button>
             <button
-              className=" bg-black w-[100px]  text-white mx-1 my-2 p-1 rounded-[50px]"
+              className="mx-1 my-2 w-[100px] rounded-[50px] bg-black p-1 text-white"
               onClick={handleCancel}
             >
               Cancel
@@ -290,30 +288,29 @@ const EditCalendar: React.FC<EditEmailProps> = ({
   return (
     <>
       {activeSave ? (
-        <span className=" hover:bg-gray-100 px-2 py-2">
+        <span className="px-2 py-2 hover:bg-gray-100">
           {accountInformation.calendarLink}
         </span>
       ) : (
-        <div className=" grid grid-cols-1">
+        <div className="grid grid-cols-1">
           <input
             type="text"
             name="birthdate"
             placeholder="birthDate"
             value={accountInformation.calendarLink}
-            className="w-full
-         p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            className="w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
             id="email"
             onChange={handleInputChange}
           />
-          <div className=" grid grid-cols-2 gap-0">
+          <div className="grid grid-cols-2 gap-0">
             <button
-              className=" bg-black  w-[100px] text-white mx-1 my-2 p-1 rounded-[50px]"
+              className="mx-1 my-2 w-[100px] rounded-[50px] bg-black p-1 text-white"
               onClick={handleSave}
             >
               Save
             </button>
             <button
-              className=" bg-black w-[100px]  text-white mx-1 my-2 p-1 rounded-[50px]"
+              className="mx-1 my-2 w-[100px] rounded-[50px] bg-black p-1 text-white"
               onClick={handleCancel}
             >
               Cancel

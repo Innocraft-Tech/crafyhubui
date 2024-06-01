@@ -2,6 +2,7 @@
 
 import HandleResponse from '@/components/common/HandleResponse';
 import InputField from '@/components/forms/input-field';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import {
@@ -30,7 +31,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import ProfileImageUpload from './profileImageUpload';
-import { Badge } from '@/components/ui/badge';
 import {
   BioInfo,
   RateInfo,
@@ -302,13 +302,22 @@ export default function ProfileLeftSection(): JSX.Element {
         />
       )}
 
-      <Card className="shadow-lg">
+      <Card className="shadow-none">
         <CardHeader className="flex flex-col items-center">
           <ProfileImageUpload
             img={userInfo?.profilePicture}
             onUploadProfile={onUploadProfile}
           />
-          <span className="text-purple-500">INCOMPLETE</span>
+          {/* <span className="text-purple-500">INCOMPLETE</span> */}
+          {userInfo?.profileIsComplete ? (
+            <span className="text-md mt-2 rounded-full bg-green-100 px-2 py-0.5 text-sm text-green-900">
+              COMPLETE
+            </span>
+          ) : (
+            <span className="mt-2 rounded-full bg-pink-100 px-2 py-0.5 text-sm text-pink-800">
+              INCOMPLETE
+            </span>
+          )}
         </CardHeader>
         <CardContent>
           {isEditingName ? (
@@ -318,7 +327,7 @@ export default function ProfileLeftSection(): JSX.Element {
                 className="space-y-4"
               >
                 <div className="flex flex-col items-center space-y-2">
-                  <div className="flex gap-3 items-start justify-center">
+                  <div className="flex items-start justify-center gap-3">
                     <InputField
                       name="firstName"
                       control={nameControl}
@@ -341,7 +350,7 @@ export default function ProfileLeftSection(): JSX.Element {
                     </p>
                   )}
                 </div>
-                <div className="flex items-end justify-end mt-2 space-x-2">
+                <div className="mt-2 flex items-end justify-end space-x-2">
                   <Button
                     type="button"
                     variant="outline"
@@ -358,14 +367,14 @@ export default function ProfileLeftSection(): JSX.Element {
           ) : (
             <>
               <div
-                className="relative flex cursor-pointer hover:bg-accent/30 hover:text-accent-foreground flex-col items-center p-2"
+                className="relative flex cursor-pointer flex-col items-center p-2 hover:bg-accent/30 hover:text-accent-foreground"
                 onClick={handleEditNameClick}
               >
                 <div className="group">
                   <h1 className="text-2xl font-bold">{`${userInfo?.firstName} ${userInfo?.lastName}`}</h1>
-                  <button className="absolute right-0 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button className="absolute right-0 top-1/2 -translate-y-1/2 transform opacity-0 transition-opacity group-hover:opacity-100">
                     <svg
-                      className="w-4 h-4 text-gray-500"
+                      className="h-4 w-4 text-gray-500"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -384,7 +393,7 @@ export default function ProfileLeftSection(): JSX.Element {
             </>
           )}
 
-          <Button variant="default" className="my-4 rounded-xl w-full">
+          <Button variant="default" className="my-4 w-full rounded-xl">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -398,54 +407,56 @@ export default function ProfileLeftSection(): JSX.Element {
             Get In Touch
           </Button>
 
-          <h2 className="text-xs text-gray-500 my-2">RATE</h2>
+          <h2 className="my-2 text-xs text-gray-500">RATE</h2>
           {isEditingRate ? (
             <Form {...rateForm}>
               <form
                 onSubmit={handleRateSubmit(handleSaveRateClick)}
-                className="space-y-4 my-2"
+                className="my-2 space-y-4"
               >
                 <div className="space-y-2">
                   <FormField
                     control={rateControl}
                     name="perHourValue"
-                    render={({ field }) => (
-                      <FormItem>
-                        <Select
-                          onValueChange={(value) => {
-                            field.onChange(convertStringToRate(value));
-                          }}
-                          defaultValue={convertRateToString(field.value)}
-                        >
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="I'd prefer not to say" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="[]">
-                              I&apos;d prefer not to say
-                            </SelectItem>
-                            <SelectItem value="[25, 50]">
-                              $25 - $50/hr
-                            </SelectItem>
-                            <SelectItem value="[50, 75]">
-                              $50 - $75/hr
-                            </SelectItem>
-                            <SelectItem value="[75, 100]">
-                              $75 - $100/hr
-                            </SelectItem>
-                            <SelectItem value="[100, 150]">
-                              $100 - $150/hr
-                            </SelectItem>
-                            <SelectItem value="[150, 200]">
-                              $150 - $200/hr
-                            </SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+                    render={({ field }) => {
+                      return (
+                        <FormItem>
+                          <Select
+                            onValueChange={(value) => {
+                              field.onChange(convertStringToRate(value));
+                            }}
+                            value={`[${field.value}]`}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="I'd prefer not to say" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="[0,0]">
+                                I&apos;d prefer not to say
+                              </SelectItem>
+                              <SelectItem value="[25,50]">
+                                $25 - $50/hr
+                              </SelectItem>
+                              <SelectItem value="[50,75]">
+                                $50 - $75/hr
+                              </SelectItem>
+                              <SelectItem value="[75,100]">
+                                $75 - $100/hr
+                              </SelectItem>
+                              <SelectItem value="[100,150]">
+                                $100 - $150/hr
+                              </SelectItem>
+                              <SelectItem value="[150,200]">
+                                $150 - $200/hr
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
                   />
                 </div>
                 {rateErrors.perHourValue && (
@@ -453,7 +464,7 @@ export default function ProfileLeftSection(): JSX.Element {
                     {rateErrors.perHourValue.message}
                   </p>
                 )}
-                <div className="flex items-end justify-end mt-2 space-x-2">
+                <div className="mt-2 flex items-end justify-end space-x-2">
                   <Button
                     type="button"
                     variant="outline"
@@ -470,14 +481,15 @@ export default function ProfileLeftSection(): JSX.Element {
           ) : (
             <>
               <div
-                className="relative flex cursor-pointer hover:bg-accent/30 hover:text-accent-foreground flex-col p-2"
+                className="relative flex cursor-pointer flex-col p-2 hover:bg-accent/30 hover:text-accent-foreground"
                 onClick={handleEditRateClick}
               >
                 <div className="group">
                   <p className="text-sm">
-                    {userInfo?.perHourValue?.length ? (
+                    {userInfo?.perHourValue?.length &&
+                    userInfo.perHourValue[0] ? (
                       <Badge
-                        className="text-muted-foreground px-2 py-1"
+                        className="px-2 py-1 text-muted-foreground"
                         variant={'secondary'}
                       >
                         {convertRateToString(userInfo.perHourValue)}
@@ -486,9 +498,9 @@ export default function ProfileLeftSection(): JSX.Element {
                       'I’d prefer not to say'
                     )}
                   </p>
-                  <button className="absolute right-0 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button className="absolute right-0 top-1/2 -translate-y-1/2 transform opacity-0 transition-opacity group-hover:opacity-100">
                     <svg
-                      className="w-4 h-4 text-gray-500"
+                      className="h-4 w-4 text-gray-500"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -506,12 +518,12 @@ export default function ProfileLeftSection(): JSX.Element {
               </div>
             </>
           )}
-          <h2 className="text-xs text-gray-500 my-2">SKILLS AND TOOLS</h2>
+          <h2 className="my-2 text-xs text-gray-500">SKILLS</h2>
           {isEditingSkills ? (
             <Form {...skillsForm}>
               <form
                 onSubmit={handleSkillsSubmit(handleSaveSkillsClick)}
-                className="space-y-4 my-2"
+                className="my-2 space-y-4"
               >
                 <div className="flex flex-col items-center space-y-2">
                   <FormField
@@ -552,7 +564,7 @@ export default function ProfileLeftSection(): JSX.Element {
                 {skillsErrors.tools && (
                   <p className="text-red-500">{skillsErrors.tools.message}</p>
                 )}
-                <div className="flex items-end justify-end mt-2 space-x-2">
+                <div className="mt-2 flex items-end justify-end space-x-2">
                   <Button
                     type="button"
                     variant="outline"
@@ -569,7 +581,7 @@ export default function ProfileLeftSection(): JSX.Element {
           ) : (
             <>
               <div
-                className="relative flex cursor-pointer  hover:bg-accent/30 hover:text-accent-foreground flex-col p-2"
+                className="relative flex cursor-pointer flex-col p-2 hover:bg-accent/30 hover:text-accent-foreground"
                 onClick={handleEditSkillsClick}
               >
                 <div className="group">
@@ -586,9 +598,9 @@ export default function ProfileLeftSection(): JSX.Element {
                         ))
                       : 'No tools specified'}
                   </p>
-                  <button className="absolute right-0 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button className="absolute right-0 top-1/2 -translate-y-1/2 transform opacity-0 transition-opacity group-hover:opacity-100">
                     <svg
-                      className="w-4 h-4 text-gray-500"
+                      className="h-4 w-4 text-gray-500"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -606,12 +618,12 @@ export default function ProfileLeftSection(): JSX.Element {
               </div>
             </>
           )}
-          <h2 className="text-xs text-gray-500 my-2">ABOUT</h2>
+          <h2 className="my-2 text-xs text-gray-500">ABOUT</h2>
           {isEditingBio ? (
             <Form {...bioForm}>
               <form
                 onSubmit={handleBioSubmit(handleSaveBioClick)}
-                className="space-y-4 my-2"
+                className="my-2 space-y-4"
               >
                 <div className="space-y-2">
                   <InputField
@@ -623,7 +635,7 @@ export default function ProfileLeftSection(): JSX.Element {
                     <p className="text-red-500">{bioErrors.bio.message}</p>
                   )}
                 </div>
-                <div className="flex items-end justify-end mt-2 space-x-2">
+                <div className="mt-2 flex items-end justify-end space-x-2">
                   <Button
                     type="button"
                     variant="outline"
@@ -640,14 +652,14 @@ export default function ProfileLeftSection(): JSX.Element {
           ) : (
             <>
               <div
-                className="relative flex cursor-pointer  hover:bg-accent/30 hover:text-accent-foreground flex-col p-2"
+                className="relative flex cursor-pointer flex-col p-2 hover:bg-accent/30 hover:text-accent-foreground"
                 onClick={handleEditBioClick}
               >
                 <div className="group">
                   <p className="text-sm">{userInfo?.bio || 'Add bio'}</p>
-                  <button className="absolute right-0 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button className="absolute right-0 top-1/2 -translate-y-1/2 transform opacity-0 transition-opacity group-hover:opacity-100">
                     <svg
-                      className="w-4 h-4 text-gray-500"
+                      className="h-4 w-4 text-gray-500"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -665,12 +677,12 @@ export default function ProfileLeftSection(): JSX.Element {
               </div>
             </>
           )}
-          <h2 className="text-xs text-gray-500 my-2">TIMEZONE</h2>
+          <h2 className="my-2 text-xs text-gray-500">TIMEZONE</h2>
           {isEditingTimezone ? (
             <Form {...timezoneForm}>
               <form
                 onSubmit={handleTimezoneSubmit(handleSaveTimezoneClick)}
-                className="space-y-4 my-2"
+                className="my-2 space-y-4"
               >
                 <div className="space-y-2">
                   <FormField
@@ -796,7 +808,7 @@ export default function ProfileLeftSection(): JSX.Element {
                     {timezoneErrors.timezone.message}
                   </p>
                 )}
-                <div className="flex items-end justify-end mt-2 space-x-2">
+                <div className="mt-2 flex items-end justify-end space-x-2">
                   <Button
                     type="button"
                     variant="outline"
@@ -813,16 +825,16 @@ export default function ProfileLeftSection(): JSX.Element {
           ) : (
             <>
               <div
-                className="relative flex cursor-pointer  hover:bg-accent/30 hover:text-accent-foreground flex-col p-2"
+                className="relative flex cursor-pointer flex-col p-2 hover:bg-accent/30 hover:text-accent-foreground"
                 onClick={handleEditTimezoneClick}
               >
                 <div className="group">
                   <p className="text-sm">
                     {userInfo?.timezone || 'Add timezone'}
                   </p>
-                  <button className="absolute right-0 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button className="absolute right-0 top-1/2 -translate-y-1/2 transform opacity-0 transition-opacity group-hover:opacity-100">
                     <svg
-                      className="w-4 h-4 text-gray-500"
+                      className="h-4 w-4 text-gray-500"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"

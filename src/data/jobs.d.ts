@@ -7,7 +7,7 @@ type Job = {
   paymentOngoing?: boolean;
   oneTime?: (string | number)[];
   onGoing?: (string | number)[];
-  client?: string;
+  client?: Client;
   appliedUsers?: string[];
   jobLocation?: string;
   languages: string[];
@@ -15,6 +15,13 @@ type Job = {
   companyLog?: string;
   createdAt?: Date;
   updatedAt?: Date;
+};
+
+type Client = {
+  profilePicture: string;
+  firstName: string;
+  lastName: string;
+  companyName: string;
 };
 
 type PostJobPayload = { data: Job; id: string };

@@ -1,8 +1,8 @@
 import { cn } from '@/lib/utils';
 import { Label } from '@radix-ui/react-label';
 
-import { Input } from './input';
 import { Button } from './button';
+import { Input } from './input';
 
 export function ProfileForm({ className }: React.ComponentProps<'form'>) {
   return (

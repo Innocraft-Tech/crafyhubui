@@ -42,11 +42,11 @@ export function Sidebar({
   return (
     <div
       data-collapsed={isCollapsed}
-      className="relative group flex flex-col h-full gap-4 p-2 data-[collapsed=true]:p-2 "
+      className="group relative flex h-full flex-col gap-4 p-2 data-[collapsed=true]:p-2"
     >
       {!isCollapsed && (
-        <div className="flex justify-between p-2 items-center">
-          <div className="flex gap-2 items-center text-2xl">
+        <div className="flex items-center justify-between p-2">
+          <div className="flex items-center gap-2 text-2xl">
             <p className="font-medium">Chats</p>
             <span className="text-zinc-300">({links?.length})</span>
           </div>
@@ -93,13 +93,13 @@ export function Sidebar({
                     )}
                     onClick={() => setSelectedUser(link)}
                   >
-                    <Avatar className="flex justify-center items-center">
+                    <Avatar className="flex items-center justify-center">
                       <AvatarImage
                         src={link.profilePicture}
                         alt={link.profilePicture}
                         width={6}
                         height={6}
-                        className="w-10 h-10 "
+                        className="h-10 w-10"
                       />
                     </Avatar>
                     <span className="sr-only">
@@ -122,23 +122,23 @@ export function Sidebar({
               className={cn(
                 buttonVariants({ variant: getVariant(link), size: 'xl' }),
                 getVariant(link) === 'grey' &&
-                  'dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white shrink',
+                  'shrink dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white',
                 'justify-start gap-4',
               )}
               onClick={() => setSelectedUser(link)}
             >
               <div className="relative">
-                <Avatar className="flex justify-center items-center">
+                <Avatar className="flex items-center justify-center">
                   <AvatarImage
                     src={link.profilePicture}
                     alt={link.profilePicture}
                     width={6}
                     height={6}
-                    className="w-10 h-10 "
+                    className="h-10 w-10"
                   />
                 </Avatar>
                 <span
-                  className={`absolute bottom-1 right-0 block h-2 w-2 rounded-full border-2 border-green-500  ${
+                  className={`absolute bottom-1 right-0 block h-2 w-2 rounded-full border-2 border-green-500 ${
                     onlineUsers?.some(
                       (onlineUser) => onlineUser.userId === link?._id,
                     )
@@ -147,7 +147,7 @@ export function Sidebar({
                   }`}
                 ></span>
               </div>
-              <div className="flex flex-col max-w-28">
+              <div className="flex max-w-28 flex-col">
                 <span>{link.firstName + ' ' + link.lastName}</span>
                 {/* {link.messages?.length > 0 && (
                   <span className="text-zinc-300 text-xs truncate ">

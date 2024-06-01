@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, ChangeEvent } from 'react';
 import Image from 'next/image';
+import { ChangeEvent, useState } from 'react';
 
 interface ChildComponentProps {
   img?: string;
@@ -62,10 +62,10 @@ export default function ProfileImageUpload({
   };
 
   return (
-    <div className="relative w-40 h-40 m-auto">
+    <div className="relative m-auto h-40 w-40">
       {selectedImagePath ? (
         <div
-          className="w-40 h-40 rounded-full shadow"
+          className="h-40 w-40 rounded-full shadow"
           style={{
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
@@ -79,7 +79,7 @@ export default function ProfileImageUpload({
           alt="Default Profile"
           width={160}
           height={160}
-          className="w-40 h-40 rounded-full shadow"
+          className="h-40 w-40 rounded-full shadow"
         />
       )}
       <input
@@ -91,7 +91,7 @@ export default function ProfileImageUpload({
       />
       <label
         htmlFor="profile-image-upload"
-        className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity cursor-pointer rounded-full"
+        className="absolute inset-0 flex cursor-pointer items-center justify-center rounded-full bg-black bg-opacity-50 text-white opacity-0 transition-opacity hover:opacity-100"
       >
         <div className="flex flex-col items-center">
           {/* <svg
@@ -112,7 +112,7 @@ export default function ProfileImageUpload({
         </div>
       </label>
       {loading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-75 rounded-full">
+        <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black bg-opacity-75">
           <div className="text-white">
             Uploading: {Math.round(uploadProgress)}%
           </div>

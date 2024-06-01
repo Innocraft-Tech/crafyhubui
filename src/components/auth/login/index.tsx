@@ -1,15 +1,15 @@
 'use client';
-import { TypeSignInSchema, signInSchema } from '@/data/signInData';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { Form } from '../../ui/form';
-import { Button } from '../../ui/button';
-import { useLogInMutation } from '@/redux/api/authApi';
-import { Loader2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { setToken } from '@/lib/cookie';
 import EmailPasswordFormField from '@/components/forms/email-password-form';
 import { toast } from '@/components/ui/use-toast';
+import { TypeSignInSchema, signInSchema } from '@/data/signInData';
+import { setToken } from '@/lib/cookie';
+import { useLogInMutation } from '@/redux/api/authApi';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { Button } from '../../ui/button';
+import { Form } from '../../ui/form';
 
 const SigninForm = () => {
   const router = useRouter();

@@ -1,8 +1,8 @@
+import SignupForm from '@/components/auth/signup';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
-import { cn } from '@/lib/utils';
-import { buttonVariants } from '@/components/ui/button';
-import SignupForm from '@/components/auth/signup';
 // import SignupForm from '@/components/forms/SignupForm';
 
 export default function SignupPage() {
@@ -24,7 +24,7 @@ export default function SignupPage() {
           className="hidden dark:block"
         />
       </div>
-      <div className="container relative hidden h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0 bg-gradient-to-r from-fuchsia-50 bg-[#fff9fb]">
+      <div className="container relative hidden h-screen flex-col items-center justify-center bg-[#fff9fb] bg-gradient-to-r from-fuchsia-50 md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Link
           href="/login"
           className={cn(

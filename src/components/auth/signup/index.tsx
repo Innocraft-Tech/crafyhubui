@@ -103,7 +103,10 @@ const SignupForm = (): JSX.Element => {
   const onSubmit = async (data: TypeSignUpSchema) => {
     const { userLocation, ...body } = data;
 
-    await register({ ...body, userLocation: [userLocation] }).unwrap();
+    await register({
+      ...body,
+      userLocation: [userLocation],
+    }).unwrap();
 
     reset(); // Reset the form after submission
   };
@@ -175,7 +178,7 @@ const SignupForm = (): JSX.Element => {
           <Button
             onClick={goToPrevious}
             variant="outline"
-            className="h-10 w-10 p-0 rounded-full"
+            className="h-10 w-10 rounded-full p-0"
             type="button"
           >
             <span className="sr-only">Go to previous page</span>
@@ -219,7 +222,7 @@ const SignupForm = (): JSX.Element => {
         />
       )}
 
-      <div className="relative hidden h-full flex-col p-10 text-primary lg:flex dark:border-r">
+      <div className="relative hidden h-full flex-col p-10 text-primary dark:border-r lg:flex">
         <div className="relative z-20 flex items-center text-lg font-medium">
           {/* <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -237,12 +240,12 @@ const SignupForm = (): JSX.Element => {
           <Image src="/logo.svg" alt="logo" width={191} height={42} />
         </div>
 
-        <Card className="p-6 text-center lg:py-8 m-auto w-[450px] bg-[#F7EFF1] border-none shadow-none">
-          <h3 className="mb-1.5 text-2xl font-medium ">
+        <Card className="m-auto w-[450px] border-none bg-[#F7EFF1] p-6 text-center shadow-none lg:py-8">
+          <h3 className="mb-1.5 text-2xl font-medium">
             {firstName || lastName ? `${firstName}  ${lastName}` : 'Name'}
           </h3>
           <div className="mt-4 text-left">
-            <Avatar className="m-auto w-[129px] h-[129px]">
+            <Avatar className="m-auto h-[129px] w-[129px]">
               {profilePicture ? (
                 <AvatarImage src={profilePicture} />
               ) : (
@@ -260,11 +263,11 @@ const SignupForm = (): JSX.Element => {
                 </svg>
               )}
             </Avatar>
-            <p className="leading-7 text-left my-5">
+            <p className="my-5 text-left leading-7">
               {isClient ? 'Professional Title' : 'Skills'}
             </p>
             {isClient ? (
-              <div className="flex items-center gap-2 min-h-6">
+              <div className="flex min-h-6 items-center gap-2">
                 <Image
                   src={'/auth/location.svg'}
                   alt="location"
@@ -274,11 +277,11 @@ const SignupForm = (): JSX.Element => {
                 <p className="">{role}</p>
               </div>
             ) : tools?.length > 0 ? (
-              <div className="space-x-1.5 inline-flex flex-wrap gap-2">
+              <div className="inline-flex flex-wrap gap-2 space-x-1.5">
                 {tools.map((tool) => (
                   <Badge
                     key={tool}
-                    className="border-dashed border-badge text-badge px-4 py-3"
+                    className="border-dashed border-badge px-4 py-3 text-badge"
                     variant={'outline'}
                   >
                     {tool}
@@ -287,13 +290,13 @@ const SignupForm = (): JSX.Element => {
               </div>
             ) : (
               <Badge
-                className="border-dashed border-badge text-badge px-6 py-3"
+                className="border-dashed border-badge px-6 py-3 text-badge"
                 variant={'outline'}
               ></Badge>
             )}
             <Separator className="my-4 bg-separator" />
-            <p className="leading-7 text-left my-5">Location</p>
-            <div className="flex items-center gap-2 min-h-6">
+            <p className="my-5 text-left leading-7">Location</p>
+            <div className="flex min-h-6 items-center gap-2">
               <Image
                 src={'/auth/location.svg'}
                 alt="location"
@@ -304,13 +307,13 @@ const SignupForm = (): JSX.Element => {
             </div>
             <Separator className="my-4 bg-separator" />
             <div className="flex flex-row gap-3">
-              <p className="leading-7 text-left my-5">Links</p>
+              <p className="my-5 text-left leading-7">Links</p>
               {Array.isArray(socialLinks) &&
                 socialLinks.map((link, index) => (
                   <div
                     className={`${
                       link && link?.length > 0
-                        ? 'bg-white p-1 rounded-[8px]'
+                        ? 'rounded-[8px] bg-white p-1'
                         : ''
                     }`}
                     key={index}
@@ -362,7 +365,7 @@ const SignupForm = (): JSX.Element => {
         </Card>
       </div>
       <div className="lg:p-8">
-        <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[500px] ">
+        <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[500px]">
           <Form {...form}>
             <form className="space-y-8">
               <div className="flex flex-col space-y-6">
@@ -375,15 +378,16 @@ const SignupForm = (): JSX.Element => {
                           name="isClient"
                           render={({ field }) => (
                             <>
-                              <h1 className="text-2xl font-semibold tracking-tight pb-8 text-center">
+                              <h1 className="pb-8 text-center text-2xl font-semibold tracking-tight">
                                 Join as a client or designer
                               </h1>
-                              <CardContent className="pb-0 grid gap-6">
+                              <CardContent className="grid gap-6 pb-0">
                                 <FormControl>
                                   <RadioGroup
                                     // onValueChange={field.onChange}
                                     onValueChange={(value) => {
                                       field.onChange(value === 'CLIENT');
+                                      console.log(value, 'value');
                                       setSelectedType(value);
                                     }}
                                     defaultValue={selectedType}
@@ -399,7 +403,7 @@ const SignupForm = (): JSX.Element => {
                                           />
                                           <Label
                                             htmlFor="freelancer"
-                                            className="flex flex-col items-center justify-between rounded-md cursor-pointer border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+                                            className="flex cursor-pointer flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
                                           >
                                             <Image
                                               width={300}
@@ -425,7 +429,7 @@ const SignupForm = (): JSX.Element => {
                                           />
                                           <Label
                                             htmlFor="client"
-                                            className="flex flex-col items-center justify-between rounded-md cursor-pointer border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+                                            className="flex cursor-pointer flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
                                           >
                                             <Image
                                               width={300}
@@ -452,7 +456,7 @@ const SignupForm = (): JSX.Element => {
                         <div className="mx-auto flex w-full flex-col justify-center sm:w-[350px]">
                           <div className="space-y-6">
                             <div className="flex flex-col space-y-2 text-center">
-                              <h1 className="text-2xl font-semibold tracking-tight text-center">
+                              <h1 className="text-center text-2xl font-semibold tracking-tight">
                                 Create you Crafyhub profile
                               </h1>
                               <p className="text-sm text-muted-foreground">
@@ -468,7 +472,7 @@ const SignupForm = (): JSX.Element => {
                       return (
                         <div className="mx-auto w-full">
                           <div className="space-y-6">
-                            <h1 className="text-2xl font-semibold tracking-tight text-left">
+                            <h1 className="text-left text-2xl font-semibold tracking-tight">
                               {isClient
                                 ? "What's the name of your company?"
                                 : "What's your name?"}
@@ -524,7 +528,7 @@ const SignupForm = (): JSX.Element => {
                       return (
                         <div className="mx-auto w-full">
                           <div className="space-y-6">
-                            <h1 className="text-2xl font-semibold tracking-tight text-left">
+                            <h1 className="text-left text-2xl font-semibold tracking-tight">
                               What do you do?
                             </h1>
                             {isClient ? (
@@ -626,7 +630,7 @@ const SignupForm = (): JSX.Element => {
                       return (
                         <div className="mx-auto w-full">
                           <div className="space-y-6">
-                            <h1 className="text-2xl font-semibold tracking-tight text-left">
+                            <h1 className="text-left text-2xl font-semibold tracking-tight">
                               Where are you located?
                             </h1>
                             <div className="flex items-center space-x-4">
@@ -643,7 +647,7 @@ const SignupForm = (): JSX.Element => {
                       return (
                         <div className="mx-auto w-full">
                           <div className="space-y-6">
-                            <h1 className="text-2xl font-semibold tracking-tight text-left">
+                            <h1 className="text-left text-2xl font-semibold tracking-tight">
                               Upload profile photo
                             </h1>
                             <div className="flex items-center space-x-4">
@@ -672,7 +676,7 @@ const SignupForm = (): JSX.Element => {
                       return (
                         <div className="mx-auto w-full">
                           <div className="space-y-6">
-                            <h1 className="text-2xl font-semibold tracking-tight text-left">
+                            <h1 className="text-left text-2xl font-semibold tracking-tight">
                               Add social links.
                             </h1>
                             <p>

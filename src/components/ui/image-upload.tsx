@@ -1,9 +1,9 @@
+import { fetchProgress } from '@/lib/api';
+import Image from 'next/image';
 import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import RadialProgress from './progress';
-import Image from 'next/image';
 import { Input } from './input';
-import { fetchProgress } from '@/lib/api';
+import RadialProgress from './progress';
 
 interface ImageUploadProps {
   onUpload: (fileUrl: string) => void;
@@ -84,17 +84,17 @@ const ImageUpload = ({ onUpload, placeholder }: ImageUploadProps) => {
   return (
     <div
       {...getRootProps()}
-      className=" flex items-center justify-center w-full"
+      className="flex w-full items-center justify-center"
     >
       <label
         htmlFor="dropzone-file"
-        className="relative flex flex-col flex-none items-center justify-center w-full py-6 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+        className="dark:hover:bg-bray-800 relative flex w-full flex-none cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 py-6 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
       >
         {loading && (
-          <div className=" text-center max-w-md  ">
+          <div className="max-w-md text-center">
             <RadialProgress progress={progress} />
-            <p className=" text-sm font-semibold">Uploading Picture</p>
-            <p className=" text-xs text-gray-400">
+            <p className="text-sm font-semibold">Uploading Picture</p>
+            <p className="text-xs text-gray-400">
               Do not refresh or perform any other action while the picture is
               being upload
             </p>
@@ -102,8 +102,8 @@ const ImageUpload = ({ onUpload, placeholder }: ImageUploadProps) => {
         )}
 
         {!loading && !selectedImagePath && (
-          <div className=" text-center">
-            <div className=" border p-2 rounded-md max-w-min mx-auto">
+          <div className="text-center">
+            <div className="mx-auto max-w-min rounded-md border p-2">
               {/* <IoCloudUploadOutline size="1.6em" /> */}
               <svg
                 width="24"
@@ -146,12 +146,12 @@ const ImageUpload = ({ onUpload, placeholder }: ImageUploadProps) => {
               width={1000}
               height={1000}
               src={selectedImagePath}
-              className=" w-full object-contain max-h-16 mx-auto mt-2 mb-3 opacity-70"
+              className="mx-auto mb-3 mt-2 max-h-16 w-full object-contain opacity-70"
               alt="uploaded image"
             />
 
-            <p className=" text-sm font-semibold">Picture Uploaded</p>
-            <p className=" text-xs text-gray-400">
+            <p className="text-sm font-semibold">Picture Uploaded</p>
+            <p className="text-xs text-gray-400">
               Click here to reupload the picture
             </p>
           </div>

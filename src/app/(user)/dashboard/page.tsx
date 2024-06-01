@@ -2,7 +2,7 @@
 
 import Card from '@/components/card';
 import { Button } from '@/components/ui/button';
-import { CardHeader, CardContent } from '@/components/ui/card';
+import { CardContent, CardHeader } from '@/components/ui/card';
 import useUserInfo from '@/lib/hooks/useUserInfo';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -17,19 +17,19 @@ export default function Dashboard() {
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">
+      <h1 className="mb-6 text-3xl font-bold">
         Welcome, {userInfo?.firstName}{' '}
         <span role="img" aria-label="wave">
           👋
         </span>
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+      <div className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-3">
         <Card className="shadow-lg">
           <CardHeader>
             <h2 className="text-xl font-semibold">Build profile</h2>
           </CardHeader>
           <CardContent>
-            <p className="text-gray-500 mb-4">Get access to more features.</p>
+            <p className="mb-4 text-gray-500">Get access to more features.</p>
             <Button
               variant="outline"
               onClick={() => handleNavigation('/profile')}
@@ -43,7 +43,7 @@ export default function Dashboard() {
             <h2 className="text-xl font-semibold">Unlock your next job</h2>
           </CardHeader>
           <CardContent>
-            <p className="text-gray-500 mb-4">
+            <p className="mb-4 text-gray-500">
               Join Contra&apos;s Job Network and explore exclusive
               opportunities.
             </p>
@@ -54,13 +54,13 @@ export default function Dashboard() {
         </Card>
         <Card className="shadow-lg">
           <CardHeader>
-            <h2 className="text-xl font-semibold">Send invoice or proposal</h2>
+            <h2 className="text-xl font-semibold">Connect with Users</h2>
           </CardHeader>
           <CardContent>
-            <p className="text-gray-500 mb-4">
-              Manage your workflow commission-free
+            <p className="mb-4 text-gray-500">
+              Explore and connect with other users on our platform
             </p>
-            <Button variant="outline">Invite client</Button>
+            <Button variant="outline">Connect Now</Button>
           </CardContent>
         </Card>
       </div>

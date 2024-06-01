@@ -27,20 +27,20 @@ export default function ChatTopbar({
 }: ChatTopbarProps) {
   if (!selectedUser) return;
   return (
-    <div className="w-full h-20 flex p-4 justify-between items-center border-b">
+    <div className="flex h-20 w-full items-center justify-between border-b p-4">
       <div className="flex items-center gap-2">
         <div className="relative">
-          <Avatar className="flex justify-center items-center">
+          <Avatar className="flex items-center justify-center">
             <AvatarImage
               src={selectedUser.profilePicture}
               alt={selectedUser.firstName + ' ' + selectedUser.lastName}
               width={6}
               height={6}
-              className="w-10 h-10 "
+              className="h-10 w-10"
             />
           </Avatar>
           <span
-            className={`absolute bottom-1 right-0 block h-2 w-2 rounded-full border-2 border-green-500  ${
+            className={`absolute bottom-1 right-0 block h-2 w-2 rounded-full border-2 border-green-500 ${
               onlineUsers?.some(
                 (onlineUser) => onlineUser.userId === selectedUser?._id,
               )

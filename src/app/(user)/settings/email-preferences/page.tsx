@@ -67,107 +67,101 @@ const EmailPreferences: React.FC = () => {
 
   return (
     <>
-      <div className=" border">
-        <h2 className="text-start mx-10 text-2xl font-bold mt-12 mb-6 ">
+      <div className="border">
+        <h2 className="mx-10 mb-6 mt-12 text-start text-2xl font-bold">
           Email Preferences
         </h2>
-        <div className="email-preferences mx-auto max-w-xl grid grid-cols-2 ">
-          <div className="category  mx-2 my-2">
+        <div className="email-preferences mx-auto grid max-w-xl grid-cols-2">
+          <div className="category mx-2 my-2">
             {formData.marketing.map((option) => (
-              <div key={option.id} className="   mb-2">
+              <div key={option.id} className="mb-2">
                 <input
                   id={option.id}
                   type="checkbox"
                   checked={option.isChecked}
                   onChange={() => handleCheckboxChange('marketing', option.id)}
-                  className="form-checkbox h-5 w-5  relative top-1 text-indigo-600 mr-2"
+                  className="form-checkbox relative top-1 mr-2 h-5 w-5 text-indigo-600"
                 />
-                <h3 className="text-md font-bold inline ">Marketing</h3>
-                <label
-                  htmlFor={option.id}
-                  className="text-gray-400  my-2 block   "
-                >
+                <h3 className="text-md inline font-bold">Marketing</h3>
+                <label htmlFor={option.id} className="my-2 block text-gray-400">
                   {option.label}
                 </label>
               </div>
             ))}
           </div>
-          <div className="category  mx-2 my-2">
+          <div className="category mx-2 my-2">
             {formData.support.map((option) => (
-              <div key={option.id} className=" mb-2">
+              <div key={option.id} className="mb-2">
                 <input
                   id={option.id}
                   type="checkbox"
                   checked={option.isChecked}
                   onChange={() => handleCheckboxChange('support', option.id)}
-                  className="form-checkbox h-5 w-5 relative top-1 mr-2"
+                  className="form-checkbox relative top-1 mr-2 h-5 w-5"
                 />
-                <h3 className="text-md  font-bold inline">Support</h3>
-                <label htmlFor={option.id} className="text-gray-400 my-2 block">
+                <h3 className="text-md inline font-bold">Support</h3>
+                <label htmlFor={option.id} className="my-2 block text-gray-400">
                   {option.label}
                 </label>
               </div>
             ))}
           </div>
-          <div className="category  mx-2 my-2">
+          <div className="category mx-2 my-2">
             {formData.suggestion.map((option) => (
-              <div key={option.id} className=" mb-2">
+              <div key={option.id} className="mb-2">
                 <input
                   id={option.id}
                   type="checkbox"
                   checked={option.isChecked}
                   onChange={() => handleCheckboxChange('suggestion', option.id)}
-                  className="form-checkbox h-5 w-5 text-indigo-600 mr-2 relative top-1"
+                  className="form-checkbox relative top-1 mr-2 h-5 w-5 text-indigo-600"
                 />
-                <h3 className="text-md font-bold inline">
+                <h3 className="text-md inline font-bold">
                   Profile Suggestions
                 </h3>
-                <label
-                  htmlFor={option.id}
-                  className="  text-gray-400 my-2 block"
-                >
+                <label htmlFor={option.id} className="my-2 block text-gray-400">
                   {option.label}
                 </label>
               </div>
             ))}
           </div>
-          <div className="category   mx-2 my-2">
+          <div className="category mx-2 my-2">
             {formData.newsletter.map((option) => (
-              <div key={option.id} className=" mb-2">
+              <div key={option.id} className="mb-2">
                 <input
                   id={option.id}
                   type="checkbox"
                   checked={option.isChecked}
                   onChange={() => handleCheckboxChange('newsletter', option.id)}
-                  className="form-checkbox  relative top-1 h-5 w-5 text-indigo-600 mr-2"
+                  className="form-checkbox relative top-1 mr-2 h-5 w-5 text-indigo-600"
                 />
-                <h3 className="text-md  font-bold   inline">Newsletter</h3>
-                <label htmlFor={option.id} className="text-gray-400 my-2 block">
+                <h3 className="text-md inline font-bold">Newsletter</h3>
+                <label htmlFor={option.id} className="my-2 block text-gray-400">
                   {option.label}
                 </label>
               </div>
             ))}
           </div>
         </div>
-        <hr className=" mx-5  " />
-        <div className="flex justify-start mx-5 px-5 py-5 ">
-          <div className=" px-5 py-5">
-            <span className=" text-gray-500 block">
+        <hr className="mx-5" />
+        <div className="mx-5 flex justify-start px-5 py-5">
+          <div className="px-5 py-5">
+            <span className="block text-gray-500">
               Or check here to turn off all emails:
             </span>
             <input
               type="checkbox"
               name=""
               id=""
-              className=" w-[20px] h-[20px] relative top-1  mt-3 mx-2"
+              className="relative top-1 mx-2 mt-3 h-[20px] w-[20px]"
             />
-            <span className=" mb-2 text-md font-bold">
+            <span className="text-md mb-2 font-bold">
               Unsubscribe from all emails
             </span>
             <button
               type="button"
               disabled={isButtonDisabled}
-              className=" w-[60%] text-md font-bold cursor-pointer bg-black text-white px-3 py-2 rounded-[50px] my-5"
+              className="text-md my-5 w-[60%] cursor-pointer rounded-[50px] bg-black px-3 py-2 font-bold text-white"
             >
               {' '}
               Update Email Prefrence

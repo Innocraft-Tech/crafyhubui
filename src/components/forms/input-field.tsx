@@ -1,13 +1,13 @@
+import { LucideIcon } from 'lucide-react';
 import React from 'react';
 import {
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
 } from '../ui/form';
 import { Input } from '../ui/input';
-import { LucideIcon } from 'lucide-react';
 
 interface InputFieldProps {
   control: any;

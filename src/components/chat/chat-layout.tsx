@@ -114,7 +114,7 @@ export function ChatLayout({
         }}
         className={cn(
           isCollapsed &&
-            'min-w-[50px] md:min-w-[70px] transition-all duration-300 ease-in-out',
+            'min-w-[50px] transition-all duration-300 ease-in-out md:min-w-[70px]',
         )}
       >
         <Sidebar

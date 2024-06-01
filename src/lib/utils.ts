@@ -1,4 +1,4 @@
-import { type ClassValue, clsx } from 'clsx';
+import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
@@ -19,4 +19,31 @@ export function toBase64(file: File) {
       reject(error);
     };
   });
+}
+
+export function checkProfileComplete({
+  profilePicture,
+  perHourValue,
+  firstName,
+  lastName,
+  bio,
+  timezone,
+  userLocation,
+  tools,
+}: User) {
+  const profileFields = [
+    profilePicture,
+    perHourValue,
+    firstName,
+    lastName,
+    bio,
+    timezone,
+    userLocation,
+    tools,
+  ];
+  const filledFieldsCount = profileFields.filter((field) => field).length;
+  const totalFieldsCount = profileFields.length;
+  const percentage = (filledFieldsCount / totalFieldsCount) * 100;
+
+  return percentage;
 }

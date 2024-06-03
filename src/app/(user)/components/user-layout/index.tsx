@@ -11,7 +11,6 @@ import { redirect, usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { FiAlignJustify } from 'react-icons/fi';
 import AppWrappers from '../app-wrappers/app-wrappers';
-import Link from 'next/link';
 
 export default function UserLayout({
   children,

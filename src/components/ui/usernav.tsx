@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { removeToken } from '@/lib/cookie';
 import useUserInfo from '@/lib/hooks/useUserInfo';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export default function UserNav() {
@@ -55,9 +56,12 @@ export default function UserNav() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>Profile</DropdownMenuItem>
-
-          <DropdownMenuItem>Settings</DropdownMenuItem>
+          <Link href="/profile">
+            <DropdownMenuItem>Profile</DropdownMenuItem>
+          </Link>
+          <Link href="/settings">
+            <DropdownMenuItem>Settings</DropdownMenuItem>{' '}
+          </Link>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={logout}>Log out</DropdownMenuItem>

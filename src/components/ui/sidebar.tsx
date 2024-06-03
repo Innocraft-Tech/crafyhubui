@@ -154,8 +154,9 @@ export function Sidebar({
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuGroup>
-                      <DropdownMenuItem>Profile</DropdownMenuItem>
-
+                      <Link href="/profile">
+                        <DropdownMenuItem>Profile</DropdownMenuItem>
+                      </Link>
                       <Link href="/settings">
                         <DropdownMenuItem>Settings</DropdownMenuItem>
                       </Link>

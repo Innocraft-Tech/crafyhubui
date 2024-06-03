@@ -12,6 +12,7 @@ import { Separator } from '@/components/ui/separator';
 import { TypeSignUpSchema, signUpSchema } from '@/data/signUpData';
 import { SOMETHING_WENT_WRONG, isMyKnownError } from '@/lib/api';
 import { setToken } from '@/lib/cookie';
+
 import {
   useAddSkillMutation,
   useGetSkillsQuery,
@@ -42,6 +43,7 @@ import {
 } from '../../ui/form';
 import { Label } from '../../ui/label';
 import { RadioGroup, RadioGroupItem } from '../../ui/radio-group';
+import Link from 'next/link';
 
 const stepClassNames = ['px-6', 'sm:w-[350px] mx-auto'];
 
@@ -716,6 +718,16 @@ const SignupForm = (): JSX.Element => {
                   }
                 })()}
                 {renderContinueButton()}
+
+                <p className=" px-8 text-center text-sm ">
+                  Already have an account?
+                  <Link
+                    href="/login"
+                    className="text-sm text-muted-foreground  px-2 hover:text-red-500 underline underline-offset-4  text-blue-600"
+                  >
+                    Sign In
+                  </Link>
+                </p>
               </div>
             </form>
           </Form>

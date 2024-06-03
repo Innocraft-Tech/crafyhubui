@@ -9,25 +9,25 @@ const routes = [
   {
     name: 'Dashboard',
     layout: '/user',
-    path: 'dashboard',
+    path: '/dashboard',
     icon: <IoHomeOutline className="h-6 w-6" />,
   },
   {
     name: 'Discover',
     layout: '/user',
-    path: 'discover',
+    path: '/discover',
     icon: <RiCompassDiscoverLine className="h-6 w-6" />,
   },
   {
     name: 'Jobs',
     layout: '/user',
-    path: 'jobs',
+    path: '/jobs',
     icon: <MdWorkOutline className="h-6 w-6" />,
   },
   {
     name: 'Messages',
     layout: '/user',
-    path: 'messages',
+    path: '/messages',
     icon: <AiOutlineMessage className="h-6 w-6" />,
   },
   {

@@ -75,7 +75,7 @@ export default function AuthenticationPage() {
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
             <div className="flex flex-col space-y-2 text-center">
               <h1 className="text-2xl font-semibold tracking-tight">
-                Create an account
+                Sign In With CrafyHub
               </h1>
               <p className="text-sm text-muted-foreground">
                 Enter your email below to create your account
@@ -95,11 +95,19 @@ export default function AuthenticationPage() {
               and{' '}
               <Link
                 href="/privacy"
-                className="underline underline-offset-4 hover:text-primary"
+                className="underline underline-offset-4 hover:text-primary "
               >
                 Privacy Policy
               </Link>
-              .
+            </p>
+            <p className=" px-8 text-center text-sm ">
+              Don&apos;t have an account?
+              <Link
+                href="/signup"
+                className="text-sm text-muted-foreground  px-2 hover:text-red-500 underline underline-offset-4  text-blue-600"
+              >
+                Sign up
+              </Link>
             </p>
           </div>
         </div>

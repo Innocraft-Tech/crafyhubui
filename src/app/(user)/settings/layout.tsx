@@ -22,14 +22,6 @@ const sidebarNavItems = [
     title: 'payment-methods',
     href: '/settings/payment-methods',
   },
-  {
-    title: 'logout',
-    href: '/settings/log-out',
-  },
-  {
-    title: 'Display',
-    href: '/examples/forms/display',
-  },
 ];
 
 interface SettingsLayoutProps {

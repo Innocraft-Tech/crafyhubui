@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
   items: {
@@ -17,10 +17,7 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
   const pathname = usePathname();
 
   return (
-    <nav
-      className={cn('   flex space-x-2  2xl:flex-col ', className)}
-      {...props}
-    >
+    <nav className={cn('flex space-x-2 2xl:flex-col', className)} {...props}>
       {items.map((item) => (
         <Link
           key={item.href}

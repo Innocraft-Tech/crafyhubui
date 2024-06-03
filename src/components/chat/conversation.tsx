@@ -1,9 +1,9 @@
 import useUserInfo from '@/lib/hooks/useUserInfo';
 import { useChatStartMutation } from '@/redux/api/chatApi';
 import { useEffect, useState } from 'react';
+import { Socket } from 'socket.io-client';
 import Card from '../card';
 import { Chat } from './chat';
-import { Socket } from 'socket.io-client';
 
 type ConversationProps = {
   user: User | null;
@@ -149,7 +149,7 @@ const Conversation = ({
         selectedUser ? 'scale-100' : 'scale-0'
       }`}
     >
-      <div className="flex h-full flex-col gap-3 rounded-[20px] bg-white py-4 shadow-xl shadow-shadow-500 dark:!bg-navy-700">
+      <div className="shadow-shadow-500 dark:!bg-navy-700 flex h-full flex-col gap-3 rounded-[20px] bg-white py-4 shadow-xl">
         <Chat
           selectedUser={selectedUser}
           isMobile={isMobile}

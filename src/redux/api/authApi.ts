@@ -65,6 +65,7 @@ const authApi = apiSlice.injectEndpoints({
           value: skill.skillName,
         }));
       },
+      extraOptions: { maxRetries: 0 },
       providesTags: ['Skills'],
     }),
     addSkill: builder.mutation<any, any>({

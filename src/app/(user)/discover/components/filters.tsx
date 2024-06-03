@@ -1,6 +1,7 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Sheet,
   SheetClose,
@@ -10,8 +11,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { useRouter } from 'next/navigation';
 
 const filterList = [
   'All filters',
@@ -35,7 +35,7 @@ export const Filters = () => {
   };
   return (
     <>
-      <div className="crafy_filters px-5 py-5 bg-white ">
+      <div className="crafy_filters bg-white px-5 py-5">
         {filterSheets.map((side, index) => (
           <Sheet key={index}>
             <SheetTrigger asChild key={index}>
@@ -56,7 +56,7 @@ export const Filters = () => {
             <SheetContent className="md:max-w-xl">
               <SheetHeader>
                 <SheetTitle>All Filters (0)</SheetTitle>
-                <div className="shrink-0 bg-border h-[1px] w-full"></div>
+                <div className="h-[1px] w-full shrink-0 bg-border"></div>
               </SheetHeader>
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-1 items-center gap-4">
@@ -67,13 +67,13 @@ export const Filters = () => {
                     <Button
                       key={index}
                       variant="outline"
-                      className="mx-1 px-5 font-light rounded-xl"
+                      className="mx-1 rounded-xl px-5 font-light"
                     >
                       {item}
                     </Button>
                   ))}
                 </div>
-                <div className="shrink-0 bg-border h-[1px] w-full"></div>
+                <div className="h-[1px] w-full shrink-0 bg-border"></div>
                 <div className="grid grid-cols-1 items-center gap-4">
                   <div className="grid grid-cols-2 items-center gap-4">
                     <div className="flex flex-col space-y-1.5">
@@ -100,7 +100,7 @@ export const Filters = () => {
                     </div>
                   </div>
                 </div>
-                <div className="shrink-0 bg-border h-[1px] w-full"></div>
+                <div className="h-[1px] w-full shrink-0 bg-border"></div>
                 <div className="grid grid-cols-1 items-center gap-4">
                   <div className="grid grid-cols-2 items-center gap-4">
                     <div className="flex flex-col space-y-1.5">
@@ -113,7 +113,7 @@ export const Filters = () => {
                     </div>
                   </div>
                 </div>
-                <div className="shrink-0 bg-border h-[1px] w-full"></div>
+                <div className="h-[1px] w-full shrink-0 bg-border"></div>
                 <div className="grid grid-cols-1 items-center gap-4">
                   <div className="grid grid-cols-2 items-center gap-4">
                     <div className="flex flex-col space-y-1.5">
@@ -152,10 +152,10 @@ export const Filters = () => {
           </Sheet>
         ))}
       </div>
-      <div className=" mx-5 ">
+      <div className="mx-5">
         <Button
           variant="outline"
-          className="mx-1 px-2 font-light rounded-xl"
+          className="mx-1 rounded-xl px-2 font-light"
           onClick={handleLinkClick}
         >
           Post New Job

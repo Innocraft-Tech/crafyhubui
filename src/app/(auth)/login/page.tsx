@@ -2,9 +2,9 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { cn } from '@/lib/utils';
-import { buttonVariants } from '@/components/ui/button';
 import SigninForm from '@/components/auth/login';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 // import SigninForm from '@/components/forms/SigninForm';
 
 export const metadata: Metadata = {
@@ -41,7 +41,7 @@ export default function AuthenticationPage() {
         >
           Sign Up
         </Link>
-        <div className="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex dark:border-r">
+        <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
           {/* <div className="absolute inset-0 bg-zinc-900" /> */}
           <div className="relative z-20 flex items-center text-lg font-medium">
             {/* <svg

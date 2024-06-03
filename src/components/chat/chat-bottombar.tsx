@@ -72,7 +72,7 @@ export default function ChatBottombar({
   };
 
   return (
-    <div className="p-2 flex justify-between w-full items-center gap-2">
+    <div className="flex w-full items-center justify-between gap-2 p-2">
       <div className="flex">
         <Popover>
           {/* <PopoverTrigger asChild>
@@ -150,7 +150,7 @@ export default function ChatBottombar({
       <AnimatePresence initial={false}>
         <motion.div
           key="input"
-          className="w-full relative"
+          className="relative w-full"
           layout
           initial={{ opacity: 0, scale: 1 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -171,9 +171,9 @@ export default function ChatBottombar({
             onChange={handleInputChange}
             name="message"
             placeholder="Aa"
-            className=" w-full border rounded-full flex items-center h-9 resize-none overflow-hidden bg-background"
+            className="flex h-9 w-full resize-none items-center overflow-hidden rounded-full border bg-background"
           ></Textarea>
-          <div className="absolute right-2 bottom-0.5  ">
+          <div className="absolute bottom-0.5 right-2">
             <EmojiPicker
               onChange={(value) => {
                 setMessage(message + value);
@@ -191,7 +191,7 @@ export default function ChatBottombar({
             className={cn(
               buttonVariants({ variant: 'ghost', size: 'icon' }),
               'h-9 w-9',
-              'dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white shrink-0',
+              'shrink-0 dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white',
             )}
             onClick={handleSend}
           >
@@ -203,7 +203,7 @@ export default function ChatBottombar({
             className={cn(
               buttonVariants({ variant: 'ghost', size: 'icon' }),
               'h-9 w-9',
-              'dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white shrink-0',
+              'shrink-0 dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white',
             )}
             onClick={handleThumbsUp}
           >

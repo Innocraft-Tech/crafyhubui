@@ -7,7 +7,7 @@ import useUserInfo from '@/lib/hooks/useUserInfo';
 import { getActiveRoute } from '@/lib/navigation';
 import routes from '@/routes';
 import { redirect, usePathname } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiAlignJustify } from 'react-icons/fi';
 import AppWrappers from '../app-wrappers/app-wrappers';
 import Link from 'next/link';
@@ -18,7 +18,7 @@ export default function UserLayout({
   children: React.ReactNode;
 }>): JSX.Element {
   const [open, setOpen] = useState(false);
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
 
   const pathname = usePathname();
 
@@ -26,9 +26,26 @@ export default function UserLayout({
 
   if (userInfo && !userInfo.isVerified) redirect('/verification');
 
+  useEffect(() => {
+    const checkScreenWidth = () => {
+      setOpen(false);
+    };
+
+    // Initial check
+    checkScreenWidth();
+
+    // Event listener for screen width changes
+    window.addEventListener('resize', checkScreenWidth);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', checkScreenWidth);
+    };
+  }, []);
+
   return (
     <>
-      <div className=" md:block">
+      <div className="md:block">
         <div className="border-t">
           <div className="bg-background">
             <div className="flex h-full w-full">
@@ -42,14 +59,13 @@ export default function UserLayout({
                 setCollapsed={setCollapsed}
               />
 
-              <div className="h-full w-full overflow-auto ">
+              <div className="h-full w-full overflow-auto">
                 <main
-                  className={`flex-none transition-all
-              ${collapsed ? 'xl:ml-[80px]' : 'xl:ml-[253px]'}`}
+                  className={`flex-none transition-all ${collapsed ? 'xl:ml-[80px]' : 'xl:ml-[253px]'}`}
                 >
-                  <div className="h-lvh z-20">
-                    <div className="z-30 ">
-                      <div className="flex justify-between items-center border-b bg-stone-50">
+                  <div className="z-20 h-lvh">
+                    <div className="z-30">
+                      <div className="flex items-center justify-between border-b bg-stone-50">
                         <div className="topHeadings p-5">
                           <AppWrappers>
                             <h3 className="text-lg">

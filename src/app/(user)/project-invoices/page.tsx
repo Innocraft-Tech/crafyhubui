@@ -7,8 +7,8 @@ import { nanoid } from 'nanoid';
 // import { TrashIcon } from "@heroicons/react/24/outline";
 // import { Droppable, Draggable } from 'react-beautiful-dnd';
 // import { Value } from "sass";
-import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 import { TrashIcon } from 'lucide-react';
 interface AddInputItem {
   uniqueString: string;
@@ -76,23 +76,23 @@ const Page = () => {
 
   return (
     <>
-      <div className=" grid  grid-cols-1 gap-2 sm:grid-cols-2 w-[600px] sm:w-[1200px]  mx-6">
-        <div className=" border-r-gray-100 border-r-2 h-screen ">
-          <span className="  block text-gray-200"> From</span>
+      <div className="mx-6 grid w-[600px] grid-cols-1 gap-2 sm:w-[1200px] sm:grid-cols-2">
+        <div className="h-screen border-r-2 border-r-gray-100">
+          <span className="block text-gray-200"> From</span>
           <div className="flex justify-between">
-            <span className="  font-bold">Innocraft Technologies Pvt Ltd</span>
+            <span className="font-bold">Innocraft Technologies Pvt Ltd</span>
             <button
               type="button"
-              className="border rounded-[30px] px-1 py-1.5 text-xs  mx-5"
+              className="mx-5 rounded-[30px] border px-1 py-1.5 text-xs"
             >
               Custom Branding
             </button>
           </div>
-          <span className=" text-xs"> INVOICE#</span> <br />
+          <span className="text-xs"> INVOICE#</span> <br />
           <input
             type="text"
             placeholder="24-001"
-            className=" border  w-60 text-sm my-2 border-gray-100 outline-none px-1 py-1.5 rounded-[10px]"
+            className="my-2 w-60 rounded-[10px] border border-gray-100 px-1 py-1.5 text-sm outline-none"
             name="invoice"
             value={invoiceDetails.invoiceNumber}
             onChange={(e) =>
@@ -102,16 +102,16 @@ const Page = () => {
               })
             }
           />
-          <div className=" flex justify-between mx-2 text-xs w-[310px] ">
+          <div className="mx-2 flex w-[310px] justify-between text-xs">
             <span> ISSUED ON</span>
 
             <span> BILL TO</span>
           </div>
-          <div className="flex justify-between  text-xs text-start  w-[500px] ">
+          <div className="flex w-[500px] justify-between text-start text-xs">
             <input
               type="date"
               placeholder="24-001"
-              className=" border  w-[250px] text-xs my-2 border-gray-100 outline-none px-1 py-1.5 rounded-[10px]"
+              className="my-2 w-[250px] rounded-[10px] border border-gray-100 px-1 py-1.5 text-xs outline-none"
               value={invoiceDetails.issuedOn}
               onChange={(e) =>
                 setInvoiceDetails({
@@ -123,52 +123,52 @@ const Page = () => {
             <input
               type="email"
               placeholder="enter email address"
-              className=" border w-[250px] mx-2 text-sm my-2 border-gray-100 outline-none px-2  py-1.5 rounded-[10px]"
+              className="mx-2 my-2 w-[250px] rounded-[10px] border border-gray-100 px-2 py-1.5 text-sm outline-none"
               value={invoiceDetails.billTo}
               onChange={(e) =>
                 setInvoiceDetails({ ...invoiceDetails, billTo: e.target.value })
               }
             />
           </div>
-          <span className="block text-xs mx-1"> Due</span>
+          <span className="mx-1 block text-xs"> Due</span>
           <input
             type="date"
-            className="border   w-[250px]  text-xs my-2 border-gray-100 outline-none px-1 py-1.5 rounded-[10px]"
+            className="my-2 w-[250px] rounded-[10px] border border-gray-100 px-1 py-1.5 text-xs outline-none"
             name="due"
             value={invoiceDetails.due}
             onChange={(e) =>
               setInvoiceDetails({ ...invoiceDetails, due: e.target.value })
             }
           ></input>
-          <hr className="border-gray-100 my-2" />
+          <hr className="my-2 border-gray-100" />
           <span className="block text-xs"> Project</span>
           <input
             type="text"
             placeholder="Select Project "
-            className="border text-xs rounded-[30px] my-3 px-2 py-2 w-[500px]"
+            className="my-3 w-[500px] rounded-[30px] border px-2 py-2 text-xs"
             value={invoiceDetails.project}
             onChange={(e) =>
               setInvoiceDetails({ ...invoiceDetails, project: e.target.value })
             }
           />
-          <table className=" border-b-2 border-b-gray-100">
-            <thead className="  ">
+          <table className="border-b-2 border-b-gray-100">
+            <thead className=" ">
               <tr className="">
                 <th
                   scope="col"
-                  className="py-3.5 pl-4 pr-4  text-left text-sm font-normal text-slate-700 sm:pl-6 md:pl-0"
+                  className="py-3.5 pl-4 pr-4 text-left text-sm font-normal text-slate-700 sm:pl-6 md:pl-0"
                 >
                   Items
                 </th>
                 <th
                   scope="col"
-                  className=" py-3.5 px-3 text-left text-sm font-normal text-slate-700 sm:table-cell"
+                  className="px-3 py-3.5 text-left text-sm font-normal text-slate-700 sm:table-cell"
                 >
                   QTY
                 </th>
                 <th
                   scope="col"
-                  className=" py-3.5 px-3 text-left text-sm font-normal text-slate-700 sm:table-cell"
+                  className="px-3 py-3.5 text-left text-sm font-normal text-slate-700 sm:table-cell"
                 >
                   Rate
                 </th>
@@ -186,7 +186,7 @@ const Page = () => {
                 <>
                   <tr className="" key={item.uniqueString}>
                     <td className="py-1">
-                      <div className="font-medium text-slate-700 flex items-center ">
+                      <div className="flex items-center font-medium text-slate-700">
                         {' '}
                         {/* <Image
                           src={TrashIcon}
@@ -198,40 +198,40 @@ const Page = () => {
                         <input
                           type="text"
                           placeholder="Item / Service"
-                          className="border-solid border-2  border-gray-20 rounded-tr-[10px] rounded-tl-[10px] rounded-br-[10px] rounded-bl-[10px]  sm:w-[250px]  mx-2   sm:col-span-2  px-2 py-2"
+                          className="border-gray-20 mx-2 rounded-bl-[10px] rounded-br-[10px] rounded-tl-[10px] rounded-tr-[10px] border-2 border-solid px-2 py-2 sm:col-span-2 sm:w-[250px]"
                           onChange={(e) => handleUserInput(e)}
                           name="item"
                           value={userData.item}
                         />
                       </div>
                     </td>
-                    <td className="px-3 py-1 text-sm text-right text-slate-500 sm:table-cell ">
+                    <td className="px-3 py-1 text-right text-sm text-slate-500 sm:table-cell">
                       <input
                         type="text"
                         placeholder="1"
-                        className="border-solid border-2   border-gray-20 rounded-tr-[10px] rounded-tl-[10px] rounded-br-[10px] rounded-bl-[10px] w-[70px]  px-2 py-2"
+                        className="border-gray-20 w-[70px] rounded-bl-[10px] rounded-br-[10px] rounded-tl-[10px] rounded-tr-[10px] border-2 border-solid px-2 py-2"
                         onChange={(e) => handleUserInput(e)}
                         name="quantity"
                         value={userData.quantity}
                       />
                     </td>
-                    <td className=" px-3 py-1 text-sm text-right text-slate-500 sm:table-cell  ">
+                    <td className="px-3 py-1 text-right text-sm text-slate-500 sm:table-cell">
                       <input
                         type="text"
                         placeholder="$0.00"
-                        className="border-solid border-2   border-gray-20 rounded-tr-[10px] rounded-tl-[10px] rounded-br-[10px] rounded-bl-[10px] px-2 py-2 w-[70px]"
+                        className="border-gray-20 w-[70px] rounded-bl-[10px] rounded-br-[10px] rounded-tl-[10px] rounded-tr-[10px] border-2 border-solid px-2 py-2"
                         onChange={(e) => handleUserInput(e)}
                         name="price"
                         value={userData.price}
                       />
                     </td>
-                    <td className="py-1  text-sm text-right text-slate-500 sm:pr-6 md:pr-0 flex justify-center items-center  mx-4">
+                    <td className="mx-4 flex items-center justify-center py-1 text-right text-sm text-slate-500 sm:pr-6 md:pr-0">
                       <span className="my-1 py-2">$0.00</span>
                       <button
                         onClick={() => handleDelete(index)}
                         className="my-1 inline py-2"
                       >
-                        <TrashIcon className="w-[25px] border-none hover:stroke-Pink-900 mx-3" />
+                        <TrashIcon className="hover:stroke-Pink-900 mx-3 w-[25px] border-none" />
                       </button>
                     </td>
                   </tr>
@@ -239,12 +239,12 @@ const Page = () => {
               ))}
             </tbody>
           </table>
-          <div className=" flex justify-between w-[75%] my-3">
-            <span className=" text-sm">Total</span>
+          <div className="my-3 flex w-[75%] justify-between">
+            <span className="text-sm">Total</span>
             <span>$00 </span>
           </div>
           <button
-            className=" text-sm  bg-black-100 text-White-900 my-3 font-semibold border w-[200px] px-1 b before:after:first: py-2 rounded-[30px] hover:bg-Pink-900 hover:text-White-900"
+            className="bg-black-100 text-White-900 b before:after:first: hover:bg-Pink-900 hover:text-White-900 my-3 w-[200px] rounded-[30px] border px-1 py-2 text-sm font-semibold"
             onClick={handleInput}
           >
             + New Item

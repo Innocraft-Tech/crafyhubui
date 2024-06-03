@@ -6,9 +6,9 @@ import {
 } from '@/redux/api/chatApi';
 import { skipToken } from '@reduxjs/toolkit/query';
 import React, { useEffect, useState } from 'react';
+import { Socket } from 'socket.io-client';
 import { ChatList } from './chat-list';
 import ChatTopbar from './chat-topbar';
-import { Socket } from 'socket.io-client';
 
 interface ChatProps {
   //   messages?: Message[];
@@ -115,7 +115,7 @@ export function Chat({
   if (!selectedUser) return;
 
   return (
-    <div className="flex flex-col justify-between w-full h-full">
+    <div className="flex h-full w-full flex-col justify-between">
       <ChatTopbar
         selectedUser={selectedUser}
         onlineUsers={onlineUsers}

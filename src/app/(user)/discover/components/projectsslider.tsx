@@ -1,12 +1,10 @@
-import * as React from 'react';
-
+import { Human } from '@/assets';
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from '@/components/ui/carousel';
 import Image from 'next/image';
-import { Human } from '@/assets';
 
 export function ProjectSlider() {
   return (

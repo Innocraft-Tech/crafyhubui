@@ -6,9 +6,9 @@ import {
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/query/react';
 // import { AppState } from '@/redux/store';
+import { getAccessToken } from '@/lib/cookie';
 import { clearAuth } from '@/redux/slices/authSlice';
 import { redirect } from 'next/navigation';
-import { getAccessToken } from '@/lib/cookie';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_SERVER_URI,

@@ -1,6 +1,6 @@
 'use client';
-import React, { ReactNode } from 'react';
 import dynamic from 'next/dynamic';
+import React, { ReactNode } from 'react';
 
 const NoSSRWrapper = ({ children }: { children: React.ReactNode }) => (
   <React.Fragment>{children}</React.Fragment>

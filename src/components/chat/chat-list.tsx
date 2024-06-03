@@ -1,10 +1,10 @@
 import { cn } from '@/lib/utils';
 import { useGetAllUsersQuery } from '@/redux/api/usersApi';
 import { AnimatePresence, motion } from 'framer-motion';
+import { LoaderIcon } from 'lucide-react';
 import React, { useRef, useState } from 'react';
 import { Avatar, AvatarImage } from '../ui/avatar';
 import ChatBottombar from './chat-bottombar';
-import { LoaderIcon } from 'lucide-react';
 
 interface ChatListProps {
   messages?: Message[];
@@ -43,15 +43,15 @@ export function ChatList({
   };
 
   return (
-    <div className="w-full overflow-y-auto overflow-x-hidden h-full flex flex-col">
+    <div className="flex h-full w-full flex-col overflow-y-auto overflow-x-hidden">
       <div
         ref={messagesContainerRef}
-        className="w-full overflow-y-auto overflow-x-hidden h-full flex flex-col"
+        className="flex h-full w-full flex-col overflow-y-auto overflow-x-hidden"
       >
         <AnimatePresence>
           {isLoadingChat ? (
             <div className="flex items-center justify-center">
-              <LoaderIcon className="my-28 h-16 w-16 text-primary/60 animate-spin" />
+              <LoaderIcon className="my-28 h-16 w-16 animate-spin text-primary/60" />
             </div>
           ) : (
             messages?.map((message, index) => (
@@ -74,15 +74,15 @@ export function ChatList({
                   originY: 0.5,
                 }}
                 className={cn(
-                  'flex flex-col gap-2 p-4 whitespace-pre-wrap',
+                  'flex flex-col gap-2 whitespace-pre-wrap p-4',
                   message.senderId !== selectedUser._id
                     ? 'items-end'
                     : 'items-start',
                 )}
               >
-                <div className="flex gap-3 items-center">
+                <div className="flex items-center gap-3">
                   {message.senderId === selectedUser._id && (
-                    <Avatar className="flex justify-center items-center">
+                    <Avatar className="flex items-center justify-center">
                       <AvatarImage
                         src={selectedUser.profilePicture}
                         alt={
@@ -93,11 +93,11 @@ export function ChatList({
                       />
                     </Avatar>
                   )}
-                  <span className=" bg-accent p-3 rounded-md max-w-xs">
+                  <span className="max-w-xs rounded-md bg-accent p-3">
                     {message.text}
                   </span>
                   {message.senderId !== selectedUser._id && (
-                    <Avatar className="flex justify-center items-center">
+                    <Avatar className="flex items-center justify-center">
                       <AvatarImage
                         //   src={selectedUser.profilePicture}
                         src={

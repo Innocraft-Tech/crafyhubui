@@ -19,7 +19,7 @@ const InputField = ({
   name,
   error,
 }: InputFieldProps) => (
-  <div className="input flex flex-col w-full max-w-xs space-y-2">
+  <div className="input flex w-full max-w-xs flex-col space-y-2">
     <Label htmlFor={id} className="text-xs">
       {label}
     </Label>
@@ -49,10 +49,10 @@ export const TabContent = ({ value, control, errors }: TabContentProps) => {
 
   return (
     <TabsContent value={value}>
-      <p className="text-xs w-full mt-4">
+      <p className="mt-4 w-full text-xs">
         We review every job to ensure a high quality marketplace
       </p>
-      <div className="flex flex-col w-full gap-2.5 my-3">
+      <div className="my-3 flex w-full flex-col gap-2.5">
         <div className="flex w-full gap-2.5">
           <InputField
             id={`MinRate`}

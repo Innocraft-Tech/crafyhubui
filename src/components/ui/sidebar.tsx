@@ -9,7 +9,6 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { RoutesType } from '@/data/navigation';
@@ -152,27 +151,15 @@ export function Sidebar({
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuGroup>
-                      <DropdownMenuItem>
-                        Profile
-                        <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        Billing
-                        <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                      </DropdownMenuItem>
-                      <Link href="/settings">
-                        <DropdownMenuItem>
-                          Settings
-                          <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                        </DropdownMenuItem>
+                      <Link href="/profile">
+                        <DropdownMenuItem>Profile</DropdownMenuItem>
                       </Link>
-                      <DropdownMenuItem>New Team</DropdownMenuItem>
+                      <Link href="/settings">
+                        <DropdownMenuItem>Settings</DropdownMenuItem>
+                      </Link>
                     </DropdownMenuGroup>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                      Log out
-                      <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-                    </DropdownMenuItem>
+                    <DropdownMenuItem>Log out</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
                 {(!collapsed || open) && (

@@ -12,6 +12,7 @@ import { Separator } from '@/components/ui/separator';
 import { TypeSignUpSchema, signUpSchema } from '@/data/signUpData';
 import { SOMETHING_WENT_WRONG, isMyKnownError } from '@/lib/api';
 import { setToken } from '@/lib/cookie';
+
 import {
   useAddSkillMutation,
   useGetSkillsQuery,
@@ -28,6 +29,7 @@ import {
   Twitter,
 } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -720,6 +722,16 @@ const SignupForm = (): JSX.Element => {
                   }
                 })()}
                 {renderContinueButton()}
+
+                <p className="px-8 text-center text-sm">
+                  Already have an account?
+                  <Link
+                    href="/login"
+                    className="px-2 text-sm text-blue-600 text-muted-foreground underline underline-offset-4 hover:text-red-500"
+                  >
+                    Sign In
+                  </Link>
+                </p>
               </div>
             </form>
           </Form>

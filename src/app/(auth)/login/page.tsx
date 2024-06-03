@@ -95,16 +95,16 @@ export default function AuthenticationPage() {
               and{' '}
               <Link
                 href="/privacy"
-                className="underline underline-offset-4 hover:text-primary "
+                className="underline underline-offset-4 hover:text-primary"
               >
                 Privacy Policy
               </Link>
             </p>
-            <p className=" px-8 text-center text-sm ">
+            <p className="px-8 text-center text-sm">
               Don&apos;t have an account?
               <Link
                 href="/signup"
-                className="text-sm text-muted-foreground  px-2 hover:text-red-500 underline underline-offset-4  text-blue-600"
+                className="px-2 text-sm text-blue-600 text-muted-foreground underline underline-offset-4 hover:text-red-500"
               >
                 Sign up
               </Link>

@@ -29,6 +29,7 @@ import {
   Twitter,
 } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -43,7 +44,6 @@ import {
 } from '../../ui/form';
 import { Label } from '../../ui/label';
 import { RadioGroup, RadioGroupItem } from '../../ui/radio-group';
-import Link from 'next/link';
 
 const stepClassNames = ['px-6', 'sm:w-[350px] mx-auto'];
 
@@ -723,11 +723,11 @@ const SignupForm = (): JSX.Element => {
                 })()}
                 {renderContinueButton()}
 
-                <p className=" px-8 text-center text-sm ">
+                <p className="px-8 text-center text-sm">
                   Already have an account?
                   <Link
                     href="/login"
-                    className="text-sm text-muted-foreground  px-2 hover:text-red-500 underline underline-offset-4  text-blue-600"
+                    className="px-2 text-sm text-blue-600 text-muted-foreground underline underline-offset-4 hover:text-red-500"
                   >
                     Sign In
                   </Link>

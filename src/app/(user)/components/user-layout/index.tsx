@@ -6,6 +6,7 @@ import { playlists } from '@/data/playlists';
 import useUserInfo from '@/lib/hooks/useUserInfo';
 import { getActiveRoute } from '@/lib/navigation';
 import routes from '@/routes';
+import Link from 'next/link';
 import { redirect, usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { FiAlignJustify } from 'react-icons/fi';

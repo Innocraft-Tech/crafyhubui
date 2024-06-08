@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { CardContent, CardHeader } from '@/components/ui/card';
 import useUserInfo from '@/lib/hooks/useUserInfo';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export default function Dashboard() {
@@ -60,7 +61,9 @@ export default function Dashboard() {
             <p className="mb-4 text-gray-500">
               Explore and connect with other users on our platform
             </p>
-            <Button variant="outline">Connect Now</Button>
+            <Link href="/discover">
+              <Button variant="outline">Connect Now</Button>{' '}
+            </Link>
           </CardContent>
         </Card>
       </div>

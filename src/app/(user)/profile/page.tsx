@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import useUserInfo from '@/lib/hooks/useUserInfo';
 import { checkProfileComplete } from '@/lib/utils';
 import { LoaderIcon, X } from 'lucide-react';
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import ProfileLeftSection from './components/profileLeftSection';
 
@@ -52,6 +53,14 @@ export default function Profile(): JSX.Element {
   console.log(checkProfileComplete(userInfo), 'checkProfileComplete');
 
   const profilePercentage = checkProfileComplete(userInfo);
+  const UpdateAdditionalInfo = () => {
+    // Perform the update logic here
+    return (
+      <div className="flex min-h-[75vh] items-center justify-center">
+        <Alert className="mx-auto max-w-md"> hello</Alert>
+      </div>
+    );
+  };
 
   return (
     <div className="flex flex-col md:flex-row">
@@ -64,7 +73,16 @@ export default function Profile(): JSX.Element {
       <div className="w-full p-6 md:w-2/3">
         <Card className="shadow-none">
           <CardContent>
-            <h1 className="text-3xl font-bold">Add a professional one-liner</h1>
+            <div className="flex cursor-pointer items-center justify-start py-3">
+              <Button className="mr-4 rounded-full border border-gray-300 bg-white p-2">
+                {' '}
+                <span className="text-2xl">+</span>
+              </Button>
+              <h1 className="text-3xl font-bold">
+                Add a professional one-liner
+              </h1>
+            </div>
+
             <Tabs defaultValue="work" className="mt-4">
               <TabsList>
                 <TabsTrigger value="work">Work</TabsTrigger>
@@ -81,11 +99,14 @@ export default function Profile(): JSX.Element {
                   </a>
                 </div>
                 <div className="mt-4 flex items-center rounded-lg bg-gray-100 p-4">
-                  <Button className="mr-4 rounded-full border border-gray-300 bg-white p-2">
-                    <span className="text-2xl">+</span>
-                  </Button>
+                  <Link href="/jobs/newpost">
+                    <Button className="mr-4 rounded-full border border-gray-300 bg-white p-2">
+                      <span className="text-2xl">+</span>
+                    </Button>
+                  </Link>
                   <div>
-                    <h2 className="font-bold text-gray-700">Add a project</h2>
+                    <h2 className="font-bold text-gray-700"> Post Job </h2>
+
                     <p className="text-gray-500">
                       Your projects should highlight your best skills and
                       experience.

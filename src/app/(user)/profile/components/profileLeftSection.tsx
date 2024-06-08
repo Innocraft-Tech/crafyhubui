@@ -702,97 +702,97 @@ export default function ProfileLeftSection(): JSX.Element {
                           <SelectContent>
                             <SelectGroup>
                               <SelectLabel>North America</SelectLabel>
-                              <SelectItem value="est">
+                              <SelectItem value=" Eastern Standard Time (EST)">
                                 Eastern Standard Time (EST)
                               </SelectItem>
-                              <SelectItem value="cst">
+                              <SelectItem value="Central Standard Time (CST)">
                                 Central Standard Time (CST)
                               </SelectItem>
-                              <SelectItem value="mst">
+                              <SelectItem value="Mountain Standard Time (MST)">
                                 Mountain Standard Time (MST)
                               </SelectItem>
-                              <SelectItem value="pst">
+                              <SelectItem value="Pacific Standard Time (PST)">
                                 Pacific Standard Time (PST)
                               </SelectItem>
-                              <SelectItem value="akst">
+                              <SelectItem value="Alaska Standard Time (AKST)">
                                 Alaska Standard Time (AKST)
                               </SelectItem>
-                              <SelectItem value="hst">
+                              <SelectItem value="Hawaii Standard Time (HST)">
                                 Hawaii Standard Time (HST)
                               </SelectItem>
                             </SelectGroup>
                             <SelectGroup>
                               <SelectLabel>Europe & Africa</SelectLabel>
-                              <SelectItem value="gmt">
+                              <SelectItem value="Greenwich Mean Time (GMT)">
                                 Greenwich Mean Time (GMT)
                               </SelectItem>
-                              <SelectItem value="cet">
+                              <SelectItem value="Central European Time (CET)">
                                 Central European Time (CET)
                               </SelectItem>
-                              <SelectItem value="eet">
+                              <SelectItem value="Eastern European Time (EET)">
                                 Eastern European Time (EET)
                               </SelectItem>
-                              <SelectItem value="west">
+                              <SelectItem value="Western European Summer Time (WEST)">
                                 Western European Summer Time (WEST)
                               </SelectItem>
-                              <SelectItem value="cat">
+                              <SelectItem value="Central Africa Time (CAT)">
                                 Central Africa Time (CAT)
                               </SelectItem>
-                              <SelectItem value="eat">
+                              <SelectItem value="East Africa Time (EAT)">
                                 East Africa Time (EAT)
                               </SelectItem>
                             </SelectGroup>
                             <SelectGroup>
                               <SelectLabel>Asia</SelectLabel>
-                              <SelectItem value="msk">
+                              <SelectItem value="Moscow Time (MSK)">
                                 Moscow Time (MSK)
                               </SelectItem>
-                              <SelectItem value="ist">
+                              <SelectItem value="India Standard Time (IST)">
                                 India Standard Time (IST)
                               </SelectItem>
-                              <SelectItem value="cst_china">
+                              <SelectItem value="China Standard Time (CST)">
                                 China Standard Time (CST)
                               </SelectItem>
-                              <SelectItem value="jst">
+                              <SelectItem value="Japan Standard Time (JST)">
                                 Japan Standard Time (JST)
                               </SelectItem>
-                              <SelectItem value="kst">
+                              <SelectItem value="Korea Standard Time (KST)">
                                 Korea Standard Time (KST)
                               </SelectItem>
-                              <SelectItem value="ist_indonesia">
+                              <SelectItem value="Indonesia Central Standard Time (WITA)">
                                 Indonesia Central Standard Time (WITA)
                               </SelectItem>
                             </SelectGroup>
                             <SelectGroup>
                               <SelectLabel>Australia & Pacific</SelectLabel>
-                              <SelectItem value="awst">
+                              <SelectItem value="Australian Western Standard Time (AWST)">
                                 Australian Western Standard Time (AWST)
                               </SelectItem>
-                              <SelectItem value="acst">
+                              <SelectItem value="Australian Central Standard Time (ACST)">
                                 Australian Central Standard Time (ACST)
                               </SelectItem>
-                              <SelectItem value="aest">
+                              <SelectItem value="Australian Eastern Standard Time (AEST)">
                                 Australian Eastern Standard Time (AEST)
                               </SelectItem>
-                              <SelectItem value="nzst">
+                              <SelectItem value="New Zealand Standard Time (NZST)">
                                 New Zealand Standard Time (NZST)
                               </SelectItem>
-                              <SelectItem value="fjt">
+                              <SelectItem value="Fiji Time (FJT)">
                                 Fiji Time (FJT)
                               </SelectItem>
                             </SelectGroup>
                             <SelectGroup>
                               <SelectLabel>South America</SelectLabel>
-                              <SelectItem value="art">
+                              <SelectItem value="Argentina Time (ART)">
                                 Argentina Time (ART)
                               </SelectItem>
-                              <SelectItem value="bot">
+                              <SelectItem value="Bolivia Time (BOT)">
                                 Bolivia Time (BOT)
                               </SelectItem>
-                              <SelectItem value="brt">
+                              <SelectItem value="Brasilia Time (BRT)">
                                 Brasilia Time (BRT)
                               </SelectItem>
-                              <SelectItem value="clt">
+                              <SelectItem value="Chile Standard Time (CLT)">
                                 Chile Standard Time (CLT)
                               </SelectItem>
                             </SelectGroup>

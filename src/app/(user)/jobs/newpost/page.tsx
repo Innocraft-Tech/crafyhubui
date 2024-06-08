@@ -43,9 +43,9 @@ import { IoMdAdd } from 'react-icons/io';
 import { RiSubtractFill } from 'react-icons/ri';
 import { TfiMoney } from 'react-icons/tfi';
 import { z } from 'zod';
+import ProgressBar from '../../components/progressbar/ProgressBar';
 import { jobsSchema } from '../components/toolsData';
 import { TabContent } from './components/tabContent';
-
 export type JobsToolsSchema = z.infer<typeof jobsSchema>;
 
 const JobNewPost = () => {
@@ -57,6 +57,15 @@ const JobNewPost = () => {
     { data: successData = {}, isLoading, isSuccess, isError, error },
   ] = usePostJobMutation();
 
+  if (isLoading) {
+    return (
+      <div className="flex min-h-[75vh] items-center justify-center">
+        {/* <LoaderIcon className="my-28 h-16 w-16 animate-spin text-primary/60" /> */}
+        <ProgressBar />
+      </div>
+    );
+  }
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const form = useForm<JobsToolsSchema>({
     resolver: zodResolver(jobsSchema),
     mode: 'onChange',
@@ -147,8 +156,8 @@ const JobNewPost = () => {
                     <FormControl>
                       <Input
                         type="text"
-                        placeholder="Add a Descriptive Title"
-                        className="my-4 w-full rounded-md border px-4 py-2 text-2xl"
+                        placeholder="Add a descriptive title"
+                        className="my-4 w-full rounded-md border px-4 py-2 text-sm"
                         {...field}
                       />
                     </FormControl>

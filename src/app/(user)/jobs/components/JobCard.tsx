@@ -10,12 +10,12 @@ import { useGetJobsQuery } from '@/redux/api/jobApi';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { format } from 'date-fns/format';
 import { formatDistanceToNow } from 'date-fns/formatDistanceToNow';
-import { LoaderIcon, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-
 import React from 'react';
+import ProgressBar from '../../components/progressbar/ProgressBar';
 
 const formatOneTimeDetails = (details: (string | number)[]): string[] => {
   if (details.length < 4) {
@@ -66,7 +66,8 @@ const JobsCard = () => {
   if (isLoading) {
     return (
       <div className="flex min-h-[75vh] items-center justify-center">
-        <LoaderIcon className="my-28 h-16 w-16 animate-spin text-primary/60" />
+        {/* <LoaderIcon className="my-28 h-16 w-16 animate-spin text-primary/60" /> */}
+        <ProgressBar />
       </div>
     );
   }

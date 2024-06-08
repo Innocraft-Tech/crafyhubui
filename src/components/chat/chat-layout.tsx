@@ -1,5 +1,6 @@
 'use client';
 
+import ProgressBar from '@/app/(user)/components/progressbar/ProgressBar';
 import {
   ResizableHandle,
   ResizablePanel,
@@ -14,7 +15,6 @@ import { skipToken } from '@reduxjs/toolkit/query';
 import React, { useEffect, useState } from 'react';
 import { Chat } from './chat';
 import { Sidebar } from './sidebar';
-
 interface ChatLayoutProps {
   defaultLayout: number[] | undefined;
   defaultCollapsed?: boolean;
@@ -42,6 +42,15 @@ export function ChatLayout({
     userInfo?._id ? userInfo._id : skipToken,
   );
 
+  if (isLoading) {
+    return (
+      <div className="flex min-h-[75vh] items-center justify-center">
+        {/* <LoaderIcon className="my-28 h-16 w-16 animate-spin text-primary/60" /> */}
+        <ProgressBar />
+      </div>
+    );
+  }
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     if (userInfo && allUsers && userChats) {
       const filteredUsers = users?.filter((x: User) => {
@@ -58,6 +67,7 @@ export function ChatLayout({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo, userChats, allUsers]);
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     if (userInfo?._id) {
       socket?.emit('new-user-add', userInfo?._id);
@@ -67,6 +77,7 @@ export function ChatLayout({
     }
   }, [userInfo, socket]);
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     const checkScreenWidth = () => {
       setIsMobile(window.innerWidth <= 768);

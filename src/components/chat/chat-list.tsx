@@ -43,11 +43,8 @@ export function ChatList({
   };
 
   return (
-    <div className="flex h-full w-full flex-col overflow-y-auto overflow-x-hidden">
-      <div
-        ref={messagesContainerRef}
-        className="flex h-full w-full flex-col overflow-y-auto overflow-x-hidden"
-      >
+    <div className="flex flex-col">
+      <div ref={messagesContainerRef} className="flex flex-col">
         <AnimatePresence>
           {isLoadingChat ? (
             <div className="flex items-center justify-center">
@@ -74,7 +71,7 @@ export function ChatList({
                   originY: 0.5,
                 }}
                 className={cn(
-                  'flex flex-col gap-2 whitespace-pre-wrap p-4',
+                  'gap-2whitespace-pre-wrap flex flex-col p-4',
                   message.senderId !== selectedUser._id
                     ? 'items-end'
                     : 'items-start',

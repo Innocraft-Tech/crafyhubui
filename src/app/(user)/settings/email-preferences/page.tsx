@@ -18,7 +18,7 @@ const initialFormData: FormData = {
   marketing: [
     {
       id: 'marketing-updates',
-      label: 'Email me with Contra updates and promotions',
+      label: 'Email me with CrafyHub updates and promotions',
       isChecked: false,
     },
   ],
@@ -26,7 +26,7 @@ const initialFormData: FormData = {
     {
       id: 'support-requests',
       label:
-        'Include emails sent directly from hello@contra.com in response to support requests',
+        'Include emails sent directly from hello@crafyhub.com in response to support requests',
       isChecked: false,
     },
   ],
@@ -42,7 +42,7 @@ const initialFormData: FormData = {
     {
       id: 'contra-news',
       label:
-        'Keep in touch with the latest Contra news, including new features and upcoming events.',
+        'Keep in touch with the latest CrafyHub news, including new features and upcoming events.',
       isChecked: false,
     },
   ],

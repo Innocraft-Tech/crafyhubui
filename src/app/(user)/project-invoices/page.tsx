@@ -1,10 +1,9 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { toast } from '@/components/ui/use-toast';
 import { TrashIcon } from '@radix-ui/react-icons';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 interface Item {
   item: string;
   qty: number;
@@ -24,62 +23,47 @@ const Page = () => {
     { item: '', qty: 1, rate: 0, total: 0 },
   ]);
 
-  const handleAddItem = () => {
-    setItems([...items, { item: '', qty: 1, rate: 0, total: 0 }]);
+  useEffect(() => {
+    const total = items.reduce(
+      (acc, item) => acc + parseFloat(item.total.toString()),
+      0,
+    );
+    setTotal(total.toFixed(2));
+  }, [items]);
+
+  const handleItemChange = (
+    index: number,
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const { name, value } = event.target;
+    const updatedItems = [...items];
+    updatedItems[index][name as keyof Item] = value;
+    setItems(updatedItems);
+    handleItemTotalChange(index, updatedItems);
   };
 
+  const handleItemTotalChange = (index: number, updatedItems = items) => {
+    const qty = parseFloat(updatedItems[index].qty as string) || 0;
+    const rate = parseFloat(updatedItems[index].rate as string) || 0;
+
+    // Calculate total and format it to 2 decimal places
+    updatedItems[index].total = (qty * rate).toFixed(2);
+
+    // Update state with the modified items array
+    setItems([...updatedItems]);
+  };
   const handleDeleteItem = (index: number) => {
     if (items.length > 1) {
       const updatedItems = items.filter((_, i) => i !== index);
       setItems(updatedItems);
     } else {
-      toast.error('At least one item must remain.');
+      alert('At least one item must remain.'); // Using toast.error from Shancn UI
     }
   };
 
-  const handleItemChange = (
-    index: number,
-    event: ChangeEvent<HTMLInputElement>,
-  ) => {
-    const { name, value } = event.target;
-    const updatedItems = [...items];
-
-    if (!updatedItems[index]) {
-      console.error(`Item at index ${index} is undefined`);
-      return;
-    }
-
-    updatedItems[index] = { ...updatedItems[index], [name]: value };
-
-    // Recalculate the total for the updated item
-    handleItemTotalChange(index, updatedItems);
+  const handleAddItem = () => {
+    setItems([...items, { item: '', qty: 0, rate: 0, total: 0 }]);
   };
-
-  const handleItemTotalChange = (index: number, updatedItems: Item[]) => {
-    if (!updatedItems[index]) {
-      console.error(`Item at index ${index} is undefined`);
-      return;
-    }
-
-    const qty = parseFloat(updatedItems[index].qty) || 0;
-    const rate = parseFloat(updatedItems[index].rate) || 0;
-    updatedItems[index].total = (qty * rate).toFixed(2);
-
-    // Update the item list with the recalculated total
-    setItems([...updatedItems]);
-
-    // Calculate the overall total and update the state
-    const totalValues = updatedItems.map((item) => parseFloat(item.total) || 0);
-    const totalSum = totalValues.reduce((acc, cur) => acc + cur, 0);
-    setTotal('$' + totalSum.toFixed(2));
-  };
-  useEffect(() => {
-    const total = items.reduce(
-      (acc, item) => acc + parseFloat(item.total || 0),
-      0,
-    );
-    setTotal(total.toFixed(2));
-  }, [items]);
 
   const downloadPdf = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -242,7 +226,6 @@ const Page = () => {
                             className="my-3 w-full rounded-[5px] border border-gray-400 px-2 py-1 text-sm"
                             onChange={(e) => {
                               handleItemChange(index, e);
-                              handleItemTotalChange(index);
                             }}
                             name="qty"
                             value={item.qty}
@@ -258,7 +241,6 @@ const Page = () => {
                             value={item.rate}
                             onChange={(e) => {
                               handleItemChange(index, e);
-                              handleItemTotalChange(index);
                             }}
                             required={true}
                           />

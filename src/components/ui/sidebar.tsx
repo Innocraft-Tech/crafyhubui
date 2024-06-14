@@ -57,7 +57,7 @@ export function Sidebar({
       <div className="absolute right-2 top-4 block cursor-pointer xl:hidden">
         <HiX onClick={() => setOpen(false)} />
       </div>
-      <div className="absolute right-2 top-4 block hidden cursor-pointer xl:block">
+      <div className="absolute right-2 top-4 hidden cursor-pointer sm:block xl:block">
         {collapsed ? (
           <HiChevronRight onClick={() => setCollapsed(!collapsed)} />
         ) : (

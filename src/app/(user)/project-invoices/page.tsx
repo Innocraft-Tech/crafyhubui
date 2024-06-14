@@ -1,9 +1,11 @@
 'use client';
 import { Button } from '@/components/ui/button';
+import { toast } from '@/components/ui/use-toast';
 import { TrashIcon } from '@radix-ui/react-icons';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import { FormEvent, useEffect, useState } from 'react';
+
 interface Item {
   item: string;
   qty: number;
@@ -37,27 +39,46 @@ const Page = () => {
   ) => {
     const { name, value } = event.target;
     const updatedItems = [...items];
-    updatedItems[index][name as keyof Item] = value;
+
+    if (name === 'item') {
+      // Directly update the name field
+      updatedItems[index] = {
+        ...updatedItems[index],
+        [name]: value,
+      };
+    } else {
+      // Update qty or rate after parsing them to numbers
+      updatedItems[index] = {
+        ...updatedItems[index],
+        [name]: parseFloat(value),
+      };
+      handleItemTotalChange(index, updatedItems);
+    }
+
     setItems(updatedItems);
-    handleItemTotalChange(index, updatedItems);
   };
 
-  const handleItemTotalChange = (index: number, updatedItems = items) => {
-    const qty = parseFloat(updatedItems[index].qty as string) || 0;
-    const rate = parseFloat(updatedItems[index].rate as string) || 0;
-
-    // Calculate total and format it to 2 decimal places
-    updatedItems[index].total = (qty * rate).toFixed(2);
-
-    // Update state with the modified items array
+  const handleItemTotalChange = (index: number, updatedItems: Item[]) => {
+    const item = updatedItems[index];
+    const updatedTotal = item.qty * item.rate;
+    updatedItems[index].total = updatedTotal;
     setItems([...updatedItems]);
   };
+
   const handleDeleteItem = (index: number) => {
     if (items.length > 1) {
       const updatedItems = items.filter((_, i) => i !== index);
       setItems(updatedItems);
     } else {
-      alert('At least one item must remain.'); // Using toast.error from Shancn UI
+      // alert(''); // Using toast.error from Shancn UI
+      toast({
+        description: (
+          <>
+            <p>{'At least one item must remain.'}</p>
+          </>
+        ),
+        variant: 'destructive',
+      });
     }
   };
 

@@ -1,3 +1,4 @@
+import ProgressBar from '@/app/(user)/components/progressbar/ProgressBar';
 import { cn } from '@/lib/utils';
 import { useGetAllUsersQuery } from '@/redux/api/usersApi';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -48,6 +49,7 @@ export function ChatList({
         <AnimatePresence>
           {isLoadingChat ? (
             <div className="flex items-center justify-center">
+              <ProgressBar />
               <LoaderIcon className="my-28 h-16 w-16 animate-spin text-primary/60" />
             </div>
           ) : (

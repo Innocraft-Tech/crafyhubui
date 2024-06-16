@@ -59,7 +59,7 @@ export default function UserLayout({
                 setCollapsed={setCollapsed}
               />
 
-              <div className="h-full w-full overflow-auto">
+              <div className="h-full w-full">
                 <main
                   className={`flex-none transition-all ${collapsed ? 'xl:ml-[80px]' : 'xl:ml-[253px]'}`}
                 >

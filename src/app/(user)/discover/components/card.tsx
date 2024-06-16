@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-undef */
 /* eslint-disable prettier/prettier */
-'use client';
 
+'use client';
 import Conversation from '@/components/chat/conversation';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -12,7 +12,7 @@ import useUserInfo from '@/lib/hooks/useUserInfo';
 import { useGetAllUsersQuery } from '@/redux/api/usersApi';
 import { useEffect, useState } from 'react';
 import { ProjectSlider } from './projectsslider';
-// eslint-disable-next-line import/extensions
+
 import { LoaderIcon } from 'lucide-react';
 import ProgressBar from '../../components/progressbar/ProgressBar';
 export function DiscoverCard(): JSX.Element {
@@ -58,8 +58,8 @@ export function DiscoverCard(): JSX.Element {
         onlineUsers={onlineUsers}
         socket={socket}
       />
-      <div className="discoverUsers px-5 py-5 lg:grid">
-        <div className="mx-2 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="px-5 py-5">
+        <div className="mx-2 grid gap-3 sm:grid-cols-3 lg:grid-cols-4">
           {userData?.map((user, index) => {
             if (userInfo?._id === user._id) return null;
             const userExists = onlineUsers?.some(
@@ -67,7 +67,7 @@ export function DiscoverCard(): JSX.Element {
             );
 
             return (
-              <Card key={index} className="rounded-2xl p-5">
+              <Card key={index} className="rounded-2xl px-2 py-2">
                 <div className="flex items-center">
                   <div className="relative">
                     <Avatar className="h-16 w-16">

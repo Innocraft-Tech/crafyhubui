@@ -212,7 +212,7 @@ export function Sidebar({
                     )}
                   </li>
                   {activeRoute(route.path) ? (
-                    <div className="absolute right-0 top-px h-9 w-1 rounded-lg bg-brand-500" />
+                    <div className="absolute right-0 top-px h-7 w-1 rounded-lg bg-brand-500" />
                   ) : null}
                 </div>
               </NavLink>

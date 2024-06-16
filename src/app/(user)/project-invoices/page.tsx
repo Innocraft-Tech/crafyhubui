@@ -108,7 +108,14 @@ const Page = () => {
         },
       );
     } else {
-      console.error('Element with id "invoiceContent" not found');
+      toast({
+        description: (
+          <>
+            <p>{'Element with id "invoiceContent" not found'}</p>
+          </>
+        ),
+        variant: 'destructive',
+      });
     }
   };
 
@@ -131,7 +138,7 @@ const Page = () => {
         <div className="my-3 w-full items-start justify-center sm:border-r-2 sm:px-5">
           <p className="text-gray-400 sm:mx-3"> From </p>
           <div className="mx-1 flex items-baseline justify-between">
-            <span className="text-xl font-bold sm:mx-2 sm:text-2xl">
+            <span className="text-xs font-bold sm:mx-2 sm:text-xs lg:text-sm 2xl:text-2xl">
               Innocraft Technologies pvt Ltd
             </span>
             <Button className="mx-1 my-1 rounded-[5px] border bg-[#ff0055] text-xs text-white">
@@ -142,7 +149,7 @@ const Page = () => {
           <input
             type="text"
             placeholder="24-001"
-            className="mx-1 my-1 rounded-[5px] border border-gray-400 px-1 py-1 text-sm sm:w-full"
+            className="mx-1 my-1 w-full rounded-[5px] border border-gray-400 px-1 py-1 text-sm"
             name="invoice"
             value={invoiceNumber}
             onChange={(e) => setInvoiceNumber(e.target.value)}
@@ -165,7 +172,7 @@ const Page = () => {
             <input
               type="email"
               placeholder="Enter Email Address"
-              className="mx-1 w-full rounded-[5px] border border-gray-400 px-1 py-1 text-sm"
+              className="mx-2 w-full rounded-[5px] border border-gray-400 px-2 py-1 text-sm"
               value={billTo}
               onChange={(e) => setBillTo(e.target.value)}
               required={true}
@@ -270,6 +277,7 @@ const Page = () => {
                           <button
                             onClick={() => handleDeleteItem(index)}
                             className="my-1 inline py-2"
+                            type="button"
                           >
                             <TrashIcon
                               className="hover:stroke-Pink-900 mx-3 border-none hover:text-[#ff0055]"
@@ -293,7 +301,7 @@ const Page = () => {
             className="text-White-900 hover: my-3 w-full rounded-[15px] border bg-[#ff0055] px-1 py-3 text-xs font-semibold text-white hover:bg-black hover:text-white"
             onClick={handleAddItem}
           >
-            + Add ITEM
+            + ADD ITEM
           </button>
         </div>
         <div className="my-6 w-full items-center justify-center sm:my-12 sm:px-5">
@@ -364,10 +372,10 @@ const Page = () => {
             <div className="grid grid-cols-2 items-center">
               <div className="my-3">
                 <p className="font-bold text-gray-800">Bill to :</p>
-                <p className="text-gray-500">
+                <p className="text-sm text-gray-500">
                   {project}
                   <br />
-                  afjafhjfbjkf
+                  ven.efx
                 </p>
                 <p className="text-gray-500">{billTo}</p>
               </div>
@@ -440,8 +448,7 @@ const Page = () => {
                         ${item.rate}
                       </td>
                       <td className="py-5 pl-3 pr-4 text-right text-sm text-gray-500 sm:pr-0">
-                        {/* ${item.total.toFixed(2)} */}
-                        {item.total}
+                        {/* ${item.total.toFixed(2)} */}$ {item.total}
                       </td>
                     </tr>
                   ))}

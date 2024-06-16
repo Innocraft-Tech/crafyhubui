@@ -24,6 +24,7 @@ type User = {
   isVerified: boolean;
   bio?: string;
   timezone?: string;
+  addOneLiner?: string;
 };
 
 type EmailRequest = {
@@ -61,4 +62,7 @@ type ProfileRequest = {
 type ProfileResponse = {
   message: string;
   updatedUser: User;
+};
+type UserJobs = {
+  userId: string;
 };

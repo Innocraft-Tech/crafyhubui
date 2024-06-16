@@ -17,6 +17,8 @@ export function JobsCard() {
     );
   }
 
+  console.log(data + 'hello');
+
   return (
     <>
       <div className="discoverUsers px-5 py-1 lg:grid">

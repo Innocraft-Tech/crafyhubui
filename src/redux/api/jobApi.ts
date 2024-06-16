@@ -14,7 +14,15 @@ const jobApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [{ type: 'Jobs', id: 'LIST' }],
     }),
+    getUserPostJob: builder.query({
+      query: (userId) => ({
+        url: `/jobs/user/${userId}`,
+        method: 'GET',
+        providesTags: [{ type: 'Jobs', id: `${userId}` }],
+      }),
+    }),
   }),
 });
 
-export const { useGetJobsQuery, usePostJobMutation } = jobApiSlice;
+export const { useGetJobsQuery, usePostJobMutation, useGetUserPostJobQuery } =
+  jobApiSlice;

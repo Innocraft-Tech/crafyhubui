@@ -149,7 +149,7 @@ const Page = () => {
           <input
             type="text"
             placeholder="24-001"
-            className="mx-1 my-1 w-full rounded-[5px] border border-gray-400 px-1 py-1 text-sm"
+            className="mx-1 my-1 w-full rounded-[5px] border border-gray-400 px-2 py-1 text-sm"
             name="invoice"
             value={invoiceNumber}
             onChange={(e) => setInvoiceNumber(e.target.value)}
@@ -163,7 +163,7 @@ const Page = () => {
             <input
               type="date"
               placeholder="24-001"
-              className="mx-1 w-full rounded-[5px] border border-gray-400 px-1 py-1 text-sm"
+              className="mx-1 w-full rounded-[5px] border border-gray-400 px-2 py-1 text-sm"
               value={issuedOn}
               onChange={(e) => setIssuedOn(e.target.value)}
               required={true}
@@ -181,7 +181,7 @@ const Page = () => {
           <p className="my-2 text-xs font-bold sm:mx-3"> DUE </p>
           <input
             type="date"
-            className="mx-1 w-full rounded-[5px] border border-gray-400 px-1 py-1 text-sm"
+            className="mx-1 w-full rounded-[5px] border border-gray-400 px-2 py-1 text-sm"
             name="due"
             value={due}
             onChange={(e) => setDue(e.target.value)}
@@ -191,7 +191,7 @@ const Page = () => {
           <input
             type="text"
             placeholder="Select Project "
-            className="mx-1 w-full rounded-[5px] border border-gray-400 px-1 py-1 text-sm"
+            className="mx-1 w-full rounded-[5px] border border-gray-400 px-2 py-1 text-sm"
             value={project}
             name="project"
             onChange={(e) => setProject(e.target.value)}

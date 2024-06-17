@@ -169,7 +169,7 @@ export function Sidebar({
                         dataOfUser.firstName + ' ' + dataOfUser.lastName}
                     </p>
                     <p className="text-sm leading-none text-muted-foreground">
-                      {dataOfUser && dataOfUser.tools[0]}
+                      {dataOfUser && dataOfUser.lastName}
                     </p>
                   </div>
                 )}

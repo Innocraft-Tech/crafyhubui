@@ -96,8 +96,11 @@ export function DiscoverCard(): JSX.Element {
                     </span>
                   </div>
                 </div>
-                <div className="my-5 flex gap-3">
-                  <Badge variant="secondary" className="p-2 font-normal">
+                <div className="my-5 flex-wrap gap-2">
+                  <Badge
+                    variant="secondary"
+                    className="p-2 text-xs font-normal sm:p-1 sm:px-2 2xl:p-2"
+                  >
                     {user.perHourValue?.length > 0
                       ? `${user.perHourValue.join('-')}`
                       : '-'}{' '}
@@ -111,23 +114,23 @@ export function DiscoverCard(): JSX.Element {
                   {userExists ? 'Available' : 'Not Available'}
                 </Badge> */}
                 </div>
-                <div className="flex flex-wrap gap-2">
+                <div className="grid grid-cols-1 gap-1 text-xs sm:grid-cols-3">
                   {user.tools.map((tool: string, index: number) => (
                     <Badge
                       key={index}
                       variant="secondary"
-                      className="item flex-1 justify-center rounded-md p-2 text-center font-normal"
+                      className="item flex-1 justify-center rounded-md p-2 text-center text-xs font-normal sm:p-0 2xl:p-2"
                     >
                       {tool}
                     </Badge>
                   ))}
                 </div>
-                <div className="project-carousel">
+                <div className="project-carousel my-3">
                   <ProjectSlider />
                 </div>
                 <Button
                   variant="default"
-                  className="w-full rounded-xl"
+                  className="my-3 w-full rounded-xl"
                   onClick={() => openConversationModal(user)}
                 >
                   <svg

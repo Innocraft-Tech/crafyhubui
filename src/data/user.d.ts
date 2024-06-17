@@ -50,6 +50,7 @@ type ProfileRequest = {
   data: {
     userName?: string;
     firstName: string;
+    addOneLiner?: string;
     lastName: string;
     profilePicture: string;
     tools: string[];

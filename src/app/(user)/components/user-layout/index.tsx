@@ -5,6 +5,7 @@ import UserNav from '@/components/ui/usernav';
 import { playlists } from '@/data/playlists';
 import useUserInfo from '@/lib/hooks/useUserInfo';
 import { getActiveRoute } from '@/lib/navigation';
+import { useGetAllUsersQuery } from '@/redux/api/usersApi';
 import routes from '@/routes';
 import Link from 'next/link';
 import { redirect, usePathname } from 'next/navigation';
@@ -42,7 +43,7 @@ export default function UserLayout({
       window.removeEventListener('resize', checkScreenWidth);
     };
   }, []);
-
+  const { isLoading } = useGetAllUsersQuery();
   return (
     <>
       <div className="md:block">
@@ -64,7 +65,9 @@ export default function UserLayout({
                   className={`flex-none transition-all ${collapsed ? 'xl:ml-[80px]' : 'xl:ml-[253px]'}`}
                 >
                   <div className="z-20 h-lvh">
-                    <div className="z-30">
+                    <nav
+                      className={`${isLoading ? 'hidden' : 'sticky top-0 z-30'}`}
+                    >
                       <div className="flex items-center justify-between border-b bg-stone-50">
                         <div className="topHeadings p-5">
                           <AppWrappers>
@@ -97,7 +100,7 @@ export default function UserLayout({
                           <UserNav />
                         </div>
                       </div>
-                    </div>
+                    </nav>
                     {children}
                   </div>
                 </main>

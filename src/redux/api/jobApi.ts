@@ -16,7 +16,7 @@ const jobApiSlice = apiSlice.injectEndpoints({
     }),
     getUserPostJob: builder.query({
       query: (userId) => ({
-        url: `/jobs/user/${userId}`,
+        url: `Job/jobs/user/${userId}`,
         method: 'GET',
         providesTags: [{ type: 'Jobs', id: `${userId}` }],
       }),

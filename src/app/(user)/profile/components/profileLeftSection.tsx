@@ -53,6 +53,7 @@ const getDataPayload = (userInfo: User | undefined) => {
     tools: userInfo?.tools || [],
     bio: userInfo?.bio || '',
     timezone: userInfo?.timezone || '',
+    addOneLiner: userInfo?.addOneLiner || '',
   };
 };
 

@@ -31,6 +31,17 @@ export const bioSchema = z.object({
 export const timezoneSchema = z.object({
   timezone: z.string(),
 });
+export const addOneLinerSchema = z.object({
+  addOneLiner: z.string().min(1, 'One liner is required'),
+});
+
+export const addToolsSchema = z.object({
+  tools: toolsSchema,
+});
+
+export const addBioSchema = z.object({
+  bio: z.string(),
+});
 
 export type UserInfo = z.infer<typeof userInfoSchema>;
 
@@ -41,3 +52,5 @@ export type SkillInfo = z.infer<typeof skillSchema>;
 export type BioInfo = z.infer<typeof bioSchema>;
 
 export type TimezoneInfo = z.infer<typeof timezoneSchema>;
+
+export type AddOneLinerInfo = z.infer<typeof addOneLinerSchema>;

@@ -54,6 +54,13 @@ const usersApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (result, error, { id }) => [{ type: 'User', id }],
     }),
+    updateEmailPreferences: builder.mutation<void, { userId: string; preferences: any }>({
+      query: ({ userId, preferences }) => ({
+        url: `/user/update/emailpreference/${userId}`,
+        method: 'POST',
+        body: { preferences },
+      }),
+    }),
   }),
   overrideExisting: false,
 });

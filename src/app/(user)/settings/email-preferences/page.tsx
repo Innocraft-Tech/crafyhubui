@@ -1,6 +1,7 @@
 'use client';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { getAccessToken } from '@/lib/cookie';
 type CheckboxOption = {
   id: string;
   label: string;
@@ -96,16 +97,21 @@ const EmailPreferences: React.FC = () => {
 
   const handleSubmit = async () => {
     try {
-      const userId = ''; 
+      const token = getAccessToken();
       const preferences = {
         marketing: formData.marketing[0].isChecked,
         support: formData.support[0].isChecked,
         suggestion: formData.suggestion[0].isChecked,
         newsletter: formData.newsletter[0].isChecked,
+        unsubscribe: formData.unsubscribe[0].isChecked,
       };
 
-      await axios.post(`/user/update/emailpreference/${userId}`, {
+      await axios.post('/user/update/emailpreference', {
         preferences,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       alert('Email preferences updated successfully');
     } catch (error) {

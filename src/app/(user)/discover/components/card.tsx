@@ -7,14 +7,18 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 import useSocket from '@/lib/hooks/useSocket';
 import useUserInfo from '@/lib/hooks/useUserInfo';
 import { useGetAllUsersQuery } from '@/redux/api/usersApi';
-import { useEffect, useState } from 'react';
-import { ProjectSlider } from './projectsslider';
-
 import { LoaderIcon } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import ProgressBar from '../../components/progressbar/ProgressBar';
+import { ProjectSlider } from './projectsslider';
 export function DiscoverCard(): JSX.Element {
   const socket = useSocket(process.env.NEXT_PUBLIC_SERVER_SOCKET_URI || '');
   const [onlineUsers, setOnlineUsers] = useState<OnlineUsers[]>([]);
@@ -115,7 +119,7 @@ export function DiscoverCard(): JSX.Element {
                 </Badge> */}
                 </div>
                 <div className="grid grid-cols-1 gap-1 text-xs sm:grid-cols-3">
-                  {user.tools.map((tool: string, index: number) => (
+                  {user.tools.slice(0, 2).map((tool: string, index: number) => (
                     <Badge
                       key={index}
                       variant="secondary"
@@ -124,6 +128,25 @@ export function DiscoverCard(): JSX.Element {
                       {tool}
                     </Badge>
                   ))}
+                  {user.tools.length > 2 && (
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button variant="secondary">
+                          +{user.tools.length - 2}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="h-auto w-auto">
+                        {user.tools.length > 2 &&
+                          user.tools.slice(2).map((tool, index) => (
+                            <div className="grid grid-flow-col" key={index + 2}>
+                              <p className="item flex-1 justify-center text-center text-sm font-normal sm:p-0 2xl:p-2">
+                                {tool}
+                              </p>
+                            </div>
+                          ))}
+                      </PopoverContent>
+                    </Popover>
+                  )}
                 </div>
                 <div className="project-carousel my-3">
                   <ProjectSlider />

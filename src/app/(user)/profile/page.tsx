@@ -4,25 +4,43 @@
 import HandleResponse from '@/components/common/HandleResponse';
 import InputField from '@/components/forms/input-field';
 import { Alert, AlertTitle } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Form } from '@/components/ui/form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SOMETHING_WENT_WRONG, isMyKnownError } from '@/lib/api';
+import { getAccessToken } from '@/lib/cookie';
 import useUserInfo from '@/lib/hooks/useUserInfo';
 import { checkProfileComplete } from '@/lib/utils';
 import { useGetUserPostJobQuery } from '@/redux/api/jobApi';
 import { useUpdateProfileMutation } from '@/redux/api/usersApi';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { skipToken } from '@reduxjs/toolkit/query';
+import { formatDistanceToNow } from 'date-fns';
 import { LoaderIcon, X } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import {
+  JSXElementConstructor,
+  Key,
+  PromiseLikeOfReactNode,
+  ReactElement,
+  ReactNode,
+  ReactPortal,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import ProgressBar from '../components/progressbar/ProgressBar';
 import ProfileLeftSection from './components/profileLeftSection';
-import { UserInfo, userInfoSchema } from './components/profileSchema';
-
+import { AddOneLinerInfo, addOneLinerSchema } from './components/profileSchema';
 const getDataPayload = (userInfo: User | undefined) => {
   return {
     firstName: userInfo?.firstName || '',
@@ -32,10 +50,11 @@ const getDataPayload = (userInfo: User | undefined) => {
     tools: userInfo?.tools || [],
     bio: userInfo?.bio || '',
     timezone: userInfo?.timezone || '',
-    addOneLiner: userInfo?.addOneLiner,
+    oneLiner: userInfo?.oneLiner,
   };
 };
 export default function Profile(): JSX.Element {
+  const token = getAccessToken();
   const { userInfo, isLoading: isLoadingProfile } = useUserInfo();
   const [isEditingName, setIsEditingName] = useState(false);
   const { data: userPostJob, isLoading } = useGetUserPostJobQuery(
@@ -43,13 +62,13 @@ export default function Profile(): JSX.Element {
   );
   console.log(userPostJob, 'userPostJob');
 
-  const [updateProfile, { error, isError, isSuccess, data: addOneLiner }] =
+  const [updateProfile, { error, isError, isSuccess, data: oneLiner }] =
     useUpdateProfileMutation();
-  const addOneLinerForm = useForm<UserInfo>({
-    resolver: zodResolver(userInfoSchema),
+  const addOneLinerForm = useForm<AddOneLinerInfo>({
+    resolver: zodResolver(addOneLinerSchema),
     mode: 'onChange',
     defaultValues: {
-      addOneLiner: userInfo?.addOneLiner || '',
+      oneLiner: userInfo?.oneLiner || '',
     },
   });
   const [profileCompleteBtn, setProfileCompleteBtn] = useState(
@@ -74,7 +93,7 @@ export default function Profile(): JSX.Element {
   useEffect(() => {
     if (userInfo) {
       resetAddOneLinerForm({
-        addOneLiner: userInfo.addOneLiner,
+        oneLiner: userInfo?.oneLiner || '',
       });
     }
   }, [userInfo, resetAddOneLinerForm]);
@@ -110,12 +129,12 @@ export default function Profile(): JSX.Element {
     setProfileCompleteBtn(false);
   };
 
-  const handleSaveNameClick: SubmitHandler<UserInfo> = (data) => {
+  const handleSaveNameClick: SubmitHandler<AddOneLinerInfo> = (data) => {
     const payload = {
       ...getDataPayload(userInfo),
       ...data,
     };
-    updateProfile({ data: payload, id: userInfo?._id || '' });
+    updateProfile({ data: payload, id: token || '' });
     setIsEditingName(false);
   };
 
@@ -174,14 +193,14 @@ export default function Profile(): JSX.Element {
                       <div className="grid w-full grid-cols-1 items-start justify-center gap-1">
                         <div className="w-full">
                           <InputField
-                            name="addOneLiner"
+                            name="oneLiner"
                             placeholder=" Add One Liner"
                             type="text"
                             control={addOneLinerControl}
                           />{' '}
-                          {addOneLinerErrors.addOneLiner && (
+                          {addOneLinerErrors.oneLiner && (
                             <p className="text-red-500">
-                              {addOneLinerErrors.addOneLiner.message}
+                              {addOneLinerErrors.oneLiner.message}
                             </p>
                           )}
                         </div>
@@ -213,28 +232,34 @@ export default function Profile(): JSX.Element {
                   >
                     {' '}
                     <div className="group sm:w-64">
-                      {userInfo?.addOneLiner}
-                      <h1 className="mx-2 inline w-full font-bold sm:text-3xl">
-                        {' '}
-                        Add One Liner{userInfo?.addOneLiner}
-                      </h1>
-
-                      <button className="top-1/2-translate-y-1/2 absolute right-0 my-3 transform opacity-0 transition-opacity group-hover:opacity-100">
-                        <svg
-                          className="h-5 w-5 text-gray-500"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M15.232 5.232l3.536 3.536M4 13.5v6h6l11.243-11.243a1.5 1.5 0 00-2.121-2.121L4 13.5z"
-                          ></path>
-                        </svg>
-                      </button>
+                      {userInfo?.oneLiner ? (
+                        <h1 className="mx-2 inline w-full font-bold sm:text-3xl">
+                          {userInfo?.oneLiner}
+                        </h1>
+                      ) : (
+                        <>
+                          <h1 className="mx-2 inline w-full font-bold sm:text-3xl">
+                            {' '}
+                            Add One Liner
+                          </h1>
+                          <button className="top-1/2-translate-y-1/2 absolute right-0 my-3 transform opacity-0 transition-opacity group-hover:opacity-100">
+                            <svg
+                              className="h-5 w-5 text-gray-500"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M15.232 5.232l3.536 3.536M4 13.5v6h6l11.243-11.243a1.5 1.5 0 00-2.121-2.121L4 13.5z"
+                              ></path>
+                            </svg>
+                          </button>
+                        </>
+                      )}
                     </div>
                   </div>
                 )}
@@ -247,6 +272,7 @@ export default function Profile(): JSX.Element {
                   <TabsTrigger value="recommendations">
                     Recommendations
                   </TabsTrigger>
+                  <TabsTrigger value="jobs">Jobs</TabsTrigger>
                 </TabsList>
                 <TabsContent value="work">
                   <div className="rounded-lg bg-yellow-100 p-4 text-yellow-800">
@@ -272,6 +298,61 @@ export default function Profile(): JSX.Element {
                         Import content in seconds
                       </a>
                     </div>
+                  </div>
+                </TabsContent>
+                <TabsContent value="jobs">
+                  <div>
+                    {userPostJob.map(
+                      (postDetails: any, index: Key | null | undefined) => (
+                        // eslint-disable-next-line react/jsx-key
+                        <div className="">
+                          <Card className="my-2" key={index}>
+                            <CardHeader>
+                              <CardTitle className="text-center">
+                                {postDetails.jobTitle}
+                              </CardTitle>
+                              <CardTitle className="text-right text-xs">
+                                {formatDistanceToNow(
+                                  new Date(postDetails.updatedAt),
+                                  {
+                                    addSuffix: true,
+                                  },
+                                )}
+                              </CardTitle>
+                              <CardDescription className="relative bottom-4 text-center">
+                                {postDetails.jobDescription}
+                              </CardDescription>
+                              <CardContent className="text-center">
+                                <div className="">
+                                  {postDetails.requiredSkills.map(
+                                    (
+                                      skill:
+                                        | string
+                                        | number
+                                        | boolean
+                                        | ReactElement<
+                                            any,
+                                            string | JSXElementConstructor<any>
+                                          >
+                                        | Iterable<ReactNode>
+                                        | ReactPortal
+                                        | PromiseLikeOfReactNode
+                                        | null
+                                        | undefined,
+                                      index: Key | null | undefined,
+                                    ) => (
+                                      <Badge className="mx-1" key={index}>
+                                        {skill}
+                                      </Badge>
+                                    ),
+                                  )}
+                                </div>
+                              </CardContent>
+                            </CardHeader>
+                          </Card>
+                        </div>
+                      ),
+                    )}
                   </div>
                 </TabsContent>
               </Tabs>

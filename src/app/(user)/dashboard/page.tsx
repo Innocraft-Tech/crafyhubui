@@ -37,7 +37,9 @@ export default function Dashboard() {
             <h2 className="text-xl font-semibold">Build profile</h2>
           </CardHeader>
           <CardContent>
-            <p className="mb-4 text-gray-500">Get access to more features.</p>
+            <p className="mb-4 text-sm text-gray-500">
+              Get access to more features.
+            </p>
             <div className="">
               <Button
                 variant="outline"
@@ -54,7 +56,9 @@ export default function Dashboard() {
             <h2 className="text-xl font-semibold">Find your next job</h2>
           </CardHeader>
           <CardContent>
-            <p className="mb-4 text-gray-500">Explore exclusive jobs.</p>
+            <p className="mb-4 text-sm text-gray-500">
+              Explore exclusive jobs.
+            </p>
             <div className="">
               <Button
                 variant="outline"
@@ -70,7 +74,7 @@ export default function Dashboard() {
           <CardHeader>
             <h2 className="text-xl font-semibold">Connect with Users</h2>
           </CardHeader>
-          <CardContent>
+          <CardContent className="text-sm">
             <p className="mb-4 text-gray-500">
               Explore and connect with other users on our platform
             </p>

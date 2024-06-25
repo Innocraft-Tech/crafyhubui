@@ -13,7 +13,6 @@ const toolsSchema = z.union([
 export const userInfoSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),
   lastName: z.string().min(1, 'Last name is required'),
-  addOneLiner: z.string().min(1, 'One liner is required'),
 });
 
 export const rateSchema = z.object({
@@ -32,7 +31,7 @@ export const timezoneSchema = z.object({
   timezone: z.string(),
 });
 export const addOneLinerSchema = z.object({
-  addOneLiner: z.string().min(1, 'One liner is required'),
+  oneLiner: z.string().min(1, 'One liner is required'),
 });
 
 export const addToolsSchema = z.object({

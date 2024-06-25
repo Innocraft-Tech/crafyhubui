@@ -24,6 +24,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { SOMETHING_WENT_WRONG, isMyKnownError } from '@/lib/api';
+import { getAccessToken } from '@/lib/cookie';
 import useUserInfo from '@/lib/hooks/useUserInfo';
 import { useAddSkillMutation, useGetSkillsQuery } from '@/redux/api/authApi';
 import { useUpdateProfileMutation } from '@/redux/api/usersApi';
@@ -53,7 +54,6 @@ const getDataPayload = (userInfo: User | undefined) => {
     tools: userInfo?.tools || [],
     bio: userInfo?.bio || '',
     timezone: userInfo?.timezone || '',
-    addOneLiner: userInfo?.addOneLiner || '',
   };
 };
 
@@ -69,6 +69,7 @@ const convertStringToRate = (value: string): [number, number] | [] => {
 };
 
 export default function ProfileLeftSection(): JSX.Element {
+  const token = getAccessToken();
   const { userInfo } = useUserInfo();
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingRate, setIsEditingRate] = useState(false);
@@ -208,7 +209,7 @@ export default function ProfileLeftSection(): JSX.Element {
       ...data,
     };
 
-    updateProfile({ data: payload, id: userInfo?._id || '' });
+    updateProfile({ data: payload, id: token || '' });
     setIsEditingName(false);
   };
 
@@ -219,7 +220,7 @@ export default function ProfileLeftSection(): JSX.Element {
       ...getDataPayload(userInfo),
       ...data,
     };
-    updateProfile({ data: payload, id: userInfo?._id || '' });
+    updateProfile({ data: payload, id: token || '' });
     setIsEditingRate(false);
   };
 
@@ -230,7 +231,7 @@ export default function ProfileLeftSection(): JSX.Element {
       ...getDataPayload(userInfo),
       ...data,
     };
-    updateProfile({ data: payload, id: userInfo?._id || '' });
+    updateProfile({ data: payload, id: token || '' });
     setIsEditingSkills(false);
   };
 
@@ -241,7 +242,8 @@ export default function ProfileLeftSection(): JSX.Element {
       ...getDataPayload(userInfo),
       ...data,
     };
-    updateProfile({ data: payload, id: userInfo?._id || '' });
+    updateProfile({ data: payload, id: token || '' });
+
     setIsEditingBio(false);
   };
 
@@ -252,7 +254,8 @@ export default function ProfileLeftSection(): JSX.Element {
       ...getDataPayload(userInfo),
       ...data,
     };
-    updateProfile({ data: payload, id: userInfo?._id || '' });
+    updateProfile({ data: payload, id: token || '' });
+    // console.log(data);
     setIsEditingTimezone(false);
   };
 
@@ -261,7 +264,7 @@ export default function ProfileLeftSection(): JSX.Element {
       ...getDataPayload(userInfo),
       profilePicture: url,
     };
-    updateProfile({ data: payload, id: userInfo?._id || '' });
+    updateProfile({ data: payload, id: token || '' });
   };
 
   const handleCancelNameClick = () => {
@@ -345,6 +348,7 @@ export default function ProfileLeftSection(): JSX.Element {
                       {nameErrors.firstName.message}
                     </p>
                   )}
+
                   {nameErrors.lastName && (
                     <p className="text-red-500">
                       {nameErrors.lastName.message}
@@ -373,6 +377,7 @@ export default function ProfileLeftSection(): JSX.Element {
               >
                 <div className="group">
                   <h1 className="text-2xl font-bold">{`${userInfo?.firstName} ${userInfo?.lastName}`}</h1>
+
                   <button className="absolute right-0 top-1/2 -translate-y-1/2 transform opacity-0 transition-opacity group-hover:opacity-100">
                     <svg
                       className="h-4 w-4 text-gray-500"

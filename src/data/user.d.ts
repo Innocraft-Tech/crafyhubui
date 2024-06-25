@@ -1,4 +1,6 @@
 type User = {
+  id: any;
+  oneLiner: string;
   perHourValue: number[];
   isClient: boolean;
   jobs: string[] | [];
@@ -24,7 +26,6 @@ type User = {
   isVerified: boolean;
   bio?: string;
   timezone?: string;
-  addOneLiner?: string;
 };
 
 type EmailRequest = {

@@ -96,7 +96,7 @@ const EmailPreferences: React.FC = () => {
 
   const handleSubmit = async () => {
     try {
-      const userId = ''; 
+      const userId = '';
       const preferences = {
         marketing: formData.marketing[0].isChecked,
         support: formData.support[0].isChecked,

@@ -2,9 +2,9 @@ import apiSlice from './api';
 
 const workApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    createWork: builder.mutation({
-      query: ({ data }) => ({
-        url: '/works/upload',
+    createWork: builder.mutation<PostWorkResponse, PostWorkPayLoad>({
+      query: ({ data, token }) => ({
+        url: `/works/upload/${token}`,
         method: 'POST',
         body: data,
       }),

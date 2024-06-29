@@ -8,7 +8,7 @@ const jobApiSlice = apiSlice.injectEndpoints({
     }),
     postJob: builder.mutation<PostJobResponse, PostJobPayload>({
       query: ({ data, id }) => ({
-        url: `job/p-job/${id}`,
+        url: `job/post-job/${id}`,
         method: 'POST',
         body: data,
       }),

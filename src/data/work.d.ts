@@ -1,13 +1,12 @@
 type Work = {
-  title: string;
-  keywords: string[];
-  description: string;
   document: string;
+  title: string;
+  description: string;
+  keywords: string[];
 };
 
-type PostWorkPayLoad = { data: Work; token: string };
+type PostWorkPayLoad = { token: string; data: Work };
 
 type PostWorkResponse = {
-  Work?: Work;
   message?: string;
 };

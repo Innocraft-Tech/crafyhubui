@@ -37,10 +37,10 @@ export default function Project(): JSX.Element {
     resolver: zodResolver(projectSchema),
     mode: 'onChange',
     defaultValues: {
-      title: '',
-      keywords: [],
-      description: '',
       document: '',
+      title: '',
+      description: '',
+      keywords: [],
     },
   });
 
@@ -49,8 +49,9 @@ export default function Project(): JSX.Element {
     control: control,
     formState: { errors: errors },
   } = form;
-  const onSubmit = async (data: ProjectData) => {
-    createWork({ data, token: token });
+  const onSubmit = async (data: ProjectData, e: any) => {
+    e.preventDefault();
+    createWork({ token: token, data });
   };
 
   return (

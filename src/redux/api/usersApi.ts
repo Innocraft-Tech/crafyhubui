@@ -20,7 +20,7 @@ const usersApiSlice = apiSlice.injectEndpoints({
       transformResponse: (response: any) => response,
       extraOptions: { maxRetries: 0 },
       providesTags: (result, error, id) =>
-        result?.user ? [{ type: 'User', id: result.user._id }] : ['User'],
+        result?.user ? [{ type: 'User', id: id }] : ['User'],
     }),
     verifyOtp: builder.mutation<OtpResponse, OtpRequest>({
       query: (data) => ({

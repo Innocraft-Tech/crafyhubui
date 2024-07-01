@@ -152,15 +152,6 @@ export const Filters = () => {
           </Sheet>
         ))}
       </div>
-      <div className="mx-5">
-        <Button
-          variant="outline"
-          className="mx-1 rounded-xl px-2 font-light"
-          onClick={handleLinkClick}
-        >
-          Post New Job
-        </Button>
-      </div>
     </>
   );
 };

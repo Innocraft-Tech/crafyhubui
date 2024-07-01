@@ -49,89 +49,95 @@ const AccountInformation: React.FC = () => {
     }
   }
   return (
-    <div className="mx-4 w-auto border">
-      <h2 className="mx-4 mt-4 text-2xl font-bold"> Account Information</h2>
-      <div className="category mx-5 my-5">
-        <label className="text-md my-2 block font-bold">Email</label>
-        <div className="grid grid-cols-2 items-center gap-20 hover:bg-gray-100">
-          {activeEmail ? (
-            <EditEmail
-              accountInformation={accountInformation}
-              setAccountInformation={setAccountInformation}
-              initialAccountInformation={initialAccountInformation}
-              editFunc={editFunc}
-            />
-          ) : (
-            <>
-              <p className="px-2 py-2">{accountInformation.email}</p>
-              <HiOutlinePencilSquare
-                className="mx-2 inline h-[25px] w-[25px] cursor-pointer"
-                onClick={() => editFunc('email')}
-              />
-            </>
-          )}
-        </div>
-      </div>
-      <div className="category mx-5 my-5">
-        <label className="text-md my-2 block font-bold">Birthdate</label>
-        <div className="grid grid-cols-2 items-center gap-20 hover:bg-gray-100">
-          {activeDate ? (
-            <>
-              <EditDate
+    <div className="w-full">
+      <div className="mx-4 w-full border">
+        <h2 className="mx-4 mt-4 text-2xl font-bold"> Account Information</h2>
+        <div className="category mx-5 my-5 w-full">
+          <label className="text-md my-2 block font-bold">Email</label>
+          <div className="grid w-full grid-cols-2 items-center gap-20">
+            {activeEmail ? (
+              <EditEmail
                 accountInformation={accountInformation}
                 setAccountInformation={setAccountInformation}
                 initialAccountInformation={initialAccountInformation}
                 editFunc={editFunc}
               />
-            </>
-          ) : (
-            <>
-              <p className="px-2 py-2 text-sm">
-                {accountInformation.birthdate}
-              </p>
-              <HiOutlinePencilSquare
-                className="mx-2 inline h-[25px] w-[25px] cursor-pointer"
-                onClick={() => editFunc('birthDate')}
-              />
-            </>
-          )}
+            ) : (
+              <>
+                <p className="w-full px-2 py-2">{accountInformation.email}</p>
+                <HiOutlinePencilSquare
+                  className="mx-2 inline h-[25px] w-[25px] cursor-pointer"
+                  onClick={() => editFunc('email')}
+                />
+              </>
+            )}
+          </div>
         </div>
-      </div>
-      <div className="category mx-5 my-5">
-        <label className="text-md my-2 block font-bold">Calendar Link</label>
-        <div className="grid grid-cols-2 items-center gap-20 hover:bg-gray-100">
-          {activeCalendar ? (
-            <EditCalendar
-              accountInformation={accountInformation}
-              setAccountInformation={setAccountInformation}
-              initialAccountInformation={initialAccountInformation}
-              editFunc={editFunc}
-            />
-          ) : (
-            <>
-              <p className="px-2 py-2">{accountInformation.calendarLink}</p>
-              <HiOutlinePencilSquare
-                className="mx-2 inline h-[25px] w-[25px] cursor-pointer"
-                onClick={() => editFunc('calendar')}
-              />
-            </>
-          )}
+        <div className="category mx-5 my-5 w-full">
+          <label className="text-md my-2 block font-bold">Birthdate</label>
+          <div className="grid w-full grid-cols-2 items-center gap-20">
+            {activeDate ? (
+              <>
+                <EditDate
+                  accountInformation={accountInformation}
+                  setAccountInformation={setAccountInformation}
+                  initialAccountInformation={initialAccountInformation}
+                  editFunc={editFunc}
+                />
+              </>
+            ) : (
+              <>
+                <p className="w-full px-2 py-2 text-sm">
+                  {accountInformation.birthdate}
+                </p>
+                <HiOutlinePencilSquare
+                  className="mx-2 inline h-[25px] w-[25px] cursor-pointer"
+                  onClick={() => editFunc('birthDate')}
+                />
+              </>
+            )}
+          </div>
         </div>
-      </div>
-      <div className="category mx-5 my-5">
-        <label className="text-md my-2 block font-bold">Domains</label>
-        <span className="my-3 text-sm font-bold">Contra Profile Domain</span>
-        <p className="my-3 items-center gap-20 px-2 py-2 text-sm hover:bg-gray-100">
-          {accountInformation.profileDomain}
-        </p>
-      </div>
-      <hr className="mx-4 my-5" />
-      <div className="mx-5 my-3">
-        <span className=" ">
-          {' '}
-          <RiDeleteBin6Fill className="inline h-[25px] w-[25px] bg-pink-50 text-pink-900" />{' '}
-          Delete Account{' '}
-        </span>
+        <div className="category mx-5 my-5 w-full">
+          <label className="text-md my-2 block font-bold">Calendar Link</label>
+          <div className="grid w-full grid-cols-2 items-center gap-20">
+            {activeCalendar ? (
+              <EditCalendar
+                accountInformation={accountInformation}
+                setAccountInformation={setAccountInformation}
+                initialAccountInformation={initialAccountInformation}
+                editFunc={editFunc}
+              />
+            ) : (
+              <>
+                <p className="w-full px-2 py-2">
+                  {accountInformation.calendarLink}
+                </p>
+                <HiOutlinePencilSquare
+                  className="mx-2 inline h-[25px] w-[25px] cursor-pointer"
+                  onClick={() => editFunc('calendar')}
+                />
+              </>
+            )}
+          </div>
+        </div>
+        <div className="category mx-5 my-5">
+          <label className="text-md my-2 block font-bold">Domains</label>
+          <span className="my-3 text-sm font-bold">
+            crafyHub Profile Domain
+          </span>
+          <p className="my-3 items-center gap-20 px-2 py-2 text-sm hover:bg-gray-100">
+            {accountInformation.profileDomain}
+          </p>
+        </div>
+        <hr className="mx-4 my-5" />
+        <div className="mx-5 my-3">
+          <span className="text-sm">
+            {' '}
+            <RiDeleteBin6Fill className="inline h-[20px] w-[20px] text-[#ff0055]" />{' '}
+            Delete Account{' '}
+          </span>
+        </div>
       </div>
     </div>
   );
@@ -170,13 +176,13 @@ const EditEmail: React.FC<EditEmailProps> = ({
           <HiOutlinePencilSquare className="mx-2 inline h-[25px] w-[25px] cursor-pointer" />
         </>
       ) : (
-        <div className="">
+        <div className="w-full">
           <input
             type="text"
             name="email"
             placeholder="email"
             value={accountInformation.email}
-            className="w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+            className="w-full rounded-md border border-gray-300 p-2 shadow-sm"
             id="email"
             onChange={handleInputChange}
           />
@@ -227,17 +233,15 @@ const EditDate: React.FC<EditEmailProps> = ({
   return (
     <>
       {activeSave ? (
-        <span className="px-2 py-2 hover:bg-gray-100">
-          {accountInformation.birthdate}
-        </span>
+        <span className="px-2 py-2">{accountInformation.birthdate}</span>
       ) : (
-        <div className="grid grid-cols-1">
+        <div className="grid w-full grid-cols-1">
           <input
             type="date"
             name="birthdate"
             placeholder="birthDate"
             value={accountInformation.birthDate}
-            className="w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+            className="w-full rounded-md border border-gray-300 p-2 shadow-sm"
             id="email"
             onChange={handleInputChange}
           />
@@ -288,17 +292,15 @@ const EditCalendar: React.FC<EditEmailProps> = ({
   return (
     <>
       {activeSave ? (
-        <span className="px-2 py-2 hover:bg-gray-100">
-          {accountInformation.calendarLink}
-        </span>
+        <span className="px-2 py-2">{accountInformation.calendarLink}</span>
       ) : (
-        <div className="grid grid-cols-1">
+        <div className="grid w-full grid-cols-1">
           <input
             type="text"
             name="birthdate"
             placeholder="birthDate"
             value={accountInformation.calendarLink}
-            className="w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+            className="w-full rounded-md border border-gray-300 p-2 shadow-sm"
             id="email"
             onChange={handleInputChange}
           />

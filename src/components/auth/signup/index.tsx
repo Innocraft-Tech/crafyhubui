@@ -389,7 +389,7 @@ const SignupForm = (): JSX.Element => {
                                     // onValueChange={field.onChange}
                                     onValueChange={(value) => {
                                       field.onChange(value === 'CLIENT');
-                                      console.log(value, 'value');
+
                                       setSelectedType(value);
                                     }}
                                     defaultValue={selectedType}

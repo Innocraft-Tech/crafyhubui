@@ -1,3 +1,4 @@
+import ProgressBar from '@/app/(user)/components/progressbar/ProgressBar';
 import { cn } from '@/lib/utils';
 import { useGetAllUsersQuery } from '@/redux/api/usersApi';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -43,14 +44,12 @@ export function ChatList({
   };
 
   return (
-    <div className="flex h-full w-full flex-col overflow-y-auto overflow-x-hidden">
-      <div
-        ref={messagesContainerRef}
-        className="flex h-full w-full flex-col overflow-y-auto overflow-x-hidden"
-      >
+    <div className="flex flex-col">
+      <div ref={messagesContainerRef} className="flex flex-col">
         <AnimatePresence>
           {isLoadingChat ? (
             <div className="flex items-center justify-center">
+              <ProgressBar />
               <LoaderIcon className="my-28 h-16 w-16 animate-spin text-primary/60" />
             </div>
           ) : (
@@ -74,7 +73,7 @@ export function ChatList({
                   originY: 0.5,
                 }}
                 className={cn(
-                  'flex flex-col gap-2 whitespace-pre-wrap p-4',
+                  'gap-2whitespace-pre-wrap flex flex-col p-4',
                   message.senderId !== selectedUser._id
                     ? 'items-end'
                     : 'items-start',

@@ -1,4 +1,6 @@
 type User = {
+  id: any;
+  oneLiner: string;
   perHourValue: number[];
   isClient: boolean;
   jobs: string[] | [];
@@ -49,6 +51,7 @@ type ProfileRequest = {
   data: {
     userName?: string;
     firstName: string;
+    addOneLiner?: string;
     lastName: string;
     profilePicture: string;
     tools: string[];
@@ -61,4 +64,7 @@ type ProfileRequest = {
 type ProfileResponse = {
   message: string;
   updatedUser: User;
+};
+type UserJobs = {
+  userId: string;
 };

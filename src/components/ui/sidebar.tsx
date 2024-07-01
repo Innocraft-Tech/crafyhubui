@@ -57,7 +57,7 @@ export function Sidebar({
       <div className="absolute right-2 top-4 block cursor-pointer xl:hidden">
         <HiX onClick={() => setOpen(false)} />
       </div>
-      <div className="absolute right-2 top-4 block hidden cursor-pointer xl:block">
+      <div className="absolute right-2 top-4 hidden cursor-pointer sm:block xl:block">
         {collapsed ? (
           <HiChevronRight onClick={() => setCollapsed(!collapsed)} />
         ) : (
@@ -169,7 +169,7 @@ export function Sidebar({
                         dataOfUser.firstName + ' ' + dataOfUser.lastName}
                     </p>
                     <p className="text-sm leading-none text-muted-foreground">
-                      {dataOfUser && dataOfUser.tools[0]}
+                      {dataOfUser && dataOfUser.lastName}
                     </p>
                   </div>
                 )}
@@ -212,7 +212,7 @@ export function Sidebar({
                     )}
                   </li>
                   {activeRoute(route.path) ? (
-                    <div className="absolute right-0 top-px h-9 w-1 rounded-lg bg-brand-500" />
+                    <div className="absolute right-0 top-px h-7 w-1 rounded-lg bg-brand-500" />
                   ) : null}
                 </div>
               </NavLink>

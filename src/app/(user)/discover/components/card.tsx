@@ -1,20 +1,24 @@
 /* eslint-disable react/jsx-no-undef */
 /* eslint-disable prettier/prettier */
-'use client';
 
+'use client';
 import Conversation from '@/components/chat/conversation';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 import useSocket from '@/lib/hooks/useSocket';
 import useUserInfo from '@/lib/hooks/useUserInfo';
 import { useGetAllUsersQuery } from '@/redux/api/usersApi';
-import { useEffect, useState } from 'react';
-import { ProjectSlider } from './projectsslider';
-// eslint-disable-next-line import/extensions
 import { LoaderIcon } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import ProgressBar from '../../components/progressbar/ProgressBar';
+import { ProjectSlider } from './projectsslider';
 export function DiscoverCard(): JSX.Element {
   const socket = useSocket(process.env.NEXT_PUBLIC_SERVER_SOCKET_URI || '');
   const [onlineUsers, setOnlineUsers] = useState<OnlineUsers[]>([]);
@@ -58,8 +62,8 @@ export function DiscoverCard(): JSX.Element {
         onlineUsers={onlineUsers}
         socket={socket}
       />
-      <div className="discoverUsers px-5 py-5 lg:grid">
-        <div className="mx-2 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="px-5 py-5">
+        <div className="mx-2 grid gap-3 sm:grid-cols-3 lg:grid-cols-4">
           {userData?.map((user, index) => {
             if (userInfo?._id === user._id) return null;
             const userExists = onlineUsers?.some(
@@ -67,7 +71,7 @@ export function DiscoverCard(): JSX.Element {
             );
 
             return (
-              <Card key={index} className="rounded-2xl p-5">
+              <Card key={index} className="rounded-2xl px-2 py-2">
                 <div className="flex items-center">
                   <div className="relative">
                     <Avatar className="h-16 w-16">
@@ -96,8 +100,11 @@ export function DiscoverCard(): JSX.Element {
                     </span>
                   </div>
                 </div>
-                <div className="my-5 flex gap-3">
-                  <Badge variant="secondary" className="p-2 font-normal">
+                <div className="my-5 flex-wrap gap-2">
+                  <Badge
+                    variant="secondary"
+                    className="p-2 text-xs font-normal sm:p-1 sm:px-2 2xl:p-2"
+                  >
                     {user.perHourValue?.length > 0
                       ? `${user.perHourValue.join('-')}`
                       : '-'}{' '}
@@ -111,23 +118,42 @@ export function DiscoverCard(): JSX.Element {
                   {userExists ? 'Available' : 'Not Available'}
                 </Badge> */}
                 </div>
-                <div className="flex flex-wrap gap-2">
-                  {user.tools.map((tool: string, index: number) => (
+                <div className="grid grid-cols-1 gap-1 text-xs sm:grid-cols-3">
+                  {user.tools.slice(0, 2).map((tool: string, index: number) => (
                     <Badge
                       key={index}
                       variant="secondary"
-                      className="item flex-1 justify-center rounded-md p-2 text-center font-normal"
+                      className="item flex-1 justify-center rounded-md p-2 text-center text-xs font-normal sm:p-0 2xl:p-2"
                     >
                       {tool}
                     </Badge>
                   ))}
+                  {user.tools.length > 2 && (
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button variant="secondary">
+                          +{user.tools.length - 2}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="h-auto w-auto">
+                        {user.tools.length > 2 &&
+                          user.tools.slice(2).map((tool, index) => (
+                            <div className="grid grid-flow-col" key={index + 2}>
+                              <p className="item flex-1 justify-center text-center text-sm font-normal sm:p-0 2xl:p-2">
+                                {tool}
+                              </p>
+                            </div>
+                          ))}
+                      </PopoverContent>
+                    </Popover>
+                  )}
                 </div>
-                <div className="project-carousel">
+                <div className="project-carousel my-3">
                   <ProjectSlider />
                 </div>
                 <Button
                   variant="default"
-                  className="w-full rounded-xl"
+                  className="my-3 w-full rounded-xl"
                   onClick={() => openConversationModal(user)}
                 >
                   <svg

@@ -593,11 +593,11 @@ export default function ProfileLeftSection(): JSX.Element {
                 <div className="group">
                   <p className="flex flex-wrap gap-2 text-sm">
                     {userInfo?.tools?.length
-                      ? userInfo.tools.map((tool) => (
+                      ? userInfo.tools.map((tool, id) => (
                           <Badge
                             className="px-2 py-1"
                             variant={'outline'}
-                            key={tool}
+                            key={id}
                           >
                             {tool}
                           </Badge>

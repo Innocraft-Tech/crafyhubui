@@ -69,7 +69,7 @@ export default function Project(): JSX.Element {
       <div className="mx-auto mt-6 w-full rounded-md border p-6 sm:w-[50%]">
         <Form {...form}>
           <form
-            onSubmit={() => handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(onSubmit)}
             className="container mx-auto p-2"
           >
             <div className="mb-1">

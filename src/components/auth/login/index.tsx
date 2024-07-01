@@ -18,7 +18,7 @@ import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { setToken } from '@/lib/cookie';
 import EmailPasswordFormField from '@/components/forms/email-password-form';
-
+import Link from 'next/link';
 const SigninForm = () => {
   const router = useRouter();
   const [logIn, { isLoading }] = useLogInMutation();
@@ -58,6 +58,11 @@ const SigninForm = () => {
           {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           Submit
         </Button>
+        <div className="flex justify-end">
+          <Link href="/forgotpassword">
+            <a className="text-sm text-blue-500 hover:underline">Forgot Password?</a>
+          </Link>
+        </div>
       </form>
     </Form>
   );

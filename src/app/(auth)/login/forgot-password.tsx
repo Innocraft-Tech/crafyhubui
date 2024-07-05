@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-
+import { forgotPasswordSchema } from './component/forgotPasswordData';
+import { z } from 'zod';
+export type forgotPasswordSchema = z.infer<typeof forgotPasswordSchema>;
 export default function ForgotPassword() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');

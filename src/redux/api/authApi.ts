@@ -43,9 +43,10 @@ const authApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['User'],
     }),
-    forgotPassword: builder.mutation<any, any>({
+    forgotPassword: builder.mutation<ForgotPasswordResponse, ForgotPasswordPayLoad>({
+
       query: (data) => ({
-        url: 'auth/forgot',
+        url: `forgot-password/${token}`,
         method: 'POST',
         body: data,
       }),

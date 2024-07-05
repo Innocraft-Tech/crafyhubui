@@ -2,6 +2,7 @@
 import { Button } from '@/components/ui/button';
 import UserNav from '@/components/ui/usernav';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import {
   Sheet,
   SheetClose,
@@ -31,9 +32,36 @@ const Filter_Sheets = ['Filters', 'Location', 'Rate',] as const;
 type FilterSheets = (typeof Filter_Sheets)[number];
 
 export const Filters = () => {
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const router = useRouter();
   const handleLinkClick = () => {
-    router.push('/jobs/newpost');
+    if (selectedCategory) {
+      const apiMap: { [key: string]: string } = {
+        'Architecture': '/users/filter/Architecture',
+        'Art Direction': '/users/filter/ArtDirection',
+        'Branding': '/users/filter/Branding',
+        'Fashion': '/users/filter/Fashion',
+        'Graphic Design': '/users/filter/GraphicDesign',
+        'Illustration': '/users/filter/Illustration',
+        'UI/UX': '/users/filter/UIUX',
+        'Web Design': '/users/filter/WebDesign',
+        
+      };
+
+      const apiUrl = apiMap[selectedCategory];
+      if (apiUrl) {
+        fetch(apiUrl)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+          })
+          .catch((error) => {
+            console.error('Error fetching data:', error);
+          });
+      }
+    } else {
+      router.push('/jobs/newpost');
+    }
   };
   return (
     <>
@@ -70,6 +98,7 @@ export const Filters = () => {
                       key={index}
                       variant="outline"
                       className="mx-1 px-5 font-light rounded-xl"
+                      onClick={() => setSelectedCategory(item)}
                     >
                       {item}
                     </Button>

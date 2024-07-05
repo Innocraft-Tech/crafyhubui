@@ -1,4 +1,6 @@
 'use client';
+
+import { Cloud } from '@/assets';
 import HandleResponse from '@/components/common/HandleResponse';
 import InputField from '@/components/forms/input-field';
 import { Button } from '@/components/ui/button';
@@ -10,7 +12,6 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import ImageUpload from '@/components/ui/image-upload';
 import { Label } from '@/components/ui/label';
 import MultipleSelector from '@/components/ui/multiple-selector';
 import { SOMETHING_WENT_WRONG, isMyKnownError } from '@/lib/api';
@@ -18,10 +19,10 @@ import useUserInfo from '@/lib/hooks/useUserInfo';
 import { useAddSkillMutation, useGetSkillsQuery } from '@/redux/api/authApi';
 import { useCreateWorkMutation } from '@/redux/api/workApi';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Image from 'next/image';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ProjectData, projectSchema } from './components/projectData';
-
 export default function Project(): JSX.Element {
   const [loading, setLoading] = useState(false);
   const [selectedImagePath, setSelectedImagePath] = useState<string | null>();
@@ -49,9 +50,26 @@ export default function Project(): JSX.Element {
     control: control,
     formState: { errors: errors },
   } = form;
-  const onSubmit = async (data: ProjectData, e: any) => {
-    e.preventDefault();
-    createWork({ token: token, data });
+  const onSubmit = async (data: {
+    title: string | Blob;
+    keywords: string[];
+    description: string | Blob;
+    document: string | Blob;
+  }) => {
+    const formData = new FormData();
+
+    formData.append('title', data.title);
+
+    data.keywords.forEach((keyword) => formData.append('keywords', keyword));
+
+    formData.append('description', data.description);
+    if (data.document) {
+      formData.append('document', data.document);
+    }
+
+    const payLoad = { formData, token };
+    await createWork(payLoad);
+    console.log(payLoad);
   };
 
   return (
@@ -161,33 +179,42 @@ export default function Project(): JSX.Element {
                 <FormField
                   control={control}
                   name="document"
-                  render={({ field: { onChange } }) => (
+                  render={({ field }) => (
                     <FormItem className="">
                       <FormControl>
                         <>
-                          {/* <Image
+                          <div className="flex flex-col items-center justify-center rounded-xl border p-4">
+                            <Image
                               src={Cloud}
                               alt="cover"
                               width={50}
                               height={50}
                               className="my-3 flex items-center justify-center"
-                            /> */}
-                          {/* <p className='"my-3 flex items-center justify-center text-sm text-gray-400'>
-                              Upload File{' '}
-                            </p> */}
+                            />
 
-                          {/* <input
-                              type="file"
-                              accept="image/*"
-                              id="file-upload"
-                              placeholder="Provide a detailed description of the job"
-                              className="hidden"
-                              {...field}
-                            /> */}
-                          <ImageUpload
+                            <Label
+                              htmlFor="coverPhoto"
+                              className="my-3 flex items-center justify-center text-sm text-gray-400"
+                            >
+                              Upload Cover Photo
+                            </Label>
+                            <div className="relative">
+                              <input
+                                type="file"
+                                id="coverPhoto"
+                                className="absolute inset-0 h-full cursor-pointer opacity-0"
+                                {...field}
+                              />
+                              <div className="cursor-pointer rounded bg-[#ff0055] px-4 py-2 text-center text-white">
+                                Browse
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* <ImageUpload
                             onUpload={(fileUrl: string) => onChange(fileUrl)}
                             placeholder="Upload a photo"
-                          ></ImageUpload>
+                          ></ImageUpload> */}
                         </>
                       </FormControl>
                       <FormMessage />

@@ -3,10 +3,13 @@ import apiSlice from './api';
 const workApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     createWork: builder.mutation<PostWorkResponse, PostWorkPayLoad>({
-      query: ({ data, token }) => ({
+      query: ({ formData, token }) => ({
         url: `/works/upload/${token}`,
         method: 'POST',
-        body: data,
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }),
     }),
   }),

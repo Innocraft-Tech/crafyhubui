@@ -32,25 +32,28 @@ export default function Dashboard() {
         </span>
       </h1>
       <div className="my-6 grid grid-cols-1 gap-6 sm:max-w-[1300px] md:grid-cols-3">
-        <Card className="rounded-[20px] border border-[#FF0055] bg-[#F7F6F6] shadow-lg">
-          <CardHeader>
-            <h2 className="text-xl font-semibold">Build profile</h2>
-          </CardHeader>
-          <CardContent>
-            <p className="mb-4 text-sm text-gray-500">
-              Get access to more features.
-            </p>
-            <div className="">
-              <Button
-                variant="outline"
-                onClick={() => handleNavigation('/profile')}
-                className="rounded-2xl border-black"
-              >
-                Complete profile
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+        {!userInfo?.profileIsComplete && (
+          <Card className="rounded-[20px] border border-[#FF0055] bg-[#F7F6F6] shadow-lg">
+            <CardHeader>
+              <h2 className="text-xl font-semibold">Build profile</h2>
+            </CardHeader>
+            <CardContent>
+              <p className="mb-4 text-sm text-gray-500">
+                Get access to more features.
+              </p>
+              <div className="">
+                <Button
+                  variant="outline"
+                  onClick={() => handleNavigation('/profile')}
+                  className="rounded-2xl border-black"
+                >
+                  Complete profile
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         <Card className="rounded-[20px] border border-[#FF0055] bg-[#F7F6F6] shadow-lg">
           <CardHeader>
             <h2 className="text-xl font-semibold">Find your next job</h2>

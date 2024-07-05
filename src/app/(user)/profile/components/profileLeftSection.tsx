@@ -23,6 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { toast } from '@/components/ui/use-toast';
 import { SOMETHING_WENT_WRONG, isMyKnownError } from '@/lib/api';
 import { getAccessToken } from '@/lib/cookie';
 import useUserInfo from '@/lib/hooks/useUserInfo';
@@ -214,49 +215,86 @@ export default function ProfileLeftSection(): JSX.Element {
   };
 
   const handleSaveRateClick: SubmitHandler<RateInfo> = (data) => {
-    setIsEditingRate(false);
+    if (!data.perHourValue) {
+      toast({
+        description: (
+          <>
+            <p>{'Please enter a valid rate'}</p>
+          </>
+        ),
+        variant: 'destructive',
+      });
+    } else {
+      setIsEditingRate(false);
 
-    const payload = {
-      ...getDataPayload(userInfo),
-      ...data,
-    };
-    updateProfile({ data: payload, id: token || '' });
-    setIsEditingRate(false);
+      const payload = {
+        ...getDataPayload(userInfo),
+        ...data,
+      };
+      updateProfile({ data: payload, id: token || '' });
+      setIsEditingRate(false);
+    }
   };
 
   const handleSaveSkillsClick: SubmitHandler<SkillInfo> = (data) => {
-    setIsEditingSkills(false);
+    if (!data.tools) {
+      toast({
+        description: (
+          <>
+            <p>{'Please enter a valid skill'}</p>
+          </>
+        ),
+        variant: 'destructive',
+      });
+    } else {
+      setIsEditingSkills(false);
 
-    const payload = {
-      ...getDataPayload(userInfo),
-      ...data,
-    };
-    updateProfile({ data: payload, id: token || '' });
-    setIsEditingSkills(false);
+      const payload = {
+        ...getDataPayload(userInfo),
+        ...data,
+      };
+      updateProfile({ data: payload, id: token || '' });
+      setIsEditingSkills(false);
+    }
   };
 
   const handleSaveBioClick: SubmitHandler<BioInfo> = (data) => {
-    setIsEditingBio(false);
+    if (!data.bio) {
+      toast({
+        description: (
+          <>
+            <p>{'Please enter a valid bio'}</p>
+          </>
+        ),
+        variant: 'destructive',
+      });
+    } else {
+      setIsEditingBio(false);
 
-    const payload = {
-      ...getDataPayload(userInfo),
-      ...data,
-    };
-    updateProfile({ data: payload, id: token || '' });
+      const payload = {
+        ...getDataPayload(userInfo),
+        ...data,
+      };
+      updateProfile({ data: payload, id: token || '' });
 
-    setIsEditingBio(false);
+      setIsEditingBio(false);
+    }
   };
 
   const handleSaveTimezoneClick: SubmitHandler<TimezoneInfo> = (data) => {
-    setIsEditingTimezone(false);
+    if (!data.timezone) {
+      alert('Please enter a valid timezone');
+    } else {
+      setIsEditingTimezone(false);
 
-    const payload = {
-      ...getDataPayload(userInfo),
-      ...data,
-    };
-    updateProfile({ data: payload, id: token || '' });
-    // console.log(data);
-    setIsEditingTimezone(false);
+      const payload = {
+        ...getDataPayload(userInfo),
+        ...data,
+      };
+      updateProfile({ data: payload, id: token || '' });
+      // console.log(data);
+      setIsEditingTimezone(false);
+    }
   };
 
   const onUploadProfile = (url: string) => {
@@ -439,9 +477,9 @@ export default function ProfileLeftSection(): JSX.Element {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              <SelectItem value="[0,0]">
+                              {/* <SelectItem value="[0,0]">
                                 I&apos;d prefer not to say
-                              </SelectItem>
+                              </SelectItem> */}
                               <SelectItem value="[25,50]">
                                 $25 - $50/hr
                               </SelectItem>

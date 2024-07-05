@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/router';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -8,7 +8,7 @@ export default function ForgotPasswordPage() {
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const router = useRouter();
 
-  const handlePasswordReset = async (e) => {
+  const handlePasswordReset = async (e: FormEvent) => {
     e.preventDefault();
     if (newPassword === confirmNewPassword) {
       // Logic to handle password reset

@@ -50,28 +50,19 @@ export default function Project(): JSX.Element {
     control: control,
     formState: { errors: errors },
   } = form;
-  const onSubmit = async (data: {
-    title: string | Blob;
-    keywords: string[];
-    description: string | Blob;
-    document: string | Blob;
-  }) => {
+  const onSubmit = (data: ProjectData) => {
     const formData = new FormData();
 
+    // assuming 'document' is an array of File objects
+    formData.append('document', data.document);
+
     formData.append('title', data.title);
-
-    data.keywords.forEach((keyword) => formData.append('keywords', keyword));
-
     formData.append('description', data.description);
-    if (data.document) {
-      formData.append('document', data.document);
-    }
+    data.keywords.forEach((keyword) => formData.append('keywords[]', keyword));
 
-    const payLoad = { formData, token };
-    await createWork(payLoad);
-    console.log(payLoad);
+    // const payLoad: PostWorkPayLoad = { formData, token };
+    // createWork(payLoad);
   };
-
   return (
     <>
       {(isSuccess || isError) && (

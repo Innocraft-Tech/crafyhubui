@@ -14,7 +14,7 @@ import { Plus } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useState } from 'react';
 import ProgressBar from '../../components/progressbar/ProgressBar';
 
 const formatOneTimeDetails = (details: (string | number)[]): string[] => {
@@ -54,10 +54,13 @@ const formatOngoingDetails = (details: (string | number)[]): string[] => {
 };
 
 const JobsCard = () => {
+  const { userInfo } = useUserInfo();
+
+  const [appliedJob, setAppliedJob] = useState<string[]>(
+    userInfo?.appliedJobs || [],
+  );
   const { data: jobs, isLoading } = useGetJobsQuery();
   const router = useRouter();
-
-  const { userInfo } = useUserInfo();
 
   const handleLinkClick = () => {
     router.push('/jobs/newpost');
@@ -73,6 +76,7 @@ const JobsCard = () => {
   }
   const applyJob = (e: React.FormEvent<HTMLFormElement>, job: Job) => {
     e.preventDefault();
+
     if (!userInfo?.profileIsComplete) {
       toast({
         title: 'Complete Profile',
@@ -86,9 +90,25 @@ const JobsCard = () => {
         ),
         variant: 'destructive',
       });
+
       return;
     }
-    console.log('Applied to job', job);
+    // if (appliedJob.includes(job)) {
+    //   toast({
+    //     title: 'Already Applied',
+    //     description: 'You have already applied for this job.',
+    //     variant: 'destructive',
+    //   });
+    // } else {
+    //   // Add job to applied jobs
+    //   setAppliedJob([...appliedJob, job]);
+
+    //   toast({
+    //     title: 'Applied to job successfully',
+    //   });
+    // }
+
+    console.log('Applied to job', appliedJob);
   };
 
   return (
@@ -193,9 +213,9 @@ const JobsCard = () => {
                         </div>
                       )}
                   </div>
-                  {/* <p className="leading-7 text-gray-600 text-md">
-                {job.jobDescription}
-              </p> */}
+                  <p className="text-md leading-7 text-gray-600">
+                    {job.jobDescription}
+                  </p>
                 </div>
               </button>
             </DialogTrigger>
@@ -226,6 +246,11 @@ const JobsCard = () => {
                       </div>
                     </div>
                   </div>
+                  {/* {appliedJob.includes(job._id) ? (
+                    <Badge className="text-xs font-semibold">Applied</Badge>
+                  ) : (
+                    ''
+                  )} */}
                   {job.createdAt && (
                     <div className="ml-auto py-2">
                       {/* <p className="text-xs">Job posted at</p> */}

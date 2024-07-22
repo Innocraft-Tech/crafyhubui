@@ -1,11 +1,11 @@
 type Work = {
-  document: string;
+  document: File;
   title: string;
   description: string;
   keywords: string[];
 };
 
-type PostWorkPayLoad = { token: string; formData: Work };
+type PostWorkPayLoad = { formData: Work; token: string };
 
 type PostWorkResponse = {
   message?: string;

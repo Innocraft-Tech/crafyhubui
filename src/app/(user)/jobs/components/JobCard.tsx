@@ -93,20 +93,20 @@ const JobsCard = () => {
 
       return;
     }
-    // if (appliedJob.includes(job)) {
-    //   toast({
-    //     title: 'Already Applied',
-    //     description: 'You have already applied for this job.',
-    //     variant: 'destructive',
-    //   });
-    // } else {
-    //   // Add job to applied jobs
-    //   setAppliedJob([...appliedJob, job]);
+    if (appliedJob.includes(job)) {
+      toast({
+        title: 'Already Applied',
+        description: 'You have already applied for this job.',
+        variant: 'destructive',
+      });
+    } else {
+      // Add job to applied jobs
+      setAppliedJob([...appliedJob, job]);
 
-    //   toast({
-    //     title: 'Applied to job successfully',
-    //   });
-    // }
+      toast({
+        title: 'Applied to job successfully',
+      });
+    }
 
     console.log('Applied to job', appliedJob);
   };

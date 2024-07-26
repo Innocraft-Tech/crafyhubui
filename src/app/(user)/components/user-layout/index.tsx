@@ -9,10 +9,10 @@ import { useGetAllUsersQuery } from '@/redux/api/usersApi';
 import routes from '@/routes';
 import Link from 'next/link';
 import { redirect, usePathname } from 'next/navigation';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import React, { useEffect, useState } from 'react';
 import { FiAlignJustify } from 'react-icons/fi';
 import AppWrappers from '../app-wrappers/app-wrappers';
-
 export default function UserLayout({
   children,
 }: Readonly<{

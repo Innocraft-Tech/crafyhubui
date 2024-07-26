@@ -3,7 +3,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
-import { toast } from '@/components/ui/use-toast';
 import useUserInfo from '@/lib/hooks/useUserInfo';
 import { cn } from '@/lib/utils';
 import { useGetJobsQuery } from '@/redux/api/jobApi';
@@ -12,10 +11,8 @@ import { format } from 'date-fns/format';
 import { formatDistanceToNow } from 'date-fns/formatDistanceToNow';
 import { Plus } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
-import ProgressBar from '../../components/progressbar/ProgressBar';
 
 const formatOneTimeDetails = (details: (string | number)[]): string[] => {
   if (details.length < 4) {
@@ -66,49 +63,41 @@ const JobsCard = () => {
     router.push('/jobs/newpost');
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex min-h-[75vh] items-center justify-center">
-        {/* <LoaderIcon className="my-28 h-16 w-16 animate-spin text-primary/60" /> */}
-        <ProgressBar />
-      </div>
-    );
-  }
   const applyJob = (e: React.FormEvent<HTMLFormElement>, job: Job) => {
     e.preventDefault();
 
-    if (!userInfo?.profileIsComplete) {
-      toast({
-        title: 'Complete Profile',
-        description: (
-          <>
-            <p>{'Please complete your profile to apply for a job'}</p>
-            <Button className="px-0" variant="link" asChild>
-              <Link href="/profile">Click here to go to the profile page</Link>
-            </Button>
-          </>
-        ),
-        variant: 'destructive',
-      });
+    // if (!userInfo?.profileIsComplete) {
+    //   toast({
+    //     title: 'Complete Profile',
+    //     description: (
+    //       <>
+    //         <p>{'Please complete your profile to apply for a job'}</p>
+    //         <Button className="px-0" variant="link" asChild>
+    //           <Link href="/profile">Click here to go to the profile page</Link>
+    //         </Button>
+    //       </>
+    //     ),
+    //     variant: 'destructive',
+    //   });
 
-      return;
-    }
-    if (appliedJob.includes(job)) {
-      toast({
-        title: 'Already Applied',
-        description: 'You have already applied for this job.',
-        variant: 'destructive',
-      });
-    } else {
-      // Add job to applied jobs
-      setAppliedJob([...appliedJob, job]);
+    //   return;
+    // }
+    //   if (appliedJob.includes(job)) {
+    //     toast({
+    //       title: 'Already Applied',
+    //       description: 'You have already applied for this job.',
+    //       variant: 'destructive',
+    //     });
+    //   } else {
+    //     // Add job to applied jobs
+    //     setAppliedJob([...appliedJob, job]);
 
-      toast({
-        title: 'Applied to job successfully',
-      });
-    }
+    //     toast({
+    //       title: 'Applied to job successfully',
+    //     });
+    //   }
 
-    console.log('Applied to job', appliedJob);
+    //   console.log('Applied to job', appliedJob);
   };
 
   return (
@@ -137,7 +126,7 @@ const JobsCard = () => {
                 <div className="flex w-full items-center">
                   <div className="relative mr-4 h-16 w-16">
                     <Image
-                      src={job.client?.profilePicture || ''}
+                      src={`/${job.client?.profilePicture || ''}`}
                       alt="Company Logo"
                       layout="fill"
                       objectFit="cover"

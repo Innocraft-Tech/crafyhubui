@@ -11,7 +11,7 @@ const progressBar = () => {
       setProgress((prevProgress) =>
         prevProgress >= 100 ? 0 : prevProgress + 10,
       );
-    }, 6000);
+    }, 600);
     return () => {
       clearInterval(interval);
     };
@@ -21,7 +21,7 @@ const progressBar = () => {
       <div className={styles.loadingContainer}>
         <div
           className={styles.loadingBar}
-          style={{ width: `${progress} px` }}
+          style={{ width: `${progress} %` }}
         ></div>
       </div>
     </>

@@ -17,7 +17,7 @@ import useUserInfo from '@/lib/hooks/useUserInfo';
 import { useGetAllUsersQuery } from '@/redux/api/usersApi';
 import { LoaderIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import ProgressBar from '../../components/progressbar/ProgressBar';
+
 import { ProjectSlider } from './projectsslider';
 export function DiscoverCard(): JSX.Element {
   const socket = useSocket(process.env.NEXT_PUBLIC_SERVER_SOCKET_URI || '');
@@ -48,7 +48,6 @@ export function DiscoverCard(): JSX.Element {
   if (isLoading) {
     return (
       <div className="flex min-h-[75vh] items-center justify-center">
-        <ProgressBar />
         <LoaderIcon className="my-28 h-16 w-16 animate-spin text-primary/60" />
       </div>
     );

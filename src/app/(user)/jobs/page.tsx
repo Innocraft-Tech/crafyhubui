@@ -13,7 +13,6 @@ export default function Jobs() {
       {/* <h4 className="px-5 py-5 pb-0">Find Your Dream Jobs</h4> */}
 
       <Filters />
-
       <JobsCard />
     </>
   );

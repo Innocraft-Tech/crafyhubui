@@ -1,5 +1,4 @@
 'use client';
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 type CheckboxOption = {
   id: string;
@@ -94,25 +93,27 @@ const EmailPreferences: React.FC = () => {
     });
   };
 
-  const handleSubmit = async () => {
-    try {
-      const userId = '';
-      const preferences = {
-        marketing: formData.marketing[0].isChecked,
-        support: formData.support[0].isChecked,
-        suggestion: formData.suggestion[0].isChecked,
-        newsletter: formData.newsletter[0].isChecked,
-      };
+  // const handleSubmit = async () => {
+  //   try {
+  //     const userId = '';
+  //     const preferences = {
+  //       marketing: formData.marketing[0].isChecked,
+  //       support: formData.support[0].isChecked,
+  //       suggestion: formData.suggestion[0].isChecked,
+  //       newsletter: formData.newsletter[0].isChecked,
+  //     };
 
-      await axios.post(`/user/update/emailpreference/${userId}`, {
-        preferences,
-      });
-      alert('Email preferences updated successfully');
-    } catch (error) {
-      console.error('Failed to update email preferences:', error);
-      alert('An error occurred while updating email preferences');
-    }
-  };
+  //     await axios.post(`/user/update/emailpreference/${userId}`, {
+  //       preferences,
+  //     });
+  //     alert('Email preferences updated successfully');
+  //   } catch (error) {
+  //     console.error('Failed to update email preferences:', error);
+  //     alert('An error occurred while updating email preferences');
+  //   }
+  // };
+
+  function handleSubmit() {}
 
   return (
     <>

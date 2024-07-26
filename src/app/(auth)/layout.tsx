@@ -1,3 +1,4 @@
+'use client';
 import Wrapper from '@/components/layout';
 
 export default function RootLayout({

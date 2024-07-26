@@ -1,3 +1,4 @@
+'use client';
 export default function ForgotPassword() {
   return (
     <div className="container mx-auto p-4">

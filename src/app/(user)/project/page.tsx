@@ -51,6 +51,7 @@ export default function Project(): JSX.Element {
     formState: { errors: errors },
   } = form;
   const onSubmit = (data: ProjectData) => {
+    alert('onSubmit');
     const formData = new FormData();
 
     // assuming 'document' is an array of File objects

@@ -81,3 +81,18 @@
     height: 100%;
   }
 }
+
+#nprogress .bar {
+  height: 8px !important; /* Increase the height to make the progress bar bigger */
+  background: #29d !important;
+}
+
+#nprogress .peg {
+  box-shadow:
+    0 0 10px #29d,
+    0 0 5px #29d !important;
+}
+
+#nprogress .spinner {
+  display: none !important; /* Hide the spinner */
+}

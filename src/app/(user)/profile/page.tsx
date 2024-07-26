@@ -24,7 +24,7 @@ import { useUpdateProfileMutation } from '@/redux/api/usersApi';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { formatDistanceToNow } from 'date-fns';
-import { LoaderIcon, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import Link from 'next/link';
 import {
   JSXElementConstructor,
@@ -38,7 +38,6 @@ import {
   useState,
 } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import ProgressBar from '../components/progressbar/ProgressBar';
 import ProfileLeftSection from './components/profileLeftSection';
 import { AddOneLinerInfo, addOneLinerSchema } from './components/profileSchema';
 const getDataPayload = (userInfo: User | undefined) => {
@@ -97,14 +96,14 @@ export default function Profile(): JSX.Element {
       });
     }
   }, [userInfo, resetAddOneLinerForm]);
-  if (isLoadingProfile) {
-    return (
-      <div className="flex min-h-[75vh] items-center justify-center">
-        <ProgressBar />
-        <LoaderIcon className="my-28 h-16 w-16 animate-spin text-primary/60" />
-      </div>
-    );
-  }
+  // if (isLoadingProfile) {
+  //   return (
+  //     <div className="flex min-h-[75vh] items-center justify-center">
+  //       <ProgressBar />
+  //       <LoaderIcon className="my-28 h-16 w-16 animate-spin text-primary/60" />
+  //     </div>
+  //   );
+  // }
 
   if (isError || !userInfo) {
     return (
@@ -142,9 +141,9 @@ export default function Profile(): JSX.Element {
   //   return <div className="mx-2">no data available</div>;
   // }
 
-  if (isLoading) {
-    return <ProgressBar />;
-  }
+  // if (isLoading) {
+  //   return <ProgressBar />;
+  // }
 
   const profilePercentage = checkProfileComplete(userInfo);
   const UpdateAdditionalInfo = () => {

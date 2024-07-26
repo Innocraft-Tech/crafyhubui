@@ -50,7 +50,7 @@ export function Sidebar({
 
   return (
     <div
-      className={`sm:none linear dark:!bg-navy-800 fixed !z-50 flex min-h-full flex-col bg-white pb-10 shadow-2xl shadow-white/5 transition-all duration-300 dark:text-white md:!z-50 lg:!z-50 lg:border-r xl:!z-0 ${
+      className={`sm:none linear dark:!bg-navy-800 fixed !z-30 flex min-h-full flex-col bg-white pb-10 shadow-2xl shadow-white/5 transition-all duration-300 dark:text-white md:!z-30 lg:!z-30 lg:border-r xl:!z-30 ${
         open ? 'translate-x-0' : '-translate-x-96 xl:translate-x-0'
       } ${collapsed && !open ? 'w-20' : 'w-64'}`}
     >

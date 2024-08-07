@@ -100,6 +100,13 @@ export default function AuthenticationPage() {
                 Privacy Policy
               </Link>
             </p>
+            <Link
+              href="/forgotpassword"
+              className="px-8 text-center text-sm underline underline-offset-4 hover:text-primary"
+            >
+              {' '}
+              forgot password
+            </Link>
             <p className="px-8 text-center text-sm">
               Don&apos;t have an account?
               <Link

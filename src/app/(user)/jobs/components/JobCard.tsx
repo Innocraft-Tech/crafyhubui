@@ -1,19 +1,30 @@
 'use client';
+import Card from '@/components/card';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import {
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import useUserInfo from '@/lib/hooks/useUserInfo';
-import { cn } from '@/lib/utils';
 import { useGetJobsQuery } from '@/redux/api/jobApi';
-import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { format } from 'date-fns/format';
-import { formatDistanceToNow } from 'date-fns/formatDistanceToNow';
+import { format } from 'date-fns';
 import { Plus } from 'lucide-react';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
-
 const formatOneTimeDetails = (details: (string | number)[]): string[] => {
   if (details.length < 4) {
     return [];
@@ -114,242 +125,235 @@ const JobsCard = () => {
       </div>
 
       <div className="space-y-4">
-        {jobs?.map((job) => (
-          <Dialog key={job._id}>
-            <DialogTrigger asChild>
-              <button
-                // key={job._id}
-                className={cn(
-                  'items-initial flex w-full flex-col gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent',
-                )}
-              >
-                <div className="flex w-full items-center">
-                  <div className="relative mr-4 h-16 w-16">
-                    <Image
-                      src={`/${job.client?.profilePicture || ''}`}
-                      alt="Company Logo"
-                      layout="fill"
-                      objectFit="cover"
-                      className="rounded-full"
-                    />
-                  </div>
-                  <div className="flex-grow">
-                    <p className="text-sm text-muted-foreground">
-                      {job.client?.companyName ??
-                        `${job.client?.firstName || ''} ${job.client?.lastName || ''}`}
-                    </p>
-                    <h3 className="scroll-m-20 text-2xl font-medium tracking-tight">
-                      {job.jobTitle}
-                    </h3>
-                  </div>
-                  <div className="flex flex-col justify-between self-start">
-                    {job.createdAt ? (
-                      <p className="font-small text-sm leading-7 text-gray-600">
-                        {formatDistanceToNow(new Date(job.createdAt), {
-                          addSuffix: true,
-                        })}
-                      </p>
-                    ) : (
-                      ''
-                    )}
-                  </div>
-                </div>
-                <div>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {job.requiredSkills.map((skill) => (
-                      <Badge
-                        key={skill}
-                        className="p-1 px-2 text-sm font-normal text-badge"
-                        variant={'secondary'}
-                      >
-                        {skill}
-                      </Badge>
-                    ))}
-                  </div>
-                  <div className="mt-4">
-                    {job.paymentOneTime &&
-                      job.oneTime &&
-                      job.oneTime.length >= 2 && (
-                        <div className="mb-4 flex flex-wrap items-center space-x-2 text-sm">
-                          {formatOneTimeDetails(job.oneTime).map(
-                            (detail, index) =>
-                              detail && (
-                                <React.Fragment key={index}>
-                                  {index > 0 && (
-                                    <span className="text-gray-500">•</span>
-                                  )}
-                                  <p className="text-gray-700">{detail}</p>
-                                </React.Fragment>
-                              ),
-                          )}
+        {jobs?.map((job, id) => (
+          <>
+            <div className="border">
+              <Card key={id}>
+                <CardHeader>
+                  <CardTitle>
+                    {' '}
+                    <div className="">
+                      <div className="flex items-start px-4 pl-0">
+                        <div className="flex items-start gap-4 text-sm">
+                          <Avatar>
+                            <AvatarImage
+                              alt={job?.client?.firstName}
+                              src={job?.client?.profilePicture}
+                            />
+                            <AvatarFallback>
+                              {job?.client?.firstName
+                                .split(' ')
+                                .map((chunk) => chunk[0])
+                                .join('')}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="grid gap-1">
+                            <div className="text-lg font-semibold">
+                              {job.jobTitle}
+                            </div>
+                            <div className="line-clamp-1 text-xs">
+                              {' '}
+                              {job.client?.companyName ??
+                                `${job.client?.firstName || ''} ${job.client?.lastName || ''}`}
+                            </div>
+                          </div>
                         </div>
-                      )}
+                        {/* {appliedJob.includes(job._id) ? (
+      <Badge className="text-xs font-semibold">Applied</Badge>
+    ) : (
+      ''
+    )} */}{' '}
+                        <div className="ml-auto">
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button variant="outline">Apply Job</Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                  <div>
+                                    {' '}
+                                    <div className="flex flex-1 flex-col">
+                                      <div className="flex items-start px-4 pl-0">
+                                        <div className="flex items-start gap-4 text-sm">
+                                          <Avatar>
+                                            <AvatarImage
+                                              alt={job?.client?.firstName}
+                                              src={job?.client?.profilePicture}
+                                            />
+                                            <AvatarFallback>
+                                              {job?.client?.firstName
+                                                .split(' ')
+                                                .map((chunk) => chunk[0])
+                                                .join('')}
+                                            </AvatarFallback>
+                                          </Avatar>
+                                          <div className="grid gap-1">
+                                            <div className="text-lg font-semibold">
+                                              {job.jobTitle}
+                                            </div>
+                                            <div className="line-clamp-1 text-xs">
+                                              {' '}
+                                              {job.client?.companyName ??
+                                                `${job.client?.firstName || ''} ${job.client?.lastName || ''}`}
+                                            </div>
+                                          </div>
+                                        </div>
 
-                    {job.paymentOngoing &&
-                      job.onGoing &&
-                      job.onGoing.length >= 2 && (
-                        <div className="flex flex-wrap items-center space-x-2 text-sm">
-                          {formatOngoingDetails(job.onGoing).map(
-                            (detail, index) => (
-                              <React.Fragment key={index}>
-                                {index > 0 && (
-                                  <span className="text-gray-500">•</span>
-                                )}
-                                <p className="text-gray-700">{detail}</p>
-                              </React.Fragment>
-                            ),
-                          )}
+                                        {job.createdAt && (
+                                          <div className="ml-auto py-2">
+                                            {/* <p className="text-xs">Job posted at</p> */}
+                                            <div className="text-xs text-muted-foreground">
+                                              {format(
+                                                new Date(job.createdAt),
+                                                'PPpp',
+                                              )}
+                                            </div>
+                                          </div>
+                                        )}
+                                      </div>
+                                      {/* <Separator /> */}
+                                      <div className="px-4 pl-0">
+                                        <div className="mt-2 flex-1 whitespace-pre-wrap text-sm">
+                                          {job.jobDescription}
+                                        </div>
+                                        <div className="mt-4 flex flex-wrap gap-2">
+                                          {job.requiredSkills.map((skill) => (
+                                            <Badge
+                                              key={skill}
+                                              className="p-1 px-2 text-sm font-normal text-badge"
+                                              variant={'secondary'}
+                                            >
+                                              {skill}
+                                            </Badge>
+                                          ))}
+                                        </div>
+                                        <div className="mt-4">
+                                          {job.paymentOneTime &&
+                                            job.oneTime &&
+                                            job.oneTime.length >= 2 && (
+                                              <div className="mb-4 flex flex-wrap items-center space-x-2 text-sm">
+                                                {formatOneTimeDetails(
+                                                  job.oneTime,
+                                                ).map(
+                                                  (detail, index) =>
+                                                    detail && (
+                                                      <React.Fragment
+                                                        key={index}
+                                                      >
+                                                        {index > 0 && (
+                                                          <span className="text-gray-500">
+                                                            •
+                                                          </span>
+                                                        )}
+                                                        <p className="text-gray-700">
+                                                          {detail}
+                                                        </p>
+                                                      </React.Fragment>
+                                                    ),
+                                                )}
+                                              </div>
+                                            )}
+
+                                          {job.paymentOngoing &&
+                                            job.onGoing &&
+                                            job.onGoing.length >= 2 && (
+                                              <div className="flex flex-wrap items-center space-x-2 text-sm">
+                                                {formatOngoingDetails(
+                                                  job.onGoing,
+                                                ).map((detail, index) => (
+                                                  <React.Fragment key={index}>
+                                                    {index > 0 && (
+                                                      <span className="text-gray-500">
+                                                        •
+                                                      </span>
+                                                    )}
+                                                    <p className="text-gray-700">
+                                                      {detail}
+                                                    </p>
+                                                  </React.Fragment>
+                                                ))}
+                                              </div>
+                                            )}
+                                        </div>
+                                      </div>
+
+                                      {/* <Separator className="mt-auto" /> */}
+                                    </div>
+                                  </div>
+                                </AlertDialogTitle>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <div className="px-4 pl-0 pt-0">
+                                  <form
+                                    noValidate
+                                    onSubmit={(e) => applyJob(e, job)}
+                                  >
+                                    <div className="grid gap-4">
+                                      <div className="flex items-center justify-end gap-4">
+                                        <AlertDialogCancel>
+                                          Close
+                                        </AlertDialogCancel>
+                                        <AlertDialogAction>
+                                          submit
+                                        </AlertDialogAction>
+                                      </div>
+                                    </div>
+                                  </form>
+                                </div>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
                         </div>
-                      )}
-                  </div>
-                  <p className="text-md leading-7 text-gray-600">
-                    {job.jobDescription}
-                  </p>
-                </div>
-              </button>
-            </DialogTrigger>
-            <DialogContent className="sm:mix-w-[425px]">
-              <div className="flex flex-1 flex-col">
-                <div className="flex items-start px-4 pl-0">
-                  <div className="flex items-start gap-4 text-sm">
-                    <Avatar>
-                      <AvatarImage
-                        alt={job?.client?.firstName}
-                        src={job?.client?.profilePicture}
-                      />
-                      <AvatarFallback>
-                        {job?.client?.firstName
-                          .split(' ')
-                          .map((chunk) => chunk[0])
-                          .join('')}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="grid gap-1">
-                      <div className="text-lg font-semibold">
-                        {job.jobTitle}
-                      </div>
-                      <div className="line-clamp-1 text-xs">
-                        {' '}
-                        {job.client?.companyName ??
-                          `${job.client?.firstName || ''} ${job.client?.lastName || ''}`}
                       </div>
                     </div>
-                  </div>
-                  {/* {appliedJob.includes(job._id) ? (
-                    <Badge className="text-xs font-semibold">Applied</Badge>
-                  ) : (
-                    ''
-                  )} */}
-                  {job.createdAt && (
-                    <div className="ml-auto py-2">
-                      {/* <p className="text-xs">Job posted at</p> */}
-                      <div className="text-xs text-muted-foreground">
-                        {format(new Date(job.createdAt), 'PPpp')}
+                  </CardTitle>
+                  <CardDescription>
+                    {' '}
+                    <div className="px-4 pl-0">
+                      <div className="mt-2 flex-1 whitespace-pre-wrap text-sm">
+                        {job.jobDescription}
                       </div>
-                    </div>
-                  )}
-                </div>
-                {/* <Separator /> */}
-                <div className="px-4 pl-0">
-                  <div className="mt-2 flex-1 whitespace-pre-wrap text-sm">
-                    {job.jobDescription}
-                  </div>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {job.requiredSkills.map((skill) => (
-                      <Badge
-                        key={skill}
-                        className="p-1 px-2 text-sm font-normal text-badge"
-                        variant={'secondary'}
-                      >
-                        {skill}
-                      </Badge>
-                    ))}
-                  </div>
-                  <div className="mt-4">
-                    {job.paymentOneTime &&
-                      job.oneTime &&
-                      job.oneTime.length >= 2 && (
-                        <div className="mb-4 flex flex-wrap items-center space-x-2 text-sm">
-                          {formatOneTimeDetails(job.oneTime).map(
-                            (detail, index) =>
-                              detail && (
-                                <React.Fragment key={index}>
-                                  {index > 0 && (
-                                    <span className="text-gray-500">•</span>
-                                  )}
-                                  <p className="text-gray-700">{detail}</p>
-                                </React.Fragment>
-                              ),
-                          )}
-                        </div>
-                      )}
-
-                    {job.paymentOngoing &&
-                      job.onGoing &&
-                      job.onGoing.length >= 2 && (
-                        <div className="flex flex-wrap items-center space-x-2 text-sm">
-                          {formatOngoingDetails(job.onGoing).map(
-                            (detail, index) => (
-                              <React.Fragment key={index}>
-                                {index > 0 && (
-                                  <span className="text-gray-500">•</span>
-                                )}
-                                <p className="text-gray-700">{detail}</p>
-                              </React.Fragment>
-                            ),
-                          )}
-                        </div>
-                      )}
-                  </div>
-                </div>
-                {/* <Separator className="mt-auto" /> */}
-                <div className="px-4 pl-0 pt-0">
-                  <form noValidate onSubmit={(e) => applyJob(e, job)}>
-                    <div className="grid gap-4">
-                      <div className="flex items-center justify-end gap-4">
-                        <DialogPrimitive.Close>
-                          <Button
-                            // onClick={(e) => e.preventDefault()}
-                            size="sm"
-                            className=""
-                            variant={'outline'}
-                            type="button"
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {job.requiredSkills.map((skill) => (
+                          <Badge
+                            key={skill}
+                            className="p-1 px-2 text-sm font-normal text-badge"
+                            variant={'secondary'}
                           >
-                            Close
-                          </Button>
-                        </DialogPrimitive.Close>
-                        <Button size="sm" className="" type="submit">
-                          Apply Job
-                        </Button>
+                            {skill}
+                          </Badge>
+                        ))}
                       </div>
                     </div>
-                  </form>
-                </div>
-              </div>
-              {/* <DialogHeader>
-                <DialogTitle>{job.jobTitle}</DialogTitle>
-                <DialogDescription>{job.jobDescription}</DialogDescription>
-              </DialogHeader>
-              <div>
-                <div className="flex flex-wrap gap-2">
-                  {job.requiredSkills.map((skill) => (
-                    <Badge
-                      key={skill}
-                      className="p-1 px-2 text-sm font-normal text-badge"
-                      variant={'secondary'}
-                    >
-                      {skill}
-                    </Badge>
-                  ))}
-                </div>
-                <div className="mt-4">
-                  {job.paymentOneTime &&
-                    job.oneTime &&
-                    job.oneTime.length >= 2 && (
-                      <div className="mb-4 flex flex-wrap items-center space-x-2 text-sm">
-                        {formatOneTimeDetails(job.oneTime).map(
-                          (detail, index) =>
-                            detail && (
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="mt-4">
+                    {job.paymentOneTime &&
+                      job.oneTime &&
+                      job.oneTime.length >= 2 && (
+                        <div className="mb-4 flex flex-wrap items-center space-x-2 text-sm">
+                          {formatOneTimeDetails(job.oneTime).map(
+                            (detail, index) =>
+                              detail && (
+                                <React.Fragment key={index}>
+                                  {index > 0 && (
+                                    <span className="text-gray-500">•</span>
+                                  )}
+                                  <p className="text-gray-700">{detail}</p>
+                                </React.Fragment>
+                              ),
+                          )}
+                        </div>
+                      )}
+
+                    {job.paymentOngoing &&
+                      job.onGoing &&
+                      job.onGoing.length >= 2 && (
+                        <div className="flex flex-wrap items-center space-x-2 text-sm">
+                          {formatOngoingDetails(job.onGoing).map(
+                            (detail, index) => (
                               <React.Fragment key={index}>
                                 {index > 0 && (
                                   <span className="text-gray-500">•</span>
@@ -357,33 +361,14 @@ const JobsCard = () => {
                                 <p className="text-gray-700">{detail}</p>
                               </React.Fragment>
                             ),
-                        )}
-                      </div>
-                    )}
-
-                  {job.paymentOngoing &&
-                    job.onGoing &&
-                    job.onGoing.length >= 2 && (
-                      <div className="flex flex-wrap items-center space-x-2 text-sm">
-                        {formatOngoingDetails(job.onGoing).map(
-                          (detail, index) => (
-                            <React.Fragment key={index}>
-                              {index > 0 && (
-                                <span className="text-gray-500">•</span>
-                              )}
-                              <p className="text-gray-700">{detail}</p>
-                            </React.Fragment>
-                          ),
-                        )}
-                      </div>
-                    )}
-                </div>
-              </div>
-              <DialogFooter>
-                <Button type="submit">Apply</Button>
-              </DialogFooter> */}
-            </DialogContent>
-          </Dialog>
+                          )}
+                        </div>
+                      )}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </>
         ))}
       </div>
     </div>

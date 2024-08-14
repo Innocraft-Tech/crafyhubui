@@ -50,19 +50,31 @@ export default function Project(): JSX.Element {
     control: control,
     formState: { errors: errors },
   } = form;
-  const onSubmit = (data: ProjectData) => {
-    alert('onSubmit');
-    const formData = new FormData();
+  const onSubmit = async (data: ProjectData) => {
+    try {
+      const formData = new FormData();
 
-    // assuming 'document' is an array of File objects
-    formData.append('document', data.document);
+      // Assuming 'document' is a File object
+      formData.append('document', data.document);
 
-    formData.append('title', data.title);
-    formData.append('description', data.description);
-    data.keywords.forEach((keyword) => formData.append('keywords[]', keyword));
+      formData.append('title', data.title);
+      formData.append('description', data.description);
+      data.keywords.forEach((keyword) =>
+        formData.append('keywords[]', keyword),
+      );
 
-    // const payLoad: PostWorkPayLoad = { formData, token };
-    // createWork(payLoad);
+      // Assuming createWork expects an object with formData and a token
+      const payLoad: PostWorkPayLoad = { formData, token };
+
+      // Send the formData using createWork
+      await createWork(payLoad);
+
+      // Handle success (optional)
+      console.log('Form submitted successfully');
+    } catch (error) {
+      // Handle error
+      console.error('An error occurred while submitting the form:', error);
+    }
   };
   return (
     <>

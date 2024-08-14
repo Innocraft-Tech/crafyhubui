@@ -1,5 +1,4 @@
-import apiSlice from './api';
-
+import { default as apiSlice } from './api';
 const jobApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getJobs: builder.query<Job[], void>({
@@ -24,8 +23,33 @@ const jobApiSlice = apiSlice.injectEndpoints({
         providesTags: [{ type: 'Jobs', id: `${userId}` }],
       }),
     }),
+    applyJob: builder.mutation<any, { userId: string; jobId: string }>({
+      query: ({ userId, jobId }) => ({
+        url: `job/apply/${jobId}`,
+        method: 'POST',
+
+        body: {
+          userId,
+        },
+      }),
+    }),
+    updatePostJob: builder.mutation<any, any>({
+      query: ({ jobid, token, data }) => ({
+        url: `job/${jobid} `,
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useGetJobsQuery, usePostJobMutation, useGetUserPostJobQuery } =
-  jobApiSlice;
+export const {
+  useGetJobsQuery,
+  usePostJobMutation,
+  useGetUserPostJobQuery,
+  useApplyJobMutation,
+  useUpdatePostJobMutation,
+} = jobApiSlice;

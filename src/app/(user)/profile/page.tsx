@@ -4,15 +4,8 @@
 import HandleResponse from '@/components/common/HandleResponse';
 import InputField from '@/components/forms/input-field';
 import { Alert, AlertTitle } from '@/components/ui/alert';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Form } from '@/components/ui/form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SOMETHING_WENT_WRONG, isMyKnownError } from '@/lib/api';
@@ -23,21 +16,11 @@ import { useGetUserPostJobQuery } from '@/redux/api/jobApi';
 import { useUpdateProfileMutation } from '@/redux/api/usersApi';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { skipToken } from '@reduxjs/toolkit/query';
-import { formatDistanceToNow } from 'date-fns';
 import { X } from 'lucide-react';
 import Link from 'next/link';
-import {
-  JSXElementConstructor,
-  Key,
-  PromiseLikeOfReactNode,
-  ReactElement,
-  ReactNode,
-  ReactPortal,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import JobEdit from './components/JobEdit';
 import ProfileLeftSection from './components/profileLeftSection';
 import { AddOneLinerInfo, addOneLinerSchema } from './components/profileSchema';
 const getDataPayload = (userInfo: User | undefined) => {
@@ -169,12 +152,12 @@ export default function Profile(): JSX.Element {
 
       <div className="flex flex-col md:flex-row">
         {/* Left Section */}
-        <div className="w-full p-6 md:w-1/3">
+        <div className="w-full md:w-1/3 md:p-5">
           <ProfileLeftSection />
         </div>
 
         {/* Right Section */}
-        <div className="w-full p-6 md:w-2/3">
+        <div className="my-3 w-full md:max-w-screen-lg md:p-4">
           <Card className="w-full shadow-none">
             <CardContent>
               <div className="flex w-full cursor-pointer items-center justify-start py-3">
@@ -274,86 +257,35 @@ export default function Profile(): JSX.Element {
                   <TabsTrigger value="jobs">Jobs</TabsTrigger>
                 </TabsList>
                 <TabsContent value="work">
-                  <div className="rounded-lg bg-yellow-100 p-4 text-yellow-800">
-                    Need project ideas?{' '}
-                    <a href="#" className="text-blue-500">
-                      Generate AI suggestions
-                    </a>
-                  </div>
-                  <div className="mt-4 flex items-center rounded-lg bg-gray-100 p-4">
-                    <Link href="/jobs/newpost">
-                      <Button className="mr-4 rounded-full border border-gray-300 bg-white p-2">
-                        <span className="text-2xl">+</span>
-                      </Button>
-                    </Link>
-                    <div>
-                      <h2 className="font-bold text-gray-700"> Post Job </h2>
-
-                      <p className="text-gray-500">
-                        Your projects should highlight your best skills and
-                        experience.
-                      </p>
+                  <div>
+                    <div className="rounded-lg bg-yellow-100 p-4 text-yellow-800">
+                      Need project ideas?{' '}
                       <a href="#" className="text-blue-500">
-                        Import content in seconds
+                        Generate AI suggestions
                       </a>
+                    </div>
+                    <div className="mt-4 flex items-center rounded-lg bg-gray-100 p-4">
+                      <Link href="/jobs/newpost">
+                        <Button className="mr-4 rounded-full border border-gray-300 bg-white p-2">
+                          <span className="text-2xl">+</span>
+                        </Button>
+                      </Link>
+                      <div>
+                        <h2 className="font-bold text-gray-700"> Post Job </h2>
+
+                        <p className="text-gray-500">
+                          Your projects should highlight your best skills and
+                          experience.
+                        </p>
+                        <a href="#" className="text-blue-500">
+                          Import content in seconds
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </TabsContent>
-                <TabsContent value="jobs">
-                  <div>
-                    {userPostJob.map(
-                      (postDetails: any, index: Key | null | undefined) => (
-                        // eslint-disable-next-line react/jsx-key
-                        <div className="">
-                          <Card className="my-2" key={index}>
-                            <CardHeader>
-                              <CardTitle className="text-center">
-                                {postDetails.jobTitle}
-                              </CardTitle>
-                              <CardTitle className="text-right text-xs">
-                                {formatDistanceToNow(
-                                  new Date(postDetails.updatedAt),
-                                  {
-                                    addSuffix: true,
-                                  },
-                                )}
-                              </CardTitle>
-                              <CardDescription className="relative bottom-4 text-center">
-                                {postDetails.jobDescription}
-                              </CardDescription>
-                              <CardContent className="text-center">
-                                <div className="">
-                                  {postDetails.requiredSkills.map(
-                                    (
-                                      skill:
-                                        | string
-                                        | number
-                                        | boolean
-                                        | ReactElement<
-                                            any,
-                                            string | JSXElementConstructor<any>
-                                          >
-                                        | Iterable<ReactNode>
-                                        | ReactPortal
-                                        | PromiseLikeOfReactNode
-                                        | null
-                                        | undefined,
-                                      index: Key | null | undefined,
-                                    ) => (
-                                      <Badge className="mx-1" key={index}>
-                                        {skill}
-                                      </Badge>
-                                    ),
-                                  )}
-                                </div>
-                              </CardContent>
-                            </CardHeader>
-                          </Card>
-                        </div>
-                      ),
-                    )}
-                  </div>
-                </TabsContent>
+
+                <JobEdit />
               </Tabs>
             </CardContent>
           </Card>

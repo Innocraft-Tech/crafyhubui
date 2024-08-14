@@ -7,9 +7,6 @@ const workApiSlice = apiSlice.injectEndpoints({
         url: `/works/upload/${token}`,
         method: 'POST',
         body: formData,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }),
     }),
   }),

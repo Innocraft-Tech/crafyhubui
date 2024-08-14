@@ -5,7 +5,7 @@ type Work = {
   keywords: string[];
 };
 
-type PostWorkPayLoad = { formData: Work; token: string };
+type PostWorkPayLoad = { formData: formData; token: string };
 
 type PostWorkResponse = {
   message?: string;

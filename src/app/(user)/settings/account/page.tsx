@@ -1,326 +1,176 @@
 'use client';
-import React, { SetStateAction, useState } from 'react';
-import { HiOutlinePencilSquare } from 'react-icons/hi2';
-import { RiDeleteBin6Fill } from 'react-icons/ri';
-type AccountInformationData = {
-  email: string;
-  birthdate: string;
-  calendarLink: string;
-  profileDomain: string;
-};
-
-const initialAccountInformation: AccountInformationData = {
-  email: 'nagarajthangaraj872@gmail.com',
-  birthdate: '24/12/2024',
-  calendarLink: 'Cal.com',
-  profileDomain: 'contra.com/nagaraj_thangaraj',
-};
-
-interface EditEmailProps {
-  accountInformation: {
-    [x: string]: any;
-    email: string;
-  };
-  setAccountInformation: React.Dispatch<SetStateAction<AccountInformationData>>;
-
-  initialAccountInformation: AccountInformationData;
-  editFunc?: any;
-}
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { toast } from '@/components/ui/use-toast';
+import useUserInfo from '@/lib/hooks/useUserInfo';
+import {
+  useChangeUserEmailMutation,
+  useGetAccountInformationQuery,
+} from '@/redux/api/accountInformation';
+import { LoaderIcon } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { FaPencilAlt } from 'react-icons/fa';
 
 const AccountInformation: React.FC = () => {
-  const [accountInformation, setAccountInformation] =
-    useState<AccountInformationData>(initialAccountInformation);
-  const [activeEmail, setActiveEmail] = useState(false);
-  const [activeDate, setActiveDate] = useState(false);
-  const [activeCalendar, setActiveCalendar] = useState(false);
+  const { userInfo } = useUserInfo();
+  const {
+    data,
+    error,
+    isLoading: GetAccountInformationDataLoading,
+  } = useGetAccountInformationQuery(userInfo?._id);
 
-  function editFunc(type: string) {
-    if (type === 'email') {
-      setActiveEmail(true);
-      setActiveDate(false); // Deactivate birthdate editor
-      return false;
-    } else if (type === 'birthDate') {
-      setActiveEmail(false); // Deactivate email editor
-      setActiveDate(true);
-    } else if (type === 'calendar') {
-      setActiveEmail(false);
-      setActiveCalendar(true);
-      setActiveDate(false);
+  const [changeUserEmail, { isLoading, isSuccess, error: changeEmailErr }] =
+    useChangeUserEmailMutation();
+
+  const [isEditingEmail, setIsEditingEmail] = useState(false);
+  const [isEditingDomain, setIsEditingDomain] = useState(false);
+
+  const [email, setEmail] = useState('');
+  const [domain, setDomain] = useState('');
+
+  useEffect(() => {
+    if (data) {
+      setEmail(data.Email);
+      setDomain(data.Domain);
     }
+  }, [data]);
+
+  const handleEditEmailClick = () => {
+    setIsEditingEmail(true);
+  };
+
+  const handleEditDomainClick = () => {
+    setIsEditingDomain(true);
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+
+  const handleDomainChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDomain(e.target.value);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const userId = userInfo?._id;
+    if (!userId) {
+      console.error('User ID is undefined');
+      return;
+    }
+    try {
+      await changeUserEmail({ userId, newEmail: email }).unwrap();
+
+      toast({
+        title: 'Email changed successfully',
+        description: 'Your email has been updated.',
+        className: 'bg-green-500 text-white',
+      });
+    } catch (err) {
+      console.error('Error changing email:', changeEmailErr || err);
+    }
+    setIsEditingEmail(false);
+    setIsEditingDomain(false);
+  };
+
+  if (GetAccountInformationDataLoading) {
+    return (
+      <div className="flex min-h-[75vh] items-center justify-center">
+        <LoaderIcon className="my-28 h-16 w-16 animate-spin text-primary/60" />
+      </div>
+    );
   }
+
+  if (changeEmailErr) {
+    return <div>Error loading account information.</div>;
+  }
+
   return (
-    <div className="w-full">
-      <div className="mx-4 w-full border">
-        <h2 className="mx-4 mt-4 text-2xl font-bold"> Account Information</h2>
-        <div className="category mx-5 my-5 w-full">
-          <label className="text-md my-2 block font-bold">Email</label>
-          <div className="grid w-full grid-cols-2 items-center gap-20">
-            {activeEmail ? (
-              <EditEmail
-                accountInformation={accountInformation}
-                setAccountInformation={setAccountInformation}
-                initialAccountInformation={initialAccountInformation}
-                editFunc={editFunc}
-              />
-            ) : (
-              <>
-                <p className="w-full px-2 py-2">{accountInformation.email}</p>
-                <HiOutlinePencilSquare
-                  className="mx-2 inline h-[25px] w-[25px] cursor-pointer"
-                  onClick={() => editFunc('email')}
+    <div className="w-full px-4 sm:px-6 lg:px-8">
+      <div className="sm:p6 mx-auto w-full max-w-xl rounded-lg border p-4">
+        <h2 className="mb-4 text-xl font-bold sm:text-2xl">
+          Account Information
+        </h2>
+
+        <form onSubmit={handleSubmit}>
+          {/* Email Section */}
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Email
+            </label>
+            {isEditingEmail ? (
+              <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:space-x-2 sm:space-y-0">
+                <Input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={handleEmailChange}
+                  autoFocus
+                  className="my-3 flex-1"
                 />
-              </>
-            )}
-          </div>
-        </div>
-        <div className="category mx-5 my-5 w-full">
-          <label className="text-md my-2 block font-bold">Birthdate</label>
-          <div className="grid w-full grid-cols-2 items-center gap-20">
-            {activeDate ? (
-              <>
-                <EditDate
-                  accountInformation={accountInformation}
-                  setAccountInformation={setAccountInformation}
-                  initialAccountInformation={initialAccountInformation}
-                  editFunc={editFunc}
-                />
-              </>
+                <Button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full sm:w-auto"
+                >
+                  {isLoading ? 'Saving...' : 'Save'}
+                </Button>
+              </div>
             ) : (
-              <>
-                <p className="w-full px-2 py-2 text-sm">
-                  {accountInformation.birthdate}
+              <div
+                className="flex cursor-pointer items-center justify-between py-2 text-base sm:text-lg"
+                onClick={handleEditEmailClick}
+              >
+                <p id="email" className="flex-1 text-sm font-bold">
+                  {email}
                 </p>
-                <HiOutlinePencilSquare
-                  className="mx-2 inline h-[25px] w-[25px] cursor-pointer"
-                  onClick={() => editFunc('birthDate')}
-                />
-              </>
+                <FaPencilAlt className="text-gray-500 hover:text-gray-700" />
+              </div>
             )}
           </div>
-        </div>
-        <div className="category mx-5 my-5 w-full">
-          <label className="text-md my-2 block font-bold">Calendar Link</label>
-          <div className="grid w-full grid-cols-2 items-center gap-20">
-            {activeCalendar ? (
-              <EditCalendar
-                accountInformation={accountInformation}
-                setAccountInformation={setAccountInformation}
-                initialAccountInformation={initialAccountInformation}
-                editFunc={editFunc}
-              />
+
+          {/* Domain Section */}
+          <div className="mt-4">
+            <label
+              htmlFor="domain"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Domain
+            </label>
+            {isEditingDomain ? (
+              <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:space-x-2 sm:space-y-0">
+                <Input
+                  id="domain"
+                  type="text"
+                  placeholder="Domain"
+                  value={domain}
+                  onChange={handleDomainChange}
+                  autoFocus
+                  className="my-3 flex-1"
+                />
+                <Button type="submit" className="w-full sm:w-auto">
+                  Save
+                </Button>
+              </div>
             ) : (
-              <>
-                <p className="w-full px-2 py-2">
-                  {accountInformation.calendarLink}
+              <div
+                className="flex cursor-pointer items-center justify-between py-2 text-base sm:text-lg"
+                onClick={handleEditDomainClick}
+              >
+                <p id="domain" className="flex-1 text-sm font-bold">
+                  {domain}
                 </p>
-                <HiOutlinePencilSquare
-                  className="mx-2 inline h-[25px] w-[25px] cursor-pointer"
-                  onClick={() => editFunc('calendar')}
-                />
-              </>
+                <FaPencilAlt className="text-gray-500 hover:text-gray-700" />
+              </div>
             )}
           </div>
-        </div>
-        <div className="category mx-5 my-5">
-          <label className="text-md my-2 block font-bold">Domains</label>
-          <span className="my-3 text-sm font-bold">
-            crafyHub Profile Domain
-          </span>
-          <p className="my-3 items-center gap-20 px-2 py-2 text-sm hover:bg-gray-100">
-            {accountInformation.profileDomain}
-          </p>
-        </div>
-        <hr className="mx-4 my-5" />
-        <div className="mx-5 my-3">
-          <span className="text-sm">
-            {' '}
-            <RiDeleteBin6Fill className="inline h-[20px] w-[20px] text-[#ff0055]" />{' '}
-            Delete Account{' '}
-          </span>
-        </div>
+        </form>
       </div>
     </div>
-  );
-};
-const EditEmail: React.FC<EditEmailProps> = ({
-  accountInformation,
-  setAccountInformation,
-  initialAccountInformation,
-}) => {
-  const [activeSave, setActiveSave] = useState(false);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setAccountInformation((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-  const handleSave = () => {
-    // Perform saving logic here, for now, just log the updated email
-    console.log('Saved email:', accountInformation.email);
-    setActiveSave(true);
-  };
-
-  const handleCancel = () => {
-    // Reset the email to its initial value and exit edit mode
-    setAccountInformation(initialAccountInformation);
-    setActiveSave(true);
-  };
-
-  return (
-    <>
-      {activeSave ? (
-        <>
-          <p className="px-2 py-2">{accountInformation.email}</p>
-          <HiOutlinePencilSquare className="mx-2 inline h-[25px] w-[25px] cursor-pointer" />
-        </>
-      ) : (
-        <div className="w-full">
-          <input
-            type="text"
-            name="email"
-            placeholder="email"
-            value={accountInformation.email}
-            className="w-full rounded-md border border-gray-300 p-2 shadow-sm"
-            id="email"
-            onChange={handleInputChange}
-          />
-          <div className="grid grid-cols-2 gap-0">
-            <button
-              className="mx-1 my-2 w-[100px] rounded-[50px] bg-black p-1 text-white"
-              onClick={handleSave}
-            >
-              Save
-            </button>
-            <button
-              className="mx-1 my-2 w-[100px] rounded-[50px] bg-black p-1 text-white"
-              onClick={handleCancel}
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
-    </>
-  );
-};
-const EditDate: React.FC<EditEmailProps> = ({
-  accountInformation,
-  setAccountInformation,
-  initialAccountInformation,
-}) => {
-  const [activeSave, setActiveSave] = useState(false);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setAccountInformation((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-  const handleSave = () => {
-    // Perform saving logic here, for now, just log the updated email
-    console.log('Saved email:', accountInformation.birthdate);
-    setActiveSave(true);
-  };
-
-  const handleCancel = () => {
-    // Reset the email to its initial value and exit edit mode
-    setAccountInformation(initialAccountInformation);
-    setActiveSave(true);
-  };
-  return (
-    <>
-      {activeSave ? (
-        <span className="px-2 py-2">{accountInformation.birthdate}</span>
-      ) : (
-        <div className="grid w-full grid-cols-1">
-          <input
-            type="date"
-            name="birthdate"
-            placeholder="birthDate"
-            value={accountInformation.birthDate}
-            className="w-full rounded-md border border-gray-300 p-2 shadow-sm"
-            id="email"
-            onChange={handleInputChange}
-          />
-          <div className="grid grid-cols-2 gap-0">
-            <button
-              className="mx-1 my-2 w-[100px] rounded-[50px] bg-black p-1 text-white"
-              onClick={handleSave}
-            >
-              Save
-            </button>
-            <button
-              className="mx-1 my-2 w-[100px] rounded-[50px] bg-black p-1 text-white"
-              onClick={handleCancel}
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
-    </>
-  );
-};
-const EditCalendar: React.FC<EditEmailProps> = ({
-  accountInformation,
-  setAccountInformation,
-  initialAccountInformation,
-}) => {
-  const [activeSave, setActiveSave] = useState(false);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setAccountInformation((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-  const handleSave = () => {
-    // Perform saving logic here, for now, just log the updated email
-    console.log('Saved email:', accountInformation.birthdate);
-    setActiveSave(true);
-  };
-
-  const handleCancel = () => {
-    // Reset the email to its initial value and exit edit mode
-    setAccountInformation(initialAccountInformation);
-    setActiveSave(true);
-  };
-  return (
-    <>
-      {activeSave ? (
-        <span className="px-2 py-2">{accountInformation.calendarLink}</span>
-      ) : (
-        <div className="grid w-full grid-cols-1">
-          <input
-            type="text"
-            name="birthdate"
-            placeholder="birthDate"
-            value={accountInformation.calendarLink}
-            className="w-full rounded-md border border-gray-300 p-2 shadow-sm"
-            id="email"
-            onChange={handleInputChange}
-          />
-          <div className="grid grid-cols-2 gap-0">
-            <button
-              className="mx-1 my-2 w-[100px] rounded-[50px] bg-black p-1 text-white"
-              onClick={handleSave}
-            >
-              Save
-            </button>
-            <button
-              className="mx-1 my-2 w-[100px] rounded-[50px] bg-black p-1 text-white"
-              onClick={handleCancel}
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
-    </>
   );
 };
 

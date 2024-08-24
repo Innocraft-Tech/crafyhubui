@@ -13,11 +13,20 @@ interface HandleResponseProps {
   message: string;
   onSuccess?: () => void;
   onError?: () => void;
+  className?: string;
 }
 
 export default function HandleResponse(props: HandleResponseProps) {
   //? Porps
-  const { isSuccess, isError, error, message, onSuccess, onError } = props;
+  const {
+    isSuccess,
+    isError,
+    error,
+    message,
+    onSuccess,
+    onError,
+    className = '',
+  } = props;
   const { toast } = useToast();
 
   //? Assets
@@ -30,6 +39,7 @@ export default function HandleResponse(props: HandleResponseProps) {
 
       toast({
         description: message,
+        className: className,
       });
       // dispatch(
       //   showAlert({
@@ -44,6 +54,7 @@ export default function HandleResponse(props: HandleResponseProps) {
       toast({
         variant: 'destructive',
         description: error,
+        className: className,
       });
       // dispatch(
       //   showAlert({

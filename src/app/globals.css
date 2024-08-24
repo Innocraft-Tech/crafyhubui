@@ -33,6 +33,8 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
+    --checkbox-color: #ff0055;
+    --inputborder-color: #ff0055;
   }
 
   .dark {
@@ -95,4 +97,36 @@
 
 #nprogress .spinner {
   display: none !important; /* Hide the spinner */
+}
+input[type='checkbox'] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--checkbox-color);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type='checkbox']:checked {
+  background-color: var(--checkbox-color);
+  border-color: var(--checkbox-color);
+}
+
+input[type='checkbox']:checked::after {
+  content: '✓';
+  display: block;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  text-align: center;
+  position: relative;
+  bottom: 2px;
+}
+body {
+  background-color: white;
+  color: black;
+}
+
+body.dark {
+  background-color: #1a202c; /* Dark background color */
 }

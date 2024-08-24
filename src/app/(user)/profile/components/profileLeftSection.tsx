@@ -266,6 +266,7 @@ export default function ProfileLeftSection(): JSX.Element {
             <p>{'Please enter a valid bio'}</p>
           </>
         ),
+
         variant: 'destructive',
       });
     } else {
@@ -341,6 +342,9 @@ export default function ProfileLeftSection(): JSX.Element {
           }
           message={data?.message || ''}
           onSuccess={() => {}}
+          className={
+            isSuccess ? 'bg-green-400 text-white' : 'bg-red-700 text-white'
+          }
         />
       )}
       <div>

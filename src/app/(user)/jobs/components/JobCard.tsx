@@ -28,9 +28,9 @@ import {
 } from '@/redux/api/jobApi';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { format, formatDistanceToNow } from 'date-fns';
-import { Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import { PiHandbagSimpleBold } from 'react-icons/pi';
 const formatOneTimeDetails = (details: (string | number)[]): string[] => {
   if (details.length < 4) {
     return [];
@@ -86,9 +86,6 @@ const JobsCard = () => {
     }
   }, []);
 
-  const handleLinkClick = () => {
-    router.push('/jobs/newpost');
-  };
   const handleApplyJob = async (e: React.FormEvent, jobid: any) => {
     e.preventDefault();
 
@@ -100,32 +97,22 @@ const JobsCard = () => {
       await applyJob({ jobId, userId }).unwrap();
       toast({
         title: 'Job Applied successfully',
+        className: 'bg-green-500 text-white',
       });
       const updatedAppliedJobs = [...appliedJobs, jobId];
       setAppliedJobs(updatedAppliedJobs); // Update the state
+      console.log('appliedJobs  ' + appliedJobs);
 
       // Save the updated applied jobs to localStorage
-      localStorage.setItem('appliedJobs', JSON.stringify(updatedAppliedJobs));
+      localStorage.setItem('appliedJobs', JSON.stringify(appliedJobs));
     } catch (error) {
       console.error('Failed to apply for job:', error);
     }
   };
   const ApplyedAllUsers = jobs?.map((job) => job.appliedUsers);
-  console.log(ApplyedAllUsers);
 
   return (
     <div className="container mx-auto p-5">
-      <div className="mb-4 text-right">
-        <Button
-          variant="outline"
-          className="rounded-xl px-2 font-light"
-          onClick={handleLinkClick}
-        >
-          <Plus className="mr-2 h-5 w-5" />
-          Post New Job
-        </Button>
-      </div>
-
       <div className="space-y-4">
         {jobs?.map((job, id) => (
           <>
@@ -168,16 +155,25 @@ const JobsCard = () => {
                               variant="outline"
                               className={`${
                                 job._id && appliedJobs.includes(job._id)
-                                  ? 'bg-green-500 text-white'
+                                  ? 'cursor-not-allowed bg-green-500 text-white'
                                   : 'hover:bg-[#ff0055] hover:text-white'
                               }`}
                               disabled={
                                 job._id ? appliedJobs.includes(job._id) : false
                               }
                             >
-                              {job._id && appliedJobs.includes(job._id)
-                                ? 'Applied'
-                                : 'Apply'}
+                              {job._id && appliedJobs.includes(job._id) ? (
+                                <>
+                                  {' '}
+                                  <PiHandbagSimpleBold className="mx-1 cursor-not-allowed text-center" />{' '}
+                                  <span className="cursor-not-allowed font-bold">
+                                    {' '}
+                                    Applied
+                                  </span>
+                                </>
+                              ) : (
+                                'Apply'
+                              )}
                             </Button>
                           </AlertDialogTrigger>
                           <AlertDialogContent>

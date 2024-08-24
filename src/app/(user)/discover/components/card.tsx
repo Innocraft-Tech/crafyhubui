@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-undef */
 /* eslint-disable prettier/prettier */
 
 'use client';
@@ -19,7 +18,16 @@ import { LoaderIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { ProjectSlider } from './projectsslider';
-export function DiscoverCard(): JSX.Element {
+interface DiscoverCardProps {
+  category: string[];
+  locationArray: string[];
+  roles: string[]; // Array of strings
+}
+export const DiscoverCard: React.FC<DiscoverCardProps> = ({
+  category,
+  roles,
+  locationArray,
+}): JSX.Element => {
   const socket = useSocket(process.env.NEXT_PUBLIC_SERVER_SOCKET_URI || '');
   const [onlineUsers, setOnlineUsers] = useState<OnlineUsers[]>([]);
   const { data, isLoading } = useGetAllUsersQuery();
@@ -52,7 +60,25 @@ export function DiscoverCard(): JSX.Element {
       </div>
     );
   }
+  const filteredUsers = userData?.filter((user) => {
+    // Normalize user tools data
+    const userTools = user.tools.map((tool) => tool.toLowerCase());
+    const normalizedCategories = category.map((cat) => cat.toLowerCase()); // Assuming category IDs are in lowercase
+    const normalizedRoles = roles.map((role) => role.toLowerCase());
 
+    // Check if user has matching categories
+    const hasMatchingCategory =
+      normalizedCategories.length === 0 ||
+      normalizedCategories.some((cat) => userTools.includes(cat));
+
+    // Check if user has matching roles
+    const hasMatchingRole =
+      normalizedRoles.length === 0 ||
+      normalizedRoles.some((role) => userTools.includes(role));
+
+    // Include users that meet either category or role criteria
+    return hasMatchingCategory && hasMatchingRole;
+  });
   return (
     <>
       <Conversation
@@ -63,7 +89,7 @@ export function DiscoverCard(): JSX.Element {
       />
       <div className="px-5 py-5">
         <div className="mx-2 grid gap-3 sm:grid-cols-3 lg:grid-cols-4">
-          {userData?.map((user, index) => {
+          {filteredUsers?.map((user, index) => {
             if (userInfo?._id === user._id) return null;
             const userExists = onlineUsers?.some(
               (activeUser) => activeUser.userId === user._id,
@@ -110,12 +136,12 @@ export function DiscoverCard(): JSX.Element {
                     / hr
                   </Badge>
                   {/* <Badge
-                  // variant="secondary"
-                  variant="outline"
-                  className={`p-2 font-normal ${userExists ? 'bg-green-300' : 'border-green-300'}`}
-                >
-                  {userExists ? 'Available' : 'Not Available'}
-                </Badge> */}
+                    // variant="secondary"
+                    variant="outline"
+                    className={`p-2 font-normal ${userExists ? 'bg-green-300' : 'border-green-300'}`}
+                  >
+                    {userExists ? 'Available' : 'Not Available'}
+                  </Badge> */}
                 </div>
                 <div className="grid grid-cols-1 gap-1 text-xs sm:grid-cols-3">
                   {user.tools.slice(0, 2).map((tool: string, index: number) => (
@@ -174,4 +200,4 @@ export function DiscoverCard(): JSX.Element {
       </div>
     </>
   );
-}
+};

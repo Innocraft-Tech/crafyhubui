@@ -39,7 +39,7 @@ export function Chat({
     null,
   );
 
-  const [sendMessage, { isSuccess: msgSuccess }] = useSendMessageMutation();
+  const [sendMessage] = useSendMessageMutation();
 
   const { userInfo } = useUserInfo();
   const { data: userChats } = useGetUserChatsQuery(
@@ -51,7 +51,7 @@ export function Chat({
       const chat = userChats?.find((x) => x.members.includes(selectedUser._id));
       if (chat && selectedChat?._id !== chat?._id) setSelectedChat(chat);
     }
-  }, [userChats, userInfo, selectedUser]);
+  }, [userChats, userInfo, selectedUser, selectedChat?._id]);
 
   const { data, isLoading, isFetching } = useGetChatsQuery(
     selectedChat?._id ? selectedChat._id : skipToken,

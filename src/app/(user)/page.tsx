@@ -7,9 +7,5 @@ export default function Home() {
   useUserInfo();
   redirect('/dashboard');
 
-  return (
-    <>
-      <h1>Login</h1>
-    </>
-  );
+  return <></>;
 }

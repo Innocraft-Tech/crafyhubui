@@ -3,7 +3,7 @@ import axios from 'axios';
 export const userSignupRequest = async (data) => {
   const user = await axios
     .post('https://crafy-server.onrender.com/auth', data)
-    .catch((err) => console.log(err));
+    .catch((err) => console.error(err));
 
   return user;
 };
@@ -11,7 +11,7 @@ export const userSignupRequest = async (data) => {
 export const loginRequest = async (data) => {
   const response = await axios
     .post('https://crafy-server.onrender.com/auth/login', data)
-    .catch((err) => console.log(err));
+    .catch((err) => console.error(err));
 
   const responseData = response.data;
   return responseData;
@@ -20,8 +20,8 @@ export const loginRequest = async (data) => {
 export const uploadCoverPhoto = async (data) => {
   const coverPhoto = await axios
     .post('https://crafy-server.onrender.com/upload/coverphoto', data)
-    .catch((err) => console.log(err));
-  console.log(coverPhoto);
+    .catch((err) => console.error(err));
+
   return coverPhoto;
 };
 
@@ -32,15 +32,15 @@ export const updateUserProfile = async (data) => {
       : null;
   const user = await axios
     .post(`https://crafy-server.onrender.com/profile/update/:${id}`, data)
-    .catch((err) => console.log(err));
-  console.log(user);
+    .catch((err) => console.error(err));
+
   return user;
 };
 
 export const deleteUserAccoount = async (data, id) => {
   const response = await axios
     .delete(`https://crafy-server.onrender.com/user/${id}`, data)
-    .catch((err) => console.log(err));
+    .catch((err) => console.error(err));
   return response.data;
 };
 
@@ -76,8 +76,8 @@ export const getUser = async (id) => {
 export const getAllUsers = async () => {
   const users = await axios
     .get('https://crafy-server.onrender.com/allusers')
-    .catch((err) => console.log(err));
-  console.log(users);
+    .catch((err) => console.error(err));
+
   const responseData = await users.data.users;
   return responseData;
 };
@@ -85,14 +85,7 @@ export const getAllUsers = async () => {
 export const getAllJobs = async (data) => {
   const jobs = await axios
     .post('https://crafy-server.onrender.com/job/alljobs', data)
-    .catch((err) => console.log(err));
+    .catch((err) => console.error(err));
   const responseData = jobs.data;
   return responseData;
-};
-
-const resendEmailVerification = async (email) => {
-  const response = await axios.post('http:localhost:8080/client/verification');
-  if (response.data.status === 'success') {
-    return true;
-  }
 };

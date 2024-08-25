@@ -50,14 +50,14 @@ export function Sidebar({
 
   return (
     <div
-      className={`sm:none linear dark:!bg-navy-800 fixed !z-50 flex min-h-full flex-col bg-white pb-10 shadow-2xl shadow-white/5 transition-all duration-300 dark:text-white md:!z-50 lg:!z-50 lg:border-r xl:!z-0 ${
+      className={`sm:none linear dark:!bg-navy-800 fixed !z-30 flex min-h-full flex-col bg-white pb-10 shadow-2xl shadow-white/5 transition-all duration-300 dark:text-white md:!z-30 lg:!z-30 lg:border-r xl:!z-30 ${
         open ? 'translate-x-0' : '-translate-x-96 xl:translate-x-0'
       } ${collapsed && !open ? 'w-20' : 'w-64'}`}
     >
       <div className="absolute right-2 top-4 block cursor-pointer xl:hidden">
         <HiX onClick={() => setOpen(false)} />
       </div>
-      <div className="absolute right-2 top-4 block hidden cursor-pointer xl:block">
+      <div className="absolute right-2 top-4 hidden cursor-pointer sm:block xl:block">
         {collapsed ? (
           <HiChevronRight onClick={() => setCollapsed(!collapsed)} />
         ) : (
@@ -169,7 +169,7 @@ export function Sidebar({
                         dataOfUser.firstName + ' ' + dataOfUser.lastName}
                     </p>
                     <p className="text-sm leading-none text-muted-foreground">
-                      {dataOfUser && dataOfUser.tools[0]}
+                      {dataOfUser && dataOfUser.lastName}
                     </p>
                   </div>
                 )}
@@ -212,7 +212,7 @@ export function Sidebar({
                     )}
                   </li>
                   {activeRoute(route.path) ? (
-                    <div className="absolute right-0 top-px h-9 w-1 rounded-lg bg-brand-500" />
+                    <div className="absolute right-0 top-px h-7 w-1 rounded-lg bg-brand-500" />
                   ) : null}
                 </div>
               </NavLink>

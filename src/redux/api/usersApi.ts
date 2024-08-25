@@ -20,7 +20,7 @@ const usersApiSlice = apiSlice.injectEndpoints({
       transformResponse: (response: any) => response,
       extraOptions: { maxRetries: 0 },
       providesTags: (result, error, id) =>
-        result?.user ? [{ type: 'User', id: result.user._id }] : ['User'],
+        result?.user ? [{ type: 'User', id: id }] : ['User'],
     }),
     verifyOtp: builder.mutation<OtpResponse, OtpRequest>({
       query: (data) => ({
@@ -54,6 +54,14 @@ const usersApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (result, error, { id }) => [{ type: 'User', id }],
     }),
+    updateEmailPreferences: builder.mutation({
+      query: ({ userId, preferences }) => ({
+        url: `update/emailpreference/${userId}`,
+        method: 'POST',
+
+        body: JSON.stringify({ preferences }),
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -64,6 +72,7 @@ export const {
   useVerifyOtpMutation,
   useSendEmailMutation,
   useUpdateProfileMutation,
+  useUpdateEmailPreferencesMutation,
 } = usersApiSlice;
 
 export default usersApiSlice;

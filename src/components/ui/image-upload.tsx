@@ -24,11 +24,6 @@ const ImageUpload = ({ onUpload, placeholder }: ImageUploadProps) => {
     setProgress(percentage);
   };
 
-  const removeSelectedImage = () => {
-    setLoading(false);
-    setSelectedImagePath('');
-  };
-
   const handleImageUpload = async (image: File) => {
     if (!image) return;
     setLoading(true);
@@ -74,7 +69,7 @@ const ImageUpload = ({ onUpload, placeholder }: ImageUploadProps) => {
     }
   };
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: {
       'image/*': [],

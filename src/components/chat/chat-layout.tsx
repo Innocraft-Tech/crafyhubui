@@ -14,7 +14,6 @@ import { skipToken } from '@reduxjs/toolkit/query';
 import React, { useEffect, useState } from 'react';
 import { Chat } from './chat';
 import { Sidebar } from './sidebar';
-
 interface ChatLayoutProps {
   defaultLayout: number[] | undefined;
   defaultCollapsed?: boolean;
@@ -35,7 +34,7 @@ export function ChatLayout({
 
   const { userInfo } = useUserInfo();
 
-  const { data: allUsers, isError, isLoading } = useGetAllUsersQuery();
+  const { data: allUsers } = useGetAllUsersQuery();
   const { users } = allUsers || {};
 
   const { data: userChats } = useGetUserChatsQuery(
@@ -58,6 +57,7 @@ export function ChatLayout({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo, userChats, allUsers]);
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     if (userInfo?._id) {
       socket?.emit('new-user-add', userInfo?._id);
@@ -67,6 +67,7 @@ export function ChatLayout({
     }
   }, [userInfo, socket]);
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     const checkScreenWidth = () => {
       setIsMobile(window.innerWidth <= 768);

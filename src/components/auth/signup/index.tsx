@@ -224,38 +224,24 @@ const SignupForm = (): JSX.Element => {
         />
       )}
 
-      <div className="relative hidden h-full flex-col p-10 text-primary dark:border-r lg:flex">
-        <div className="relative z-20 flex items-center text-lg font-medium">
-          {/* <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="mr-2 h-6 w-6"
-          >
-            <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
-          </svg>
-          CrafyHub */}
+      <div className="h-full flex-col p-10 text-center text-primary">
+        <div className="relative z-20 my-5 flex items-center text-lg font-medium">
           <Image src="/logo.svg" alt="logo" width={191} height={42} />
         </div>
 
-        <Card className="m-auto w-[450px] border-none bg-[#F7EFF1] p-6 text-center shadow-none lg:py-8">
-          <h3 className="mb-1.5 text-2xl font-medium">
-            {firstName || lastName ? `${firstName}  ${lastName}` : 'Name'}
+        <Card className="mx-auto w-full max-w-[350px] border-none bg-[#F7EFF1] p-4 text-center shadow-none md:my-10 lg:py-8">
+          <h3 className="mb-1.5 text-xl font-medium lg:text-2xl">
+            {firstName || lastName ? `${firstName} ${lastName}` : 'Name'}
           </h3>
           <div className="mt-4 text-left">
-            <Avatar className="m-auto h-[129px] w-[129px]">
+            <Avatar className="mx-auto h-[100px] w-[100px] lg:h-[129px] lg:w-[129px]">
               {profilePicture ? (
                 <AvatarImage src={profilePicture} />
               ) : (
-                // {/* <AvatarFallback>CN</AvatarFallback> */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="129"
-                  height="129"
+                  width="100"
+                  height="100"
                   viewBox="0 0 340 340"
                 >
                   <path
@@ -265,7 +251,7 @@ const SignupForm = (): JSX.Element => {
                 </svg>
               )}
             </Avatar>
-            <p className="my-5 text-left leading-7">
+            <p className="my-5 text-left leading-6 lg:leading-7">
               {isClient ? 'Professional Title' : 'Skills'}
             </p>
             {isClient ? (
@@ -276,14 +262,14 @@ const SignupForm = (): JSX.Element => {
                   width={18}
                   height={18}
                 />
-                <p className="">{role}</p>
+                <p>{role}</p>
               </div>
             ) : tools?.length > 0 ? (
-              <div className="inline-flex flex-wrap gap-2 space-x-1.5">
+              <div className="inline-flex flex-wrap gap-1.5 lg:gap-2">
                 {tools.map((tool) => (
                   <Badge
                     key={tool}
-                    className="border-dashed border-badge px-4 py-3 text-badge"
+                    className="border-dashed border-badge px-2 py-2 text-sm text-badge lg:px-4 lg:py-3 lg:text-base"
                     variant={'outline'}
                   >
                     {tool}
@@ -292,12 +278,12 @@ const SignupForm = (): JSX.Element => {
               </div>
             ) : (
               <Badge
-                className="border-dashed border-badge px-6 py-3 text-badge"
+                className="border-dashed border-badge px-4 py-2 text-sm text-badge lg:px-6 lg:py-3 lg:text-base"
                 variant={'outline'}
-              ></Badge>
+              />
             )}
             <Separator className="my-4 bg-separator" />
-            <p className="my-5 text-left leading-7">Location</p>
+            <p className="my-5 text-left leading-6 lg:leading-7">Location</p>
             <div className="flex min-h-6 items-center gap-2">
               <Image
                 src={'/auth/location.svg'}
@@ -305,11 +291,11 @@ const SignupForm = (): JSX.Element => {
                 width={18}
                 height={18}
               />
-              <p className="">{userLocation}</p>
+              <p>{userLocation}</p>
             </div>
             <Separator className="my-4 bg-separator" />
-            <div className="flex flex-row gap-3">
-              <p className="my-5 text-left leading-7">Links</p>
+            <div className="flex flex-col gap-3">
+              <p className="my-5 text-left leading-6 lg:leading-7">Links</p>
               {Array.isArray(socialLinks) &&
                 socialLinks.map((link, index) => (
                   <div
@@ -366,7 +352,7 @@ const SignupForm = (): JSX.Element => {
           </div>
         </Card>
       </div>
-      <div className="lg:p-8">
+      <div className="h-full flex-col text-center text-primary lg:p-8">
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[500px]">
           <Form {...form}>
             <form className="space-y-8">
@@ -389,7 +375,7 @@ const SignupForm = (): JSX.Element => {
                                     // onValueChange={field.onChange}
                                     onValueChange={(value) => {
                                       field.onChange(value === 'CLIENT');
-                                      console.log(value, 'value');
+
                                       setSelectedType(value);
                                     }}
                                     defaultValue={selectedType}
@@ -412,6 +398,7 @@ const SignupForm = (): JSX.Element => {
                                               height={300}
                                               alt="work"
                                               src={'/auth/work.svg'}
+                                              className="h-[20px] w-[20px] md:h-[300px] md:w-[300px]"
                                             />
 
                                             <div className="w-[120px] leading-5">
@@ -438,6 +425,7 @@ const SignupForm = (): JSX.Element => {
                                               height={300}
                                               alt="client"
                                               src={'/auth/client.svg'}
+                                              className="h-[20px] w-[20px] md:h-[300px] md:w-[300px]"
                                             />
                                             <div className="w-[120px] leading-5">
                                               I am client, hiring for project

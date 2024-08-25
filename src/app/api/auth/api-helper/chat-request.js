@@ -4,7 +4,7 @@ import axios from 'axios';
 export const userChats = async (id) => {
   const chats = await axios
     .get(`http://localhost:8080/chat/${id}`)
-    .catch((err) => console.log(err));
+    .catch((err) => console.error(err));
   const finalChats = await chats?.data;
   return finalChats;
 };

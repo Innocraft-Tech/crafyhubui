@@ -7,7 +7,7 @@ import { useGetJobsQuery } from '@/redux/api/jobApi';
 import { LoaderIcon } from 'lucide-react';
 
 export function JobsCard() {
-  const { data, isLoading } = useGetJobsQuery();
+  const { isLoading } = useGetJobsQuery();
 
   if (isLoading) {
     return (
@@ -21,7 +21,6 @@ export function JobsCard() {
     <>
       <div className="discoverUsers px-5 py-1 lg:grid">
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {data?.map((data) => '')}
           <Card className="my-2 rounded-2xl p-5">
             <div className="flex items-center">
               <Avatar className="h-16 w-16 rounded-lg">

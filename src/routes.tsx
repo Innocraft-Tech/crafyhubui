@@ -2,6 +2,7 @@
 import { AiOutlineMessage } from 'react-icons/ai';
 import { CgProfile } from 'react-icons/cg';
 import { IoHomeOutline } from 'react-icons/io5';
+import { LiaFileInvoiceDollarSolid } from 'react-icons/lia';
 import { MdWorkOutline } from 'react-icons/md';
 import { RiCompassDiscoverLine } from 'react-icons/ri';
 
@@ -33,8 +34,14 @@ const routes = [
   {
     name: 'Profile',
     layout: '/admin',
-    path: 'profile',
+    path: '/profile',
     icon: <CgProfile className="h-6 w-6" />,
+  },
+  {
+    name: 'project/invoices',
+    layout: '/admin',
+    path: '/project-invoices',
+    icon: <LiaFileInvoiceDollarSolid className="h-6 w-6" />,
   },
 ];
 export default routes;

@@ -1,3 +1,4 @@
+'use client';
 import { ChatLayout } from '@/components/chat/chat-layout';
 
 const Messages = () => {

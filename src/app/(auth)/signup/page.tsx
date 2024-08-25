@@ -1,20 +1,17 @@
 import SignupForm from '@/components/auth/signup';
-import { buttonVariants } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
 import Image from 'next/image';
-import Link from 'next/link';
 // import SignupForm from '@/components/forms/SignupForm';
 
 export default function SignupPage() {
   return (
     <>
-      <div className="md:hidden">
+      <div className="">
         <Image
           src="/examples/authentication-light.png"
           width={1280}
           height={843}
           alt="Authentication"
-          className="block dark:hidden"
+          className="hidden dark:hidden"
         />
         <Image
           src="/examples/authentication-dark.png"
@@ -24,17 +21,7 @@ export default function SignupPage() {
           className="hidden dark:block"
         />
       </div>
-      <div className="container relative hidden h-screen flex-col items-center justify-center bg-[#fff9fb] bg-gradient-to-r from-fuchsia-50 md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
-        <Link
-          href="/login"
-          className={cn(
-            buttonVariants({ variant: 'ghost' }),
-            'absolute right-4 top-4 md:right-8 md:top-8',
-          )}
-        >
-          Sign In
-        </Link>
-
+      <div className="container relative h-screen flex-col items-center justify-center bg-[#fff9fb] bg-gradient-to-r from-fuchsia-50 md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <SignupForm />
       </div>
     </>

@@ -22,19 +22,14 @@ import { skipToken } from '@reduxjs/toolkit/query';
 import { useState } from 'react';
 import { RiFileEditLine } from 'react-icons/ri';
 const JobEdit = () => {
-  const { userInfo, isLoading: isLoadingProfile } = useUserInfo();
-  const { data: userPostJob, isLoading: postJobLoading } =
-    useGetUserPostJobQuery(userInfo?._id ? userInfo._id : skipToken);
+  const { userInfo } = useUserInfo();
+  const { data: userPostJob } = useGetUserPostJobQuery(
+    userInfo?._id ? userInfo._id : skipToken,
+  );
   const { token } = useUserInfo();
 
-  const [
-    updatePostJob,
-    {
-      isLoading: isLoadingUpdatePostJob,
-      isError: isErrorUpdatePostJob,
-      data: updatePostJobTitle,
-    },
-  ] = useUpdatePostJobMutation();
+  const [updatePostJob, { isLoading: isLoadingUpdatePostJob }] =
+    useUpdatePostJobMutation();
 
   const [editFormData, setEditFormData] = useState({
     jobTitle: '',
@@ -92,7 +87,7 @@ const JobEdit = () => {
 
       setSelectedJobId(null);
     } catch (error) {
-      console.log('Failed to update job:', error);
+      console.error('Error updating job:', error);
     }
   };
 

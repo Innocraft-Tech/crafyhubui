@@ -15,11 +15,11 @@ const AccountInformation: React.FC = () => {
   const { userInfo } = useUserInfo();
   const {
     data,
-    error,
+
     isLoading: GetAccountInformationDataLoading,
   } = useGetAccountInformationQuery(userInfo?._id);
 
-  const [changeUserEmail, { isLoading, isSuccess, error: changeEmailErr }] =
+  const [changeUserEmail, { isLoading, error: changeEmailErr }] =
     useChangeUserEmailMutation();
 
   const [isEditingEmail, setIsEditingEmail] = useState(false);

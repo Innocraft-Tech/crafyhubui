@@ -37,14 +37,13 @@ const getDataPayload = (userInfo: User | undefined) => {
 };
 export default function Profile(): JSX.Element {
   const token = getAccessToken();
-  const { userInfo, isLoading: isLoadingProfile } = useUserInfo();
+  const { userInfo } = useUserInfo();
   const [isEditingName, setIsEditingName] = useState(false);
-  const { data: userPostJob, isLoading } = useGetUserPostJobQuery(
+  const { data: userPostJob } = useGetUserPostJobQuery(
     userInfo?._id ? userInfo._id : skipToken,
   );
-  console.log(userPostJob, 'userPostJob');
 
-  const [updateProfile, { error, isError, isSuccess, data: oneLiner }] =
+  const [updateProfile, { error, isError, isSuccess }] =
     useUpdateProfileMutation();
   const addOneLinerForm = useForm<AddOneLinerInfo>({
     resolver: zodResolver(addOneLinerSchema),
@@ -129,14 +128,6 @@ export default function Profile(): JSX.Element {
   // }
 
   const profilePercentage = checkProfileComplete(userInfo);
-  const UpdateAdditionalInfo = () => {
-    // Perform the update logic here
-    return (
-      <div className="flex min-h-[75vh] items-center justify-center">
-        <Alert className="mx-auto max-w-md"> hello</Alert>
-      </div>
-    );
-  };
 
   return (
     <>

@@ -7,20 +7,13 @@ import useUserInfo from '@/lib/hooks/useUserInfo';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 export default function Dashboard() {
-  const { userInfo, isLoading: isLoadingProfile, isError } = useUserInfo();
+  const { userInfo } = useUserInfo();
 
   const router = useRouter();
-  const [profileCompleteBtn, setProfileCompleteBtn] = useState(
-    userInfo?.profileIsComplete,
-  );
 
   const handleNavigation = (path: string) => {
     router.push(path);
-  };
-  const closeProfileComplete = () => {
-    setProfileCompleteBtn(false);
   };
 
   return (

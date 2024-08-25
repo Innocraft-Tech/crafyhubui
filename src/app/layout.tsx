@@ -15,7 +15,6 @@ export default function RootLayout({
 }>) {
   const [isDarkMode, setIsDarkMode] = useState(false);
   useEffect(() => {
-    const root = document.documentElement;
     const initialTheme = localStorage.getItem('theme') || 'light';
     setIsDarkMode(initialTheme === 'dark');
   }, []);

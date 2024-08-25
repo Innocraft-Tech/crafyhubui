@@ -20,19 +20,13 @@ import { useAddSkillMutation, useGetSkillsQuery } from '@/redux/api/authApi';
 import { useCreateWorkMutation } from '@/redux/api/workApi';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ProjectData, projectSchema } from './components/projectData';
 export default function Project(): JSX.Element {
-  const [loading, setLoading] = useState(false);
-  const [selectedImagePath, setSelectedImagePath] = useState<string | null>();
-  const [uploadProgress, setUploadProgress] = useState<number>(0);
   const { data: skillsOptions = [] } = useGetSkillsQuery();
   const [addSkillMutation] = useAddSkillMutation();
-  const [
-    createWork,
-    { data: successData = {}, isLoading, isSuccess, isError, error },
-  ] = useCreateWorkMutation();
+  const [createWork, { data: successData = {}, isSuccess, isError, error }] =
+    useCreateWorkMutation();
   const { token } = useUserInfo();
   const form = useForm<ProjectData>({
     resolver: zodResolver(projectSchema),
@@ -69,11 +63,10 @@ export default function Project(): JSX.Element {
         formData.append('keywords', JSON.stringify(data.keywords));
 
       // Log FormData
-      console.log('Submitting FormData:', formDataToObject(formData));
 
       await createWork({ formData, token }).unwrap();
     } catch (error) {
-      console.log('Error details:', error);
+      console.error('Error details:', error);
     }
   };
   return (

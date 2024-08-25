@@ -26,8 +26,7 @@ const Conversation = ({
   //   useState<SocketMessage | null>(null);
   // const [conversation, setConversation] = useState<Message[]>([]);
 
-  const [chatStart, { isError: chatError, isSuccess, error, data: chatData }] =
-    useChatStartMutation();
+  const [chatStart] = useChatStartMutation();
 
   // const [sendMessage, { isSuccess: msgSuccess }] = useSendMessageMutation();
 

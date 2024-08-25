@@ -31,7 +31,7 @@ interface SidebarProps {
 export function Sidebar({
   links,
   isCollapsed,
-  isMobile,
+
   setSelectedUser,
   selectedUser,
   onlineUsers,

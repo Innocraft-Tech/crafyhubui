@@ -34,7 +34,7 @@ export function ChatLayout({
 
   const { userInfo } = useUserInfo();
 
-  const { data: allUsers, isError, isLoading } = useGetAllUsersQuery();
+  const { data: allUsers } = useGetAllUsersQuery();
   const { users } = allUsers || {};
 
   const { data: userChats } = useGetUserChatsQuery(

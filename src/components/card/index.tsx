@@ -4,7 +4,7 @@ function Card(props: {
   children?: JSX.Element | any[];
   [x: string]: any;
 }) {
-  const { variant, extra, children, ...rest } = props;
+  const { extra, children, ...rest } = props;
   return (
     <div
       className={`!z-5 shadow-3xl relative flex flex-col rounded-[20px] bg-white bg-clip-border ${

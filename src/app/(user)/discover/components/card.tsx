@@ -20,13 +20,12 @@ import { useEffect, useState } from 'react';
 import { ProjectSlider } from './projectsslider';
 interface DiscoverCardProps {
   category: string[];
-  locationArray: string[];
   roles: string[]; // Array of strings
+  locationAray: string[];
 }
 export const DiscoverCard: React.FC<DiscoverCardProps> = ({
   category,
   roles,
-  locationArray,
 }): JSX.Element => {
   const socket = useSocket(process.env.NEXT_PUBLIC_SERVER_SOCKET_URI || '');
   const [onlineUsers, setOnlineUsers] = useState<OnlineUsers[]>([]);

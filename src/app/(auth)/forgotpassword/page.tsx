@@ -32,12 +32,10 @@ const formSchema = z
 export type ForgotPasswordSchema = z.infer<typeof formSchema>;
 
 export default function ForgotPassword() {
-  const { userInfo, isLoading: isLoadingProfile } = useUserInfo();
+  const { userInfo } = useUserInfo();
   const userID = userInfo?._id ? userInfo._id : '';
-  console.log(userID + ' not found id');
 
-  const [forgotPassword, { isLoading, error, isSuccess }] =
-    useForgotPasswordMutation();
+  const [forgotPassword] = useForgotPasswordMutation();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const form = useForm<ForgotPasswordSchema>({
@@ -47,14 +45,7 @@ export default function ForgotPassword() {
       confirmPassword: '',
     },
   });
-  const {
-    handleSubmit,
-    setValue,
-    getValues,
-    watch,
-    control,
-    formState: { errors },
-  } = form;
+  const { handleSubmit } = form;
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await forgotPassword({ data: values, userID }).unwrap();

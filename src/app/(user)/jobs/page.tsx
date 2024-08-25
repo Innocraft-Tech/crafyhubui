@@ -21,7 +21,7 @@ export default function Jobs() {
         roles={roles}
         setRoles={setRoles}
         locationArray={[]}
-        setLocations={function (locationArray: string[]): void {
+        setLocations={function (): void {
           throw new Error('Function not implemented.');
         }}
       />

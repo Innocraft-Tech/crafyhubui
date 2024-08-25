@@ -52,7 +52,7 @@ const ProgressBar: React.FC = () => {
         handleComplete(); // Ensure progress is completed on unmount
       };
     }
-  }, [pathname, searchParams, mounted]);
+  }, [pathname, searchParams, mounted, isFetching]);
 
   return null;
 };

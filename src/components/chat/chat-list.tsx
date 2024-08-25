@@ -18,13 +18,12 @@ export function ChatList({
   selectedUser,
   sendMessage,
   isMobile,
-  isLoadingChat,
 }: ChatListProps) {
   const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   const [receivedUser, setReceivedUser] = useState<User | null>(null);
 
-  const { data: allUsers, isError, isLoading } = useGetAllUsersQuery();
+  const { data: allUsers } = useGetAllUsersQuery();
   const { users } = allUsers || {};
 
   React.useEffect(() => {

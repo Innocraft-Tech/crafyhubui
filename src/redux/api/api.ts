@@ -12,7 +12,7 @@ import { redirect } from 'next/navigation';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_SERVER_URI,
-  prepareHeaders: (headers, { getState }) => {
+  prepareHeaders: (headers) => {
     // const token = (getState() as AppState).auth.token;
 
     const token = getAccessToken();
@@ -41,7 +41,7 @@ const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithReauth,
   tagTypes: ['User', 'Skills', 'Chat', 'Jobs'],
-  endpoints: (builder) => ({}),
+  endpoints: () => ({}),
 });
 
 export default apiSlice;

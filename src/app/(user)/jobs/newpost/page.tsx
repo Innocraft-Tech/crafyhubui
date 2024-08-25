@@ -124,8 +124,6 @@ const JobNewPost = () => {
     redirect('/jobs');
   };
 
-  console.log(errors, 'error', getValues());
-
   return (
     <>
       {(isSuccess || isError) && (

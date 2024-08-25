@@ -21,14 +21,8 @@ import {
 } from '@/components/ui/card';
 import { toast } from '@/components/ui/use-toast';
 import useUserInfo from '@/lib/hooks/useUserInfo';
-import {
-  useApplyJobMutation,
-  useGetJobsQuery,
-  useGetUserPostJobQuery,
-} from '@/redux/api/jobApi';
-import { skipToken } from '@reduxjs/toolkit/query';
+import { useApplyJobMutation, useGetJobsQuery } from '@/redux/api/jobApi';
 import { format, formatDistanceToNow } from 'date-fns';
-import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { PiHandbagSimpleBold } from 'react-icons/pi';
 const formatOneTimeDetails = (details: (string | number)[]): string[] => {
@@ -69,15 +63,11 @@ const formatOngoingDetails = (details: (string | number)[]): string[] => {
 
 const JobsCard = () => {
   const { userInfo } = useUserInfo();
-  const [applyJob, { isError, isSuccess, isLoading: loadApplyJob }] =
-    useApplyJobMutation();
+  const [applyJob] = useApplyJobMutation();
 
   const [appliedJobs, setAppliedJobs] = useState<string[]>([]);
-  const { data: jobs, isLoading } = useGetJobsQuery();
-  const { data: userPostJob, isLoading: postJobLoading } =
-    useGetUserPostJobQuery(userInfo?._id ? userInfo._id : skipToken);
+  const { data: jobs } = useGetJobsQuery();
 
-  const router = useRouter();
   useEffect(() => {
     // Retrieve the applied jobs from localStorage on component mount
     const storedAppliedJobs = localStorage.getItem('appliedJobs');
@@ -91,7 +81,6 @@ const JobsCard = () => {
 
     const userId = userInfo?._id ?? '';
     const jobId = jobid;
-    console.log(jobId);
 
     try {
       await applyJob({ jobId, userId }).unwrap();
@@ -101,7 +90,6 @@ const JobsCard = () => {
       });
       const updatedAppliedJobs = [...appliedJobs, jobId];
       setAppliedJobs(updatedAppliedJobs); // Update the state
-      console.log('appliedJobs  ' + appliedJobs);
 
       // Save the updated applied jobs to localStorage
       localStorage.setItem('appliedJobs', JSON.stringify(appliedJobs));
@@ -109,7 +97,6 @@ const JobsCard = () => {
       console.error('Failed to apply for job:', error);
     }
   };
-  const ApplyedAllUsers = jobs?.map((job) => job.appliedUsers);
 
   return (
     <div className="container mx-auto p-5">

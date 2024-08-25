@@ -21,7 +21,7 @@ export default function Discover(): JSX.Element {
       <DiscoverCard
         category={category}
         roles={roles}
-        locationArray={locationArray}
+        locationAray={locationArray}
       />
     </>
   );

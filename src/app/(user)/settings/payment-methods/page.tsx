@@ -16,8 +16,6 @@ import React from 'react';
 import { AiTwotoneBank } from 'react-icons/ai';
 import { GoCreditCard } from 'react-icons/go';
 const Page: React.FC = () => {
-  const [isOpen, setIsOpen] = React.useState(false);
-
   return (
     <div className="h-[350px] w-auto rounded-[30px] border px-5">
       <div className="mx-2 my-8 grid grid-cols-3 items-center">

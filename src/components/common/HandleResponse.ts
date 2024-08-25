@@ -3,7 +3,6 @@
 import { useEffect } from 'react';
 
 // import { showAlert } from 'store';
-import { useAppDispatch } from '@/lib/hooks/appHooks';
 import { useToast } from '../ui/use-toast';
 
 interface HandleResponseProps {
@@ -30,7 +29,6 @@ export default function HandleResponse(props: HandleResponseProps) {
   const { toast } = useToast();
 
   //? Assets
-  const dispatch = useAppDispatch();
 
   //? Re-Renders
   useEffect(() => {

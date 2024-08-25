@@ -31,7 +31,7 @@ const filterList = [
   'JS',
 ];
 const filterSheets = ['Filters', 'Location', 'Rate'] as const;
-type FilterSheets = (typeof filterSheets)[number];
+
 interface FiltersProps {
   category: string[];
   setCategory: (updater: (categories: string[]) => string[]) => void;
@@ -50,14 +50,11 @@ export const Filters: React.FC<FiltersProps> = ({
   setLocations,
 }) => {
   // Updated state to track multiple selected categories
-  const [filterRole, { data, error, isLoading }] = useFilterRoleMutation();
+  const [filterRole] = useFilterRoleMutation();
   const [filterCategory] = useFilterCategoryMutation();
   const [inputValueRole, setInputValueRole] = useState('');
   const [inputValueLocation, setInputValueLocation] = useState('');
-  const [
-    filterLocation,
-    { isLoading: LocationLoading, error: locationError, data: PostLocation },
-  ] = useFilterLocationMutation();
+  const [filterLocation] = useFilterLocationMutation();
 
   const router = useRouter();
   const toggleCategory = (categoryToToggle: string) => {
@@ -125,16 +122,14 @@ export const Filters: React.FC<FiltersProps> = ({
   };
   const handleIconClickRole = async () => {
     try {
-      const response = await filterRole(roles).unwrap();
-      console.log('Filtered users:', response);
+      await filterRole(roles).unwrap();
     } catch (error) {
       console.error('Failed to filter roles:', error);
     }
   };
   const handleIconClickLocation = async () => {
     try {
-      const response = await filterLocation(locationArray).unwrap();
-      console.log('Filtered users:', response);
+      await filterLocation(locationArray).unwrap();
     } catch (error) {
       console.error('Failed to filter roles:', error);
     }

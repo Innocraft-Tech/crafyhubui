@@ -68,7 +68,7 @@ const EmailPreferences: React.FC = () => {
   const [formData, setFormData] = useState(initialFormData);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [allUnchecked, setAllUnchecked] = useState(false);
-  const [showUpdateButton, setShowUpdateButton] = useState(false);
+
   const [updateEmailPreferences] = useUpdateEmailPreferencesMutation();
   const { userInfo } = useUserInfo();
   useEffect(() => {
@@ -129,13 +129,12 @@ const EmailPreferences: React.FC = () => {
           preferences,
         }).unwrap();
 
-        console.log('Preferences updated successfully:', result);
         toast({
           title: `${result.message}`,
         });
       }
     } catch (error) {
-      console.error('Failed to update preferences:', error);
+      console.error('Failed to update preferences:', error, isButtonDisabled);
     }
   };
 

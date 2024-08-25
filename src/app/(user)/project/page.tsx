@@ -44,13 +44,13 @@ export default function Project(): JSX.Element {
     control: control,
     formState: { errors: errors },
   } = form;
-  const formDataToObject = (formData: FormData) => {
-    const obj: Record<string, any> = {};
-    formData.forEach((value, key) => {
-      obj[key] = value;
-    });
-    return obj;
-  };
+  // const formDataToObject = (formData: FormData) => {
+  //   const obj: Record<string, any> = {};
+  //   formData.forEach((value, key) => {
+  //     obj[key] = value;
+  //   });
+  //   return obj;
+  // };
 
   const onSubmit = async (data: ProjectData) => {
     try {

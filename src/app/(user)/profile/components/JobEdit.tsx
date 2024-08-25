@@ -97,7 +97,7 @@ const JobEdit = () => {
       className="m-2 grid grid-cols-1 gap-4 sm:grid-cols-3"
     >
       {jobList &&
-        jobList.map((postDetails: any, index: null | undefined) => (
+        jobList.map((postDetails: any) => (
           <Card
             className="my-4 flex w-full max-w-md flex-col justify-between p-4 sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl"
             key={postDetails._id}
